@@ -1,0 +1,159 @@
+<?php
+// header.php — included at the top of every page
+// Expects: $pageTitle (string), session already started
+if (!isset($pageTitle)) {
+    $pageTitle = 'MerchVault';
+}
+$flash = getFlash();
+$cartCount = 0;
+if (isLoggedIn()) {
+    try {
+        $stmt = getDB()->prepare("SELECT COALESCE(SUM(quantity),0) AS cnt FROM cart_items WHERE user_id = ?");
+        $stmt->execute([getCurrentUserId()]);
+        $cartCount = (int)$stmt->fetchColumn();
+    } catch (Exception $e) {
+        $cartCount = 0;
+    }
+}
+$currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+function navActive(string $path): string {
+    global $currentPath;
+    return ($currentPath === $path || strpos($currentPath, $path) === 0 && $path !== '/') ? 'active' : '';
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MerchVault — Buy and sell music merchandise and event tickets">
+    <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?> | MerchVault</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav" aria-label="Main navigation">
+    <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/index.php">
+            <i class="bi bi-music-note-list fs-4" aria-hidden="true"></i>
+            <span class="fw-bold">MerchVault</span>
+        </a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Nav links -->
+        <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link <?= navActive('/index.php') ?>" href="/index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= navActive('/browse.php') ?>" href="/browse.php">Browse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= navActive('/about.php') ?>" href="/about.php">About</a>
+                </li>
+            </ul>
+
+            <!-- Search bar -->
+            <form class="d-flex me-3" role="search" method="GET" action="/browse.php">
+                <div class="input-group input-group-sm">
+                    <input class="form-control" type="search" name="q"
+                           placeholder="Search merch, artists, events…"
+                           aria-label="Search listings"
+                           value="<?= clean($_GET['q'] ?? '') ?>">
+                    <button class="btn btn-accent" type="submit" aria-label="Submit search">
+                        <i class="bi bi-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Auth / Cart -->
+            <ul class="navbar-nav align-items-lg-center gap-1">
+                <?php if (isLoggedIn()): ?>
+                    <!-- Cart -->
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="/cart.php" aria-label="Shopping cart">
+                            <i class="bi bi-cart3 fs-5" aria-hidden="true"></i>
+                            <span class="cart-badge badge rounded-pill bg-accent"
+                                  id="cartBadge"
+                                  <?= $cartCount === 0 ? 'style="display:none"' : '' ?>>
+                                <?= $cartCount ?>
+                            </span>
+                        </a>
+                    </li>
+                    <!-- Sell button -->
+                    <li class="nav-item">
+                        <a class="btn btn-accent btn-sm" href="/create-listing.php">
+                            <i class="bi bi-plus-circle me-1" aria-hidden="true"></i>Sell
+                        </a>
+                    </li>
+                    <!-- User dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false"
+                           aria-label="User menu">
+                            <i class="bi bi-person-circle fs-5" aria-hidden="true"></i>
+                            <span class="d-none d-lg-inline ms-1">
+                                <?= clean($_SESSION['display_name'] ?? $_SESSION['username'] ?? 'Account') ?>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                            <li>
+                                <a class="dropdown-item" href="/dashboard.php">
+                                    <i class="bi bi-speedometer2 me-2" aria-hidden="true"></i>Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/profile.php?user=<?= clean($_SESSION['username'] ?? '') ?>">
+                                    <i class="bi bi-person me-2" aria-hidden="true"></i>My Profile
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="/logout.php">
+                                    <i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login.php">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-accent btn-sm" href="/register.php">Sign Up</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Flash message -->
+<?php if ($flash): ?>
+<div class="container mt-3" role="alert" aria-live="polite">
+    <div class="alert alert-<?= htmlspecialchars($flash['type'], ENT_QUOTES, 'UTF-8') ?> alert-dismissible fade show flash-message" role="alert">
+        <?= htmlspecialchars($flash['message'], ENT_QUOTES, 'UTF-8') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close alert"></button>
+    </div>
+</div>
+<?php endif; ?>
+
+<!-- Main content wrapper -->
+<main id="main-content">
