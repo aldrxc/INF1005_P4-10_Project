@@ -1,0 +1,9 @@
+# Prevent PHP execution in the uploads directory
+# Uploaded files should NEVER be executed as PHP
+php_flag engine off
+
+# Deny direct access to non-image files
+<FilesMatch "(?i)\.(php|php3|php4|php5|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

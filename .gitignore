@@ -1,0 +1,18 @@
+# Uploaded user images
+uploads/listings/*.jpg
+uploads/listings/*.jpeg
+uploads/listings/*.png
+uploads/listings/*.webp
+uploads/listings/*.gif
+
+
+# Local DB credentials (never commit this)
+config/db.local.php
+
+# Editor & OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+# Note: .vscode/ is intentionally NOT ignored so launch.json / tasks.json are shared

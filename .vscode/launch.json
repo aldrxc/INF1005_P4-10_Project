@@ -1,0 +1,72 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // -------------------------------------------------------
+            // Option A — Launch site in browser (recommended daily use)
+            // Starts PHP dev server then opens http://localhost:8000
+            // Requires: built-in JS debugger (no extension needed)
+            // -------------------------------------------------------
+            "name": "MerchVault — Open in Browser",
+            "type": "msedge",
+            "request": "launch",
+            "url": "http://localhost:8000/index.php",
+            "preLaunchTask": "Start PHP Dev Server",
+            "presentation": {
+                "group": "dev",
+                "order": 1
+            }
+        },
+        {
+            // -------------------------------------------------------
+            // Option B — Same but using Chrome instead of Edge
+            // -------------------------------------------------------
+            "name": "MerchVault — Open in Chrome",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:8000/index.php",
+            "preLaunchTask": "Start PHP Dev Server",
+            "presentation": {
+                "group": "dev",
+                "order": 2
+            }
+        },
+        {
+            // -------------------------------------------------------
+            // Option C — PHP + Xdebug (for step-debugging PHP)
+            // Requires: "PHP Debug" extension by Xdebug
+            //   Install: ext install xdebug.php-debug
+            // Also requires Xdebug installed in PHP:
+            //   Add to php.ini: zend_extension=xdebug
+            //                   xdebug.mode=debug
+            //                   xdebug.start_with_request=yes
+            //                   xdebug.client_port=9003
+            // -------------------------------------------------------
+            "name": "MerchVault — PHP Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "preLaunchTask": "Start PHP Dev Server",
+            "pathMappings": {
+                "/": "${workspaceFolder}"
+            },
+            "presentation": {
+                "group": "debug",
+                "order": 1
+            }
+        }
+    ],
+    "compounds": [
+        {
+            // -------------------------------------------------------
+            // Compound — Start server + open browser simultaneously
+            // -------------------------------------------------------
+            "name": "MerchVault — Full Dev (Server + Browser)",
+            "configurations": ["MerchVault — Open in Browser"],
+            "presentation": {
+                "group": "dev",
+                "order": 0
+            }
+        }
+    ]
+}

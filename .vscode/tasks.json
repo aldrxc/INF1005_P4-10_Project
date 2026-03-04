@@ -1,0 +1,42 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start PHP Dev Server",
+            "type": "shell",
+            "command": "php",
+            "args": [
+                "-S", "localhost:8000",
+                "-t", "${workspaceFolder}"
+            ],
+            "isBackground": true,
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "phpServer",
+                "label": "PHP Dev Server"
+            },
+            "problemMatcher": {
+                "owner": "php",
+                "pattern": {
+                    "regexp": "^(.*)$",
+                    "file": 1
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^PHP .* Development Server",
+                    "endsPattern":   "^PHP .* started"
+                }
+            }
+        },
+        {
+            "label": "Stop PHP Dev Server",
+            "type": "shell",
+            "command": "echo 'Close the PHP Dev Server terminal to stop the server'",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
