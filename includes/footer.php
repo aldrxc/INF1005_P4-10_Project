@@ -1,4 +1,5 @@
-<?php // footer.php — included at the bottom of every page ?>
+<?php // footer.php — included at the bottom of every page 
+?>
 </main><!-- /#main-content -->
 
 <!-- Back to top button -->
@@ -62,9 +63,16 @@
 
 <!-- Bootstrap 5 JS Bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFtIUoqkNxFEBAfxpBxggQJ1bxE"
-        crossorigin="anonymous"></script>
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFtIUoqkNxFEBAfxpBxggQJ1bxE"
+    crossorigin="anonymous"></script>
+
+<!-- JS jquery minified build bundle  -->
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"
+    integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
+    crossorigin="anonymous"></script>
+
 <!-- Global JS -->
 <script src="/assets/js/main.js"></script>
 </body>
+
 </html>
