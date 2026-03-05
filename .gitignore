@@ -16,3 +16,6 @@ Thumbs.db
 *.swo
 .idea/
 # Note: .vscode/ is intentionally NOT ignored so launch.json / tasks.json are shared
+
+# ignoring .vscode/sftp.json
+.vscode/sftp.json
