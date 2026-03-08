@@ -38,22 +38,22 @@ require_once __DIR__ . '/includes/header.php';
             <?php endif; ?>
 
             <form method="POST" action="/handlers/listing-handler.php"
-                  enctype="multipart/form-data" novalidate id="createListingForm">
+                enctype="multipart/form-data" novalidate id="createListingForm">
                 <?= getCsrfField() ?>
                 <input type="hidden" name="action" value="create">
 
                 <!-- ===== BASIC INFO ===== -->
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
-                        <h2 class="h5 fw-semibold mb-3">Basic Information</h2>
+                        <h2 class="h5 fw-semibold mb-3 text-hotpink">Basic Information</h2>
 
                         <!-- Title -->
                         <div class="mb-3">
                             <label for="title" class="form-label">Listing Title <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['title']) ? 'is-invalid' : '' ?>"
-                                   id="title" name="title" required maxlength="200"
-                                   placeholder="e.g. Metallica &quot;Black Album&quot; Vintage Tee — Size L"
-                                   value="<?= clean($old['title'] ?? '') ?>">
+                                id="title" name="title" required maxlength="200"
+                                placeholder="e.g. Metallica &quot;Black Album&quot; Vintage Tee — Size L"
+                                value="<?= clean($old['title'] ?? '') ?>">
                             <?php if (isset($errors['title'])): ?><div class="invalid-feedback"><?= clean($errors['title']) ?></div><?php endif; ?>
                         </div>
 
@@ -61,12 +61,12 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Category <span class="text-accent" aria-hidden="true">*</span></label>
                             <select class="form-select <?= isset($errors['category_id']) ? 'is-invalid' : '' ?>"
-                                    id="category_id" name="category_id" required aria-describedby="categoryHelp">
+                                id="category_id" name="category_id" required aria-describedby="categoryHelp">
                                 <option value="">Select a category…</option>
                                 <?php foreach ($categories as $cat): ?>
                                     <option value="<?= (int)$cat['category_id'] ?>"
-                                            data-slug="<?= clean($cat['slug']) ?>"
-                                            <?= ((int)($old['category_id'] ?? 0) === (int)$cat['category_id']) ? 'selected' : '' ?>>
+                                        data-slug="<?= clean($cat['slug']) ?>"
+                                        <?= ((int)($old['category_id'] ?? 0) === (int)$cat['category_id']) ? 'selected' : '' ?>>
                                         <?= clean($cat['name']) ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -83,7 +83,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <option value="">Select genre (optional)</option>
                                     <?php foreach ($genres as $g): ?>
                                         <option value="<?= (int)$g['genre_id'] ?>"
-                                                <?= ((int)($old['genre_id'] ?? 0) === (int)$g['genre_id']) ? 'selected' : '' ?>>
+                                            <?= ((int)($old['genre_id'] ?? 0) === (int)$g['genre_id']) ? 'selected' : '' ?>>
                                             <?= clean($g['name']) ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -92,9 +92,9 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="col-sm-6">
                                 <label for="artist_band" class="form-label">Artist / Band</label>
                                 <input type="text" class="form-control"
-                                       id="artist_band" name="artist_band" maxlength="150"
-                                       placeholder="e.g. Metallica"
-                                       value="<?= clean($old['artist_band'] ?? '') ?>">
+                                    id="artist_band" name="artist_band" maxlength="150"
+                                    placeholder="e.g. Metallica"
+                                    value="<?= clean($old['artist_band'] ?? '') ?>">
                             </div>
                         </div>
 
@@ -104,9 +104,9 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="input-group">
                                 <span class="input-group-text">S$</span>
                                 <input type="number" class="form-control <?= isset($errors['price']) ? 'is-invalid' : '' ?>"
-                                       id="price" name="price" required min="0.01" step="0.01"
-                                       placeholder="0.00"
-                                       value="<?= clean($old['price'] ?? '') ?>">
+                                    id="price" name="price" required min="0.01" step="0.01"
+                                    placeholder="0.00"
+                                    value="<?= clean($old['price'] ?? '') ?>">
                                 <?php if (isset($errors['price'])): ?><div class="invalid-feedback"><?= clean($errors['price']) ?></div><?php endif; ?>
                             </div>
                         </div>
@@ -115,10 +115,10 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-0">
                             <label for="description" class="form-label">Description <span class="text-accent" aria-hidden="true">*</span></label>
                             <textarea class="form-control <?= isset($errors['description']) ? 'is-invalid' : '' ?>"
-                                      id="description" name="description" required
-                                      rows="4" maxlength="1000"
-                                      placeholder="Describe your item: condition, size, any defects, what's included…"
-                                      aria-describedby="descCounter"><?= clean($old['description'] ?? '') ?></textarea>
+                                id="description" name="description" required
+                                rows="4" maxlength="1000"
+                                placeholder="Describe your item: condition, size, any defects, what's included…"
+                                aria-describedby="descCounter"><?= clean($old['description'] ?? '') ?></textarea>
                             <div class="d-flex justify-content-between mt-1">
                                 <?php if (isset($errors['description'])): ?><div class="invalid-feedback d-block"><?= clean($errors['description']) ?></div><?php else: ?><div></div><?php endif; ?>
                                 <small id="descCounter" class="text-muted"><span id="descCount">0</span>/1000</small>
@@ -130,7 +130,7 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- ===== MERCH FIELDS (hidden when ticket selected) ===== -->
                 <div class="card form-section-card mb-4" id="merchFields">
                     <div class="card-body p-4">
-                        <h2 class="h5 fw-semibold mb-3">Merch Details</h2>
+                        <h2 class="h5 fw-semibold mb-3 text-hotpink">Merch Details</h2>
 
                         <div class="row g-3">
                             <!-- Condition -->
@@ -138,11 +138,11 @@ require_once __DIR__ . '/includes/header.php';
                                 <label for="condition_type" class="form-label">Condition</label>
                                 <select class="form-select" id="condition_type" name="condition_type" aria-label="Item condition">
                                     <option value="">Select condition…</option>
-                                    <option value="new"      <?= ($old['condition_type'] ?? '') === 'new'      ? 'selected' : '' ?>>New</option>
+                                    <option value="new" <?= ($old['condition_type'] ?? '') === 'new'      ? 'selected' : '' ?>>New</option>
                                     <option value="like_new" <?= ($old['condition_type'] ?? '') === 'like_new' ? 'selected' : '' ?>>Like New</option>
-                                    <option value="good"     <?= ($old['condition_type'] ?? '') === 'good'     ? 'selected' : '' ?>>Good</option>
-                                    <option value="fair"     <?= ($old['condition_type'] ?? '') === 'fair'     ? 'selected' : '' ?>>Fair</option>
-                                    <option value="poor"     <?= ($old['condition_type'] ?? '') === 'poor'     ? 'selected' : '' ?>>Poor</option>
+                                    <option value="good" <?= ($old['condition_type'] ?? '') === 'good'     ? 'selected' : '' ?>>Good</option>
+                                    <option value="fair" <?= ($old['condition_type'] ?? '') === 'fair'     ? 'selected' : '' ?>>Fair</option>
+                                    <option value="poor" <?= ($old['condition_type'] ?? '') === 'poor'     ? 'selected' : '' ?>>Poor</option>
                                 </select>
                             </div>
 
@@ -151,7 +151,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <label for="size" class="form-label">Size</label>
                                 <select class="form-select" id="size" name="size" aria-label="Clothing size">
                                     <option value="">Select size…</option>
-                                    <?php foreach (['XS','S','M','L','XL','XXL'] as $sz): ?>
+                                    <?php foreach (['XS', 'S', 'M', 'L', 'XL', 'XXL'] as $sz): ?>
                                         <option value="<?= $sz ?>" <?= ($old['size'] ?? '') === $sz ? 'selected' : '' ?>><?= $sz ?></option>
                                     <?php endforeach; ?>
                                 </select>
@@ -163,7 +163,7 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- ===== TICKET FIELDS (hidden unless Event Tickets selected) ===== -->
                 <div class="card form-section-card mb-4" id="ticketFields" style="display:none">
                     <div class="card-body p-4">
-                        <h2 class="h5 fw-semibold mb-3">
+                        <h2 class="h5 fw-semibold mb-3 text-hotpink">
                             <i class="bi bi-ticket-perforated text-accent me-2" aria-hidden="true"></i>Event / Ticket Details
                         </h2>
 
@@ -171,61 +171,61 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="col-md-8">
                                 <label for="event_name" class="form-label">Event Name <span class="text-accent" aria-hidden="true">*</span></label>
                                 <input type="text" class="form-control <?= isset($errors['event_name']) ? 'is-invalid' : '' ?>"
-                                       id="event_name" name="event_name" maxlength="200"
-                                       placeholder="e.g. Coldplay Music of the Spheres World Tour"
-                                       value="<?= clean($old['event_name'] ?? '') ?>">
+                                    id="event_name" name="event_name" maxlength="200"
+                                    placeholder="e.g. Coldplay Music of the Spheres World Tour"
+                                    value="<?= clean($old['event_name'] ?? '') ?>">
                                 <?php if (isset($errors['event_name'])): ?><div class="invalid-feedback"><?= clean($errors['event_name']) ?></div><?php endif; ?>
                             </div>
                             <div class="col-md-4">
                                 <label for="event_date" class="form-label">Event Date <span class="text-accent" aria-hidden="true">*</span></label>
                                 <input type="date" class="form-control <?= isset($errors['event_date']) ? 'is-invalid' : '' ?>"
-                                       id="event_date" name="event_date"
-                                       value="<?= clean($old['event_date'] ?? '') ?>">
+                                    id="event_date" name="event_date"
+                                    value="<?= clean($old['event_date'] ?? '') ?>">
                                 <?php if (isset($errors['event_date'])): ?><div class="invalid-feedback"><?= clean($errors['event_date']) ?></div><?php endif; ?>
                             </div>
                             <div class="col-md-8">
                                 <label for="venue_name" class="form-label">Venue Name <span class="text-accent" aria-hidden="true">*</span></label>
                                 <input type="text" class="form-control <?= isset($errors['venue_name']) ? 'is-invalid' : '' ?>"
-                                       id="venue_name" name="venue_name" maxlength="200"
-                                       placeholder="e.g. Singapore National Stadium"
-                                       value="<?= clean($old['venue_name'] ?? '') ?>">
+                                    id="venue_name" name="venue_name" maxlength="200"
+                                    placeholder="e.g. Singapore National Stadium"
+                                    value="<?= clean($old['venue_name'] ?? '') ?>">
                                 <?php if (isset($errors['venue_name'])): ?><div class="invalid-feedback"><?= clean($errors['venue_name']) ?></div><?php endif; ?>
                             </div>
                             <div class="col-md-4">
                                 <label for="venue_city" class="form-label">City <span class="text-accent" aria-hidden="true">*</span></label>
                                 <input type="text" class="form-control"
-                                       id="venue_city" name="venue_city" maxlength="100"
-                                       placeholder="e.g. Singapore"
-                                       value="<?= clean($old['venue_city'] ?? '') ?>">
+                                    id="venue_city" name="venue_city" maxlength="100"
+                                    placeholder="e.g. Singapore"
+                                    value="<?= clean($old['venue_city'] ?? '') ?>">
                             </div>
                             <div class="col-sm-4">
                                 <label for="seat_section" class="form-label">Section</label>
                                 <input type="text" class="form-control" id="seat_section" name="seat_section"
-                                       maxlength="50" placeholder="e.g. Cat 1 / Floor"
-                                       value="<?= clean($old['seat_section'] ?? '') ?>">
+                                    maxlength="50" placeholder="e.g. Cat 1 / Floor"
+                                    value="<?= clean($old['seat_section'] ?? '') ?>">
                             </div>
                             <div class="col-sm-4">
                                 <label for="seat_row" class="form-label">Row</label>
                                 <input type="text" class="form-control" id="seat_row" name="seat_row"
-                                       maxlength="20" placeholder="e.g. D"
-                                       value="<?= clean($old['seat_row'] ?? '') ?>">
+                                    maxlength="20" placeholder="e.g. D"
+                                    value="<?= clean($old['seat_row'] ?? '') ?>">
                             </div>
                             <div class="col-sm-4">
                                 <label for="seat_number" class="form-label">Seat Number(s)</label>
                                 <input type="text" class="form-control" id="seat_number" name="seat_number"
-                                       maxlength="50" placeholder="e.g. 12, 13"
-                                       value="<?= clean($old['seat_number'] ?? '') ?>">
+                                    maxlength="50" placeholder="e.g. 12, 13"
+                                    value="<?= clean($old['seat_number'] ?? '') ?>">
                             </div>
                             <div class="col-sm-4">
                                 <label for="quantity" class="form-label">Quantity</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity"
-                                       min="1" max="99" value="<?= clean($old['quantity'] ?? '1') ?>">
+                                    min="1" max="99" value="<?= clean($old['quantity'] ?? '1') ?>">
                             </div>
                             <div class="col-sm-8 d-flex align-items-end pb-1">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="is_e_ticket"
-                                           name="is_e_ticket" value="1"
-                                           <?= !empty($old['is_e_ticket']) ? 'checked' : 'checked' ?>>
+                                        name="is_e_ticket" value="1"
+                                        <?= !empty($old['is_e_ticket']) ? 'checked' : 'checked' ?>>
                                     <label class="form-check-label" for="is_e_ticket">
                                         This is an e-ticket (digital delivery)
                                     </label>
@@ -238,7 +238,7 @@ require_once __DIR__ . '/includes/header.php';
                 <!-- ===== IMAGE UPLOAD ===== -->
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
-                        <h2 class="h5 fw-semibold mb-1">Photos</h2>
+                        <h2 class="h5 fw-semibold mb-1 text-hotpink">Photos</h2>
                         <p class="text-muted small mb-3">Up to 5 images. JPEG, PNG, WebP, GIF. Max 5 MB each.</p>
 
                         <?php if (isset($errors['images'])): ?>
@@ -247,7 +247,7 @@ require_once __DIR__ . '/includes/header.php';
 
                         <!-- Drop zone -->
                         <div id="dropZone" class="drop-zone" role="button" tabindex="0"
-                             aria-label="Drop images here or click to select files">
+                            aria-label="Drop images here or click to select files">
                             <i class="bi bi-cloud-arrow-up drop-zone-icon" aria-hidden="true"></i>
                             <p class="mb-1 fw-semibold">Drag &amp; drop images here</p>
                             <p class="text-muted small mb-2">or</p>
@@ -255,9 +255,9 @@ require_once __DIR__ . '/includes/header.php';
                                 Browse Files
                             </label>
                             <input type="file" id="images" name="images[]"
-                                   accept="image/jpeg,image/png,image/webp,image/gif"
-                                   multiple class="d-none"
-                                   aria-label="Upload listing images">
+                                accept="image/jpeg,image/png,image/webp,image/gif"
+                                multiple class="d-none"
+                                aria-label="Upload listing images">
                         </div>
 
                         <!-- Preview grid -->

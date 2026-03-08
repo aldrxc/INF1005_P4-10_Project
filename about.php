@@ -57,15 +57,15 @@ require_once __DIR__ . '/includes/header.php';
             ];
             foreach ($team as $member):
             ?>
-            <div class="col">
-                <div class="team-card card text-center h-100 p-4 border-0">
-                    <div class="team-avatar mx-auto mb-3">
-                        <i class="bi <?= $member['icon'] ?>" aria-hidden="true"></i>
+                <div class="col">
+                    <div class="team-card card text-center h-100 p-4 border-0">
+                        <div class="team-avatar mx-auto mb-3">
+                            <i class="bi <?= $member['icon'] ?>" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h6 fw-bold mb-1 text-hotpink"><?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?></h3>
+                        <p class="text-muted small mb-0"><?= htmlspecialchars($member['role'], ENT_QUOTES, 'UTF-8') ?></p>
                     </div>
-                    <h3 class="h6 fw-bold mb-1"><?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?></h3>
-                    <p class="text-muted small mb-0"><?= htmlspecialchars($member['role'], ENT_QUOTES, 'UTF-8') ?></p>
                 </div>
-            </div>
             <?php endforeach; ?>
 
         </div>
@@ -82,21 +82,21 @@ require_once __DIR__ . '/includes/header.php';
         <div class="col">
             <div class="feature-card card h-100 p-4 border-0 text-center">
                 <i class="bi bi-tags feature-icon mb-3" aria-hidden="true"></i>
-                <h3 class="h5 fw-bold">Smart Tagging</h3>
+                <h3 class="h5 fw-bold text-hotpink">Smart Tagging</h3>
                 <p class="text-muted small">Tag every listing with genre, artist, and category so buyers find exactly what they're looking for.</p>
             </div>
         </div>
         <div class="col">
             <div class="feature-card card h-100 p-4 border-0 text-center">
                 <i class="bi bi-ticket-perforated feature-icon mb-3" aria-hidden="true"></i>
-                <h3 class="h5 fw-bold">Ticket Reselling</h3>
+                <h3 class="h5 fw-bold text-hotpink">Ticket Reselling</h3>
                 <p class="text-muted small">List event tickets with venue, seat section, event date and quantity — all the info buyers need.</p>
             </div>
         </div>
         <div class="col">
             <div class="feature-card card h-100 p-4 border-0 text-center">
                 <i class="bi bi-shield-check feature-icon mb-3" aria-hidden="true"></i>
-                <h3 class="h5 fw-bold">Secure Platform</h3>
+                <h3 class="h5 fw-bold text-hotpink">Secure Platform</h3>
                 <p class="text-muted small">All transactions and data are protected with industry-standard security practices.</p>
             </div>
         </div>
@@ -114,8 +114,8 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="accordion-item">
                     <h3 class="accordion-header" id="faq1Head">
                         <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq1"
-                                aria-expanded="false" aria-controls="faq1">
+                            data-bs-toggle="collapse" data-bs-target="#faq1"
+                            aria-expanded="false" aria-controls="faq1">
                             Is MerchVault free to use?
                         </button>
                     </h3>
@@ -129,8 +129,8 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="accordion-item">
                     <h3 class="accordion-header" id="faq2Head">
                         <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq2"
-                                aria-expanded="false" aria-controls="faq2">
+                            data-bs-toggle="collapse" data-bs-target="#faq2"
+                            aria-expanded="false" aria-controls="faq2">
                             Can I sell both physical merch and event tickets?
                         </button>
                     </h3>
@@ -145,8 +145,8 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="accordion-item">
                     <h3 class="accordion-header" id="faq3Head">
                         <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq3"
-                                aria-expanded="false" aria-controls="faq3">
+                            data-bs-toggle="collapse" data-bs-target="#faq3"
+                            aria-expanded="false" aria-controls="faq3">
                             How do I update the status of my listing?
                         </button>
                     </h3>
@@ -161,8 +161,8 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="accordion-item">
                     <h3 class="accordion-header" id="faq4Head">
                         <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq4"
-                                aria-expanded="false" aria-controls="faq4">
+                            data-bs-toggle="collapse" data-bs-target="#faq4"
+                            aria-expanded="false" aria-controls="faq4">
                             How many photos can I upload per listing?
                         </button>
                     </h3>
@@ -177,8 +177,8 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="accordion-item">
                     <h3 class="accordion-header" id="faq5Head">
                         <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#faq5"
-                                aria-expanded="false" aria-controls="faq5">
+                            data-bs-toggle="collapse" data-bs-target="#faq5"
+                            aria-expanded="false" aria-controls="faq5">
                             How is my data kept secure?
                         </button>
                     </h3>

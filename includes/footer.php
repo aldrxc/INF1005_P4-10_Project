@@ -62,6 +62,14 @@
 </footer>
 
 <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+<<<<<<< HEAD
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFtIUoqkNxFEBAfxpBxggQJ1bxE"
+        crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+=======
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmFtIUoqkNxFEBAfxpBxggQJ1bxE"
     crossorigin="anonymous"></script>
@@ -71,6 +79,7 @@
     integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
     crossorigin="anonymous"></script>
 
+>>>>>>> origin/main
 <!-- Global JS -->
 <script src="/assets/js/main.js"></script>
 </body>

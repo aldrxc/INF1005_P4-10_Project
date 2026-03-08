@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS categories (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT IGNORE INTO categories (name, slug, icon_class) VALUES
-    ('Band Tees',       'band-tees',       'bi-shirt'),
+    ('Band Tees',       'band-tees',       'bi-tencent-qq'),
     ('Vinyl Records',   'vinyl-records',   'bi-disc'),
     ('Concert Posters', 'concert-posters', 'bi-image'),
     ('Instruments',     'instruments',     'bi-music-note-beamed'),
