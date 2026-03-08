@@ -67,11 +67,11 @@ require_once __DIR__ . '/includes/header.php';
             <div class="flex-shrink-0">
                 <?php if ($profileUser['avatar_path']): ?>
                     <img src="/<?= clean($profileUser['avatar_path']) ?>"
-                         alt="<?= clean($profileUser['display_name']) ?>'s avatar"
-                         class="rounded-circle" width="90" height="90" style="object-fit:cover">
+                        alt="<?= clean($profileUser['display_name']) ?>'s avatar"
+                        class="rounded-circle" width="90" height="90" style="object-fit:cover">
                 <?php else: ?>
                     <div class="profile-avatar-placeholder rounded-circle d-flex align-items-center justify-content-center"
-                         aria-hidden="true">
+                        aria-hidden="true">
                         <?= strtoupper(mb_substr($profileUser['display_name'], 0, 1)) ?>
                     </div>
                 <?php endif; ?>
@@ -79,7 +79,7 @@ require_once __DIR__ . '/includes/header.php';
 
             <!-- Info -->
             <div class="flex-grow-1">
-                <h1 class="h3 fw-bold mb-0"><?= clean($profileUser['display_name']) ?></h1>
+                <h1 class="h3 fw-bold mb-0 text-white"><?= clean($profileUser['display_name']) ?></h1>
                 <div class="text-muted mb-1">@<?= clean($profileUser['username']) ?></div>
 
                 <?php if ($profileUser['bio']): ?>
@@ -130,8 +130,8 @@ require_once __DIR__ . '/includes/header.php';
                     <?php for ($p = 1; $p <= $totalPages; $p++): ?>
                         <li class="page-item <?= $p === $page ? 'active' : '' ?>">
                             <a class="page-link"
-                               href="?user=<?= clean($username) ?>&page=<?= $p ?>"
-                               <?= $p === $page ? 'aria-current="page"' : '' ?>>
+                                href="?user=<?= clean($username) ?>&page=<?= $p ?>"
+                                <?= $p === $page ? 'aria-current="page"' : '' ?>>
                                 <?= $p ?>
                             </a>
                         </li>

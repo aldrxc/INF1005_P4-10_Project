@@ -34,7 +34,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <div class="text-center mb-4">
                         <i class="bi bi-music-note-list display-5 text-accent" aria-hidden="true"></i>
-                        <h1 class="h3 mt-2 fw-bold">Welcome Back</h1>
+                        <h1 class="h3 mt-2 fw-bold text-white">Welcome Back</h1>
                         <p class="text-muted small">Log in to your MerchVault account.</p>
                     </div>
 
@@ -59,9 +59,9 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-3">
                             <label for="identifier" class="form-label">Email or Username <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control"
-                                   id="identifier" name="identifier" required
-                                   value="<?= clean($old['identifier'] ?? '') ?>"
-                                   autocomplete="username">
+                                id="identifier" name="identifier" required
+                                value="<?= clean($old['identifier'] ?? '') ?>"
+                                autocomplete="username">
                         </div>
 
                         <!-- Password -->
@@ -69,10 +69,10 @@ require_once __DIR__ . '/includes/header.php';
                             <label for="password" class="form-label">Password <span class="text-accent" aria-hidden="true">*</span></label>
                             <div class="input-group">
                                 <input type="password" class="form-control"
-                                       id="password" name="password" required
-                                       autocomplete="current-password">
+                                    id="password" name="password" required
+                                    autocomplete="current-password">
                                 <button class="btn btn-outline-secondary" type="button" id="togglePassword"
-                                        aria-label="Show or hide password">
+                                    aria-label="Show or hide password">
                                     <i class="bi bi-eye" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -96,19 +96,19 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-document.getElementById('togglePassword').addEventListener('click', function () {
-    const pwField = document.getElementById('password');
-    const icon    = this.querySelector('i');
-    if (pwField.type === 'password') {
-        pwField.type = 'text';
-        icon.classList.replace('bi-eye', 'bi-eye-slash');
-        this.setAttribute('aria-label', 'Hide password');
-    } else {
-        pwField.type = 'password';
-        icon.classList.replace('bi-eye-slash', 'bi-eye');
-        this.setAttribute('aria-label', 'Show password');
-    }
-});
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const pwField = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (pwField.type === 'password') {
+            pwField.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+            this.setAttribute('aria-label', 'Hide password');
+        } else {
+            pwField.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+            this.setAttribute('aria-label', 'Show password');
+        }
+    });
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

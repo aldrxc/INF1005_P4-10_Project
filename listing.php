@@ -129,9 +129,9 @@ $condLabels = [
                 <div class="gallery-main mb-2">
                     <?php $mainImg = !empty($images) ? $images[0]['file_path'] : null; ?>
                     <img src="<?= $mainImg ? '/' . clean($mainImg) : '/assets/images/placeholder.php' ?>"
-                         alt="<?= clean($listing['title']) ?>"
-                         class="gallery-main-img img-fluid rounded"
-                         id="galleryMainImg">
+                        alt="<?= clean($listing['title']) ?>"
+                        class="gallery-main-img img-fluid rounded"
+                        id="galleryMainImg">
                 </div>
 
                 <!-- Thumbnails -->
@@ -139,13 +139,13 @@ $condLabels = [
                     <div class="gallery-thumbs d-flex gap-2 flex-wrap" role="list" aria-label="Additional images">
                         <?php foreach ($images as $i => $img): ?>
                             <button type="button"
-                                    class="gallery-thumb <?= $i === 0 ? 'active' : '' ?>"
-                                    data-src="/<?= clean($img['file_path']) ?>"
-                                    aria-label="View image <?= $i + 1 ?>"
-                                    role="listitem">
+                                class="gallery-thumb <?= $i === 0 ? 'active' : '' ?>"
+                                data-src="/<?= clean($img['file_path']) ?>"
+                                aria-label="View image <?= $i + 1 ?>"
+                                role="listitem">
                                 <img src="/<?= clean($img['file_path']) ?>"
-                                     alt="Image <?= $i + 1 ?> of <?= clean($listing['title']) ?>"
-                                     loading="lazy">
+                                    alt="Image <?= $i + 1 ?> of <?= clean($listing['title']) ?>"
+                                    loading="lazy">
                             </button>
                         <?php endforeach; ?>
                     </div>
@@ -203,29 +203,29 @@ $condLabels = [
                         </h2>
                         <dl class="row small mb-0">
                             <dt class="col-5 text-muted">Event</dt>
-                            <dd class="col-7"><?= clean($ticketDetails['event_name']) ?></dd>
+                            <dd class="col-7 text-white"><?= clean($ticketDetails['event_name']) ?></dd>
                             <dt class="col-5 text-muted">Date</dt>
-                            <dd class="col-7" id="eventDate" data-date="<?= clean($ticketDetails['event_date']) ?>">
+                            <dd class="col-7 text-white" id="eventDate" data-date="<?= clean($ticketDetails['event_date']) ?>">
                                 <?= clean(date('D, d M Y', strtotime($ticketDetails['event_date']))) ?>
                             </dd>
                             <dt class="col-5 text-muted">Venue</dt>
-                            <dd class="col-7"><?= clean($ticketDetails['venue_name']) ?>, <?= clean($ticketDetails['venue_city']) ?></dd>
+                            <dd class="col-7 text-white"><?= clean($ticketDetails['venue_name']) ?>, <?= clean($ticketDetails['venue_city']) ?></dd>
                             <?php if ($ticketDetails['seat_section']): ?>
                                 <dt class="col-5 text-muted">Section</dt>
-                                <dd class="col-7"><?= clean($ticketDetails['seat_section']) ?></dd>
+                                <dd class="col-7 text-white"><?= clean($ticketDetails['seat_section']) ?></dd>
                             <?php endif; ?>
                             <?php if ($ticketDetails['seat_row']): ?>
                                 <dt class="col-5 text-muted">Row</dt>
-                                <dd class="col-7"><?= clean($ticketDetails['seat_row']) ?></dd>
+                                <dd class="col-7 text-white"><?= clean($ticketDetails['seat_row']) ?></dd>
                             <?php endif; ?>
                             <?php if ($ticketDetails['seat_number']): ?>
                                 <dt class="col-5 text-muted">Seat(s)</dt>
-                                <dd class="col-7"><?= clean($ticketDetails['seat_number']) ?></dd>
+                                <dd class="col-7 text-white"><?= clean($ticketDetails['seat_number']) ?></dd>
                             <?php endif; ?>
                             <dt class="col-5 text-muted">Quantity</dt>
-                            <dd class="col-7"><?= (int)$ticketDetails['quantity'] ?></dd>
+                            <dd class="col-7 text-white"><?= (int)$ticketDetails['quantity'] ?></dd>
                             <dt class="col-5 text-muted">Type</dt>
-                            <dd class="col-7"><?= $ticketDetails['is_e_ticket'] ? 'E-Ticket' : 'Physical Ticket' ?></dd>
+                            <dd class="col-7 text-white"><?= $ticketDetails['is_e_ticket'] ? 'E-Ticket' : 'Physical Ticket' ?></dd>
                         </dl>
                         <!-- Countdown -->
                         <div id="ticketCountdown" class="mt-2 text-muted small"></div>
@@ -253,7 +253,7 @@ $condLabels = [
                             <i class="bi bi-pencil me-1" aria-hidden="true"></i>Edit Listing
                         </a>
                         <form method="POST" action="/delete-listing.php" class="d-inline"
-                              onsubmit="return confirm('Delete this listing? This cannot be undone.')">
+                            onsubmit="return confirm('Delete this listing? This cannot be undone.')">
                             <?= getCsrfField() ?>
                             <input type="hidden" name="listing_id" value="<?= (int)$listingId ?>">
                             <button type="submit" class="btn btn-outline-danger">
@@ -263,16 +263,16 @@ $condLabels = [
                     <?php elseif ($listing['status'] === 'available'): ?>
                         <?php if (isLoggedIn()): ?>
                             <button type="button" id="addToCartBtn"
-                                    class="btn btn-accent px-4"
-                                    data-listing-id="<?= (int)$listingId ?>"
-                                    data-csrf="<?= clean($_SESSION['csrf_token']) ?>"
-                                    <?= $inCart ? 'disabled' : '' ?>>
+                                class="btn btn-accent px-4"
+                                data-listing-id="<?= (int)$listingId ?>"
+                                data-csrf="<?= clean($_SESSION['csrf_token']) ?>"
+                                <?= $inCart ? 'disabled' : '' ?>>
                                 <i class="bi bi-cart-plus me-2" aria-hidden="true"></i>
                                 <?= $inCart ? 'In Cart' : 'Add to Cart' ?>
                             </button>
                         <?php else: ?>
                             <a href="/login.php?redirect=<?= urlencode('/listing.php?id=' . $listingId) ?>"
-                               class="btn btn-accent px-4">
+                                class="btn btn-accent px-4">
                                 <i class="bi bi-cart-plus me-2" aria-hidden="true"></i>Log In to Buy
                             </a>
                         <?php endif; ?>
@@ -284,7 +284,7 @@ $condLabels = [
 
                     <!-- Share -->
                     <button type="button" id="shareBtn" class="btn btn-outline-secondary"
-                            aria-label="Copy listing link to clipboard">
+                        aria-label="Copy listing link to clipboard">
                         <i class="bi bi-share me-1" aria-hidden="true"></i>Share
                     </button>
                 </div>
@@ -297,18 +297,18 @@ $condLabels = [
                     <div class="d-flex align-items-center gap-3">
                         <?php if ($listing['seller_avatar']): ?>
                             <img src="/<?= clean($listing['seller_avatar']) ?>"
-                                 alt="<?= clean($listing['seller_display']) ?>"
-                                 class="rounded-circle" width="48" height="48" style="object-fit:cover">
+                                alt="<?= clean($listing['seller_display']) ?>"
+                                class="rounded-circle" width="48" height="48" style="object-fit:cover">
                         <?php else: ?>
                             <div class="seller-avatar-placeholder rounded-circle d-flex align-items-center justify-content-center"
-                                 aria-hidden="true">
+                                aria-hidden="true">
                                 <?= strtoupper(mb_substr($listing['seller_display'], 0, 1)) ?>
                             </div>
                         <?php endif; ?>
                         <div>
                             <div class="fw-semibold">
                                 <a href="/profile.php?user=<?= clean($listing['seller_username']) ?>"
-                                   class="text-decoration-none text-reset">
+                                    class="text-decoration-none text-reset">
                                     <?= clean($listing['seller_display']) ?>
                                 </a>
                             </div>

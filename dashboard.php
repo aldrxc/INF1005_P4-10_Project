@@ -84,15 +84,15 @@ $orderStatusLabels = [
         <div class="d-flex align-items-center gap-4 flex-wrap">
             <?php if ($user['avatar_path']): ?>
                 <img src="/<?= clean($user['avatar_path']) ?>" alt="Your avatar"
-                     class="rounded-circle" width="80" height="80" style="object-fit:cover">
+                    class="rounded-circle" width="80" height="80" style="object-fit:cover">
             <?php else: ?>
                 <div class="dashboard-avatar-placeholder rounded-circle d-flex align-items-center justify-content-center"
-                     aria-hidden="true">
+                    aria-hidden="true">
                     <?= strtoupper(mb_substr($user['display_name'], 0, 1)) ?>
                 </div>
             <?php endif; ?>
             <div>
-                <h1 class="h4 fw-bold mb-0"><?= clean($user['display_name']) ?></h1>
+                <h1 class="h4 fw-bold mb-0 text-white"><?= clean($user['display_name']) ?></h1>
                 <div class="text-muted">@<?= clean($user['username']) ?></div>
                 <div class="text-muted small mt-1">
                     <i class="bi bi-calendar3 me-1" aria-hidden="true"></i>
@@ -116,21 +116,21 @@ $orderStatusLabels = [
     <ul class="nav nav-tabs dashboard-tabs mb-4" id="dashTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="listingsTab" data-bs-toggle="tab" data-bs-target="#listingsPane"
-                    type="button" role="tab" aria-controls="listingsPane" aria-selected="true">
+                type="button" role="tab" aria-controls="listingsPane" aria-selected="true">
                 <i class="bi bi-tags me-1" aria-hidden="true"></i>My Listings
                 <span class="badge bg-secondary ms-1"><?= count($myListings) ?></span>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="purchasesTab" data-bs-toggle="tab" data-bs-target="#purchasesPane"
-                    type="button" role="tab" aria-controls="purchasesPane" aria-selected="false">
+                type="button" role="tab" aria-controls="purchasesPane" aria-selected="false">
                 <i class="bi bi-bag me-1" aria-hidden="true"></i>My Purchases
                 <span class="badge bg-secondary ms-1"><?= count($myOrders) ?></span>
             </button>
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="salesTab" data-bs-toggle="tab" data-bs-target="#salesPane"
-                    type="button" role="tab" aria-controls="salesPane" aria-selected="false">
+                type="button" role="tab" aria-controls="salesPane" aria-selected="false">
                 <i class="bi bi-cash-coin me-1" aria-hidden="true"></i>My Sales
                 <span class="badge bg-secondary ms-1"><?= count($mySales) ?></span>
             </button>
@@ -168,11 +168,11 @@ $orderStatusLabels = [
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <img src="<?= $item['primary_image'] ? '/' . clean($item['primary_image']) : '/assets/images/placeholder.php' ?>"
-                                                 alt="<?= clean($item['title']) ?>"
-                                                 class="rounded" width="40" height="40" style="object-fit:cover">
+                                                alt="<?= clean($item['title']) ?>"
+                                                class="rounded" width="40" height="40" style="object-fit:cover">
                                             <div>
                                                 <a href="/listing.php?id=<?= (int)$item['listing_id'] ?>"
-                                                   class="fw-semibold text-decoration-none text-reset small">
+                                                    class="fw-semibold text-decoration-none text-reset small">
                                                     <?= clean(mb_strimwidth($item['title'], 0, 50, '…')) ?>
                                                 </a>
                                                 <div class="text-muted" style="font-size:0.75rem"><?= clean($item['category_name']) ?></div>
@@ -183,9 +183,9 @@ $orderStatusLabels = [
                                     <td>
                                         <!-- Inline status toggle -->
                                         <select class="form-select form-select-sm status-toggle"
-                                                data-listing-id="<?= (int)$item['listing_id'] ?>"
-                                                data-csrf="<?= clean($_SESSION['csrf_token']) ?>"
-                                                aria-label="Listing status">
+                                            data-listing-id="<?= (int)$item['listing_id'] ?>"
+                                            data-csrf="<?= clean($_SESSION['csrf_token']) ?>"
+                                            aria-label="Listing status">
                                             <?php foreach ($statusLabels as $val => [$label, $color]): ?>
                                                 <option value="<?= $val ?>" <?= $item['status'] === $val ? 'selected' : '' ?>>
                                                     <?= $label ?>
@@ -198,15 +198,15 @@ $orderStatusLabels = [
                                     <td>
                                         <div class="d-flex gap-1">
                                             <a href="/edit-listing.php?id=<?= (int)$item['listing_id'] ?>"
-                                               class="btn btn-sm btn-outline-secondary"
-                                               aria-label="Edit <?= clean($item['title']) ?>">
+                                                class="btn btn-sm btn-outline-secondary"
+                                                aria-label="Edit <?= clean($item['title']) ?>">
                                                 <i class="bi bi-pencil" aria-hidden="true"></i>
                                             </a>
                                             <button type="button"
-                                                    class="btn btn-sm btn-outline-danger delete-listing-btn"
-                                                    data-listing-id="<?= (int)$item['listing_id'] ?>"
-                                                    data-title="<?= clean($item['title']) ?>"
-                                                    aria-label="Delete <?= clean($item['title']) ?>">
+                                                class="btn btn-sm btn-outline-danger delete-listing-btn"
+                                                data-listing-id="<?= (int)$item['listing_id'] ?>"
+                                                data-title="<?= clean($item['title']) ?>"
+                                                aria-label="Delete <?= clean($item['title']) ?>">
                                                 <i class="bi bi-trash" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -252,8 +252,8 @@ $orderStatusLabels = [
                                     <td class="text-muted small"><?= clean(date('d M Y', strtotime($order['created_at']))) ?></td>
                                     <td>
                                         <a href="/order-confirmation.php?id=<?= (int)$order['order_id'] ?>"
-                                           class="btn btn-sm btn-outline-secondary"
-                                           aria-label="View order <?= (int)$order['order_id'] ?>">
+                                            class="btn btn-sm btn-outline-secondary"
+                                            aria-label="View order <?= (int)$order['order_id'] ?>">
                                             View
                                         </a>
                                     </td>
@@ -293,10 +293,10 @@ $orderStatusLabels = [
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <img src="<?= $sale['primary_image'] ? '/' . clean($sale['primary_image']) : '/assets/images/placeholder.php' ?>"
-                                                 alt="<?= clean($sale['title']) ?>"
-                                                 class="rounded" width="36" height="36" style="object-fit:cover">
+                                                alt="<?= clean($sale['title']) ?>"
+                                                class="rounded" width="36" height="36" style="object-fit:cover">
                                             <a href="/listing.php?id=<?= (int)$sale['listing_id'] ?>"
-                                               class="text-decoration-none text-reset small fw-semibold">
+                                                class="text-decoration-none text-reset small fw-semibold">
                                                 <?= clean(mb_strimwidth($sale['title'], 0, 45, '…')) ?>
                                             </a>
                                         </div>
@@ -320,7 +320,7 @@ $orderStatusLabels = [
 
 <!-- Delete confirmation modal -->
 <div class="modal fade" id="deleteListingModal" tabindex="-1"
-     aria-labelledby="deleteListingModalLabel" aria-hidden="true">
+    aria-labelledby="deleteListingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark border-secondary">
             <div class="modal-header border-secondary">

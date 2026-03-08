@@ -61,9 +61,9 @@ require_once __DIR__ . '/includes/header.php';
 
         <!-- Shipping form -->
         <div class="col-lg-7">
-            <div class="card border-0 mb-4">
-                <div class="card-body p-4">
-                    <h2 class="h5 fw-bold mb-3">Shipping Details</h2>
+            <div class="card border-0 mb-4 order-summary-card">
+                <div class="card-body p-4 ">
+                    <h2 class="h5 fw-bold mb-3 text-white">Shipping Details</h2>
 
                     <?php if (!empty($errors['general'])): ?>
                         <div class="alert alert-danger" role="alert"><?= clean($errors['general']) ?></div>
@@ -75,17 +75,17 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-3">
                             <label for="shipping_name" class="form-label">Full Name <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['shipping_name']) ? 'is-invalid' : '' ?>"
-                                   id="shipping_name" name="shipping_name" required maxlength="150"
-                                   value="<?= clean($old['shipping_name'] ?? '') ?>"
-                                   autocomplete="name">
+                                id="shipping_name" name="shipping_name" required maxlength="150"
+                                value="<?= clean($old['shipping_name'] ?? '') ?>"
+                                autocomplete="name">
                             <?php if (isset($errors['shipping_name'])): ?><div class="invalid-feedback"><?= clean($errors['shipping_name']) ?></div><?php endif; ?>
                         </div>
 
                         <div class="mb-3">
                             <label for="shipping_address" class="form-label">Shipping Address <span class="text-accent" aria-hidden="true">*</span></label>
                             <textarea class="form-control <?= isset($errors['shipping_address']) ? 'is-invalid' : '' ?>"
-                                      id="shipping_address" name="shipping_address" required rows="3"
-                                      autocomplete="street-address"><?= clean($old['shipping_address'] ?? '') ?></textarea>
+                                id="shipping_address" name="shipping_address" required rows="3"
+                                autocomplete="street-address"><?= clean($old['shipping_address'] ?? '') ?></textarea>
                             <?php if (isset($errors['shipping_address'])): ?><div class="invalid-feedback"><?= clean($errors['shipping_address']) ?></div><?php endif; ?>
                         </div>
 
@@ -93,17 +93,17 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="col-sm-4">
                                 <label for="shipping_postal" class="form-label">Postal Code <span class="text-accent" aria-hidden="true">*</span></label>
                                 <input type="text" class="form-control <?= isset($errors['shipping_postal']) ? 'is-invalid' : '' ?>"
-                                       id="shipping_postal" name="shipping_postal" required maxlength="20"
-                                       value="<?= clean($old['shipping_postal'] ?? '') ?>"
-                                       autocomplete="postal-code">
+                                    id="shipping_postal" name="shipping_postal" required maxlength="20"
+                                    value="<?= clean($old['shipping_postal'] ?? '') ?>"
+                                    autocomplete="postal-code">
                                 <?php if (isset($errors['shipping_postal'])): ?><div class="invalid-feedback"><?= clean($errors['shipping_postal']) ?></div><?php endif; ?>
                             </div>
                             <div class="col-sm-8">
                                 <label for="shipping_country" class="form-label">Country</label>
                                 <input type="text" class="form-control"
-                                       id="shipping_country" name="shipping_country"
-                                       value="<?= clean($old['shipping_country'] ?? 'Singapore') ?>"
-                                       maxlength="100" autocomplete="country-name">
+                                    id="shipping_country" name="shipping_country"
+                                    value="<?= clean($old['shipping_country'] ?? 'Singapore') ?>"
+                                    maxlength="100" autocomplete="country-name">
                             </div>
                         </div>
 
@@ -123,20 +123,20 @@ require_once __DIR__ . '/includes/header.php';
         <div class="col-lg-5">
             <div class="card border-0 order-summary-card">
                 <div class="card-body p-4">
-                    <h2 class="h5 fw-bold mb-3">Order Summary</h2>
-                    <ul class="list-group list-group-flush">
+                    <h2 class="h5 fw-bold mb-3 text-hotpink">Order Summary</h2>
+                    <ul class="list-group list-group-flush order-summary-card">
                         <?php foreach ($cartItems as $item): ?>
-                            <li class="list-group-item px-0 py-2 d-flex gap-3 align-items-center">
+                            <li class="list-group-item py-2 d-flex gap-3 align-items-center order-summary-card">
                                 <img src="<?= $item['primary_image'] ? '/' . clean($item['primary_image']) : '/assets/images/placeholder.php' ?>"
-                                     alt="<?= clean($item['title']) ?>"
-                                     class="rounded" width="48" height="48" style="object-fit:cover">
+                                    alt="<?= clean($item['title']) ?>"
+                                    class="rounded" width="48" height="48" style="object-fit:cover">
                                 <div class="flex-grow-1 min-w-0">
-                                    <div class="small fw-semibold text-truncate"><?= clean($item['title']) ?></div>
+                                    <div class="small fw-semibold text-truncate text-white"><?= clean($item['title']) ?></div>
                                     <div class="text-muted" style="font-size:0.78rem">
                                         Qty: <?= (int)$item['quantity'] ?> &bull; <?= clean($item['seller_display']) ?>
                                     </div>
                                 </div>
-                                <div class="small fw-semibold text-nowrap">
+                                <div class="small fw-semibold text-nowrap text-white">
                                     S$<?= number_format((float)$item['price'] * (int)$item['quantity'], 2) ?>
                                 </div>
                             </li>
@@ -144,8 +144,8 @@ require_once __DIR__ . '/includes/header.php';
                     </ul>
                     <hr>
                     <div class="d-flex justify-content-between fw-bold fs-5">
-                        <span>Total</span>
-                        <span>S$<?= number_format($total, 2) ?></span>
+                        <span class="text-white">Total</span>
+                        <span class="text-white">S$<?= number_format($total, 2) ?></span>
                     </div>
                 </div>
             </div>

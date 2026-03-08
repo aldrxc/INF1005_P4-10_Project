@@ -59,20 +59,20 @@ require_once __DIR__ . '/includes/header.php';
             </div>
 
             <!-- Order details card -->
-            <div class="card border-0 mb-4">
+            <div class="card border-0 mb-4 order-summary-card">
                 <div class="card-body p-4">
-                    <h2 class="h5 fw-bold mb-3">Order #<?= (int)$orderId ?></h2>
+                    <h2 class="h5 fw-bold mb-3 text-hotpink">Order #<?= (int)$orderId ?></h2>
 
                     <ul class="list-group list-group-flush mb-3">
                         <?php foreach ($orderItems as $item): ?>
-                            <li class="list-group-item px-0 d-flex gap-3 align-items-center">
+                            <li class="list-group-item d-flex gap-3 align-items-center order-summary-card">
                                 <img src="<?= $item['primary_image'] ? '/' . clean($item['primary_image']) : '/assets/images/placeholder.php' ?>"
-                                     alt="<?= clean($item['title']) ?>"
-                                     class="rounded" width="56" height="56" style="object-fit:cover">
+                                    alt="<?= clean($item['title']) ?>"
+                                    class="rounded" width="56" height="56" style="object-fit:cover">
                                 <div class="flex-grow-1">
                                     <div class="fw-semibold">
                                         <a href="/listing.php?id=<?= (int)$item['listing_id'] ?>"
-                                           class="text-decoration-none text-reset">
+                                            class="text-decoration-none text-reset">
                                             <?= clean($item['title']) ?>
                                         </a>
                                     </div>
@@ -81,14 +81,14 @@ require_once __DIR__ . '/includes/header.php';
                                         Qty: <?= (int)$item['quantity'] ?>
                                     </div>
                                 </div>
-                                <div class="fw-bold">S$<?= number_format((float)$item['price_paid'], 2) ?></div>
+                                <div class="fw-bold text-white">S$<?= number_format((float)$item['price_paid'], 2) ?></div>
                             </li>
                         <?php endforeach; ?>
                     </ul>
 
                     <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
-                        <span>Total Paid</span>
-                        <span>S$<?= number_format((float)$order['total_amount'], 2) ?></span>
+                        <span class="text-white">Total Paid</span>
+                        <span class="text-white">S$<?= number_format((float)$order['total_amount'], 2) ?></span>
                     </div>
 
                     <!-- Shipping info -->
