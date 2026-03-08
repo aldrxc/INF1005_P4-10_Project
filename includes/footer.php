@@ -70,10 +70,6 @@
 <script src="https://code.jquery.com/jquery-4.0.0.min.js"
     integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
     crossorigin="anonymous"></script>
-<<<<<<< HEAD
-
-=======
->>>>>>> db27cf9481c4e55c66c60eb2fe4cf9b7fb45410f
 <!-- Global JS -->
 <script src="/assets/js/main.js"></script>
 </body>
