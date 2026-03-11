@@ -21,7 +21,7 @@
 
             <!-- Quick links -->
             <div class="col-6 col-md-2 offset-md-1">
-                <h6 class="text-white fw-semibold mb-3">Explore</h6>
+                <h6 class="text-hotpink fw-semibold mb-3">Explore</h6>
                 <ul class="list-unstyled small">
                     <li><a href="/browse.php" class="footer-link">Browse Listings</a></li>
                     <li><a href="/browse.php?category=event-tickets" class="footer-link">Event Tickets</a></li>
@@ -31,7 +31,7 @@
             </div>
 
             <div class="col-6 col-md-2">
-                <h6 class="text-white fw-semibold mb-3">Account</h6>
+                <h6 class="text-hotpink fw-semibold mb-3">Account</h6>
                 <ul class="list-unstyled small">
                     <?php if (isLoggedIn()): ?>
                         <li><a href="/dashboard.php" class="footer-link">Dashboard</a></li>
@@ -46,7 +46,7 @@
             </div>
 
             <div class="col-md-3">
-                <h6 class="text-white fw-semibold mb-3">INF1005 WST</h6>
+                <h6 class="text-hotpink fw-semibold mb-3">INF1005 WST</h6>
                 <p class="text-muted small mb-1">Lab P4 — Team 10</p>
                 <p class="text-muted small">Built with Bootstrap 5, PHP &amp; MySQL</p>
             </div>

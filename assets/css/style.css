@@ -136,12 +136,12 @@ h6 {
 
 /* --------------------------------------------------------
    Navigation
-   -------------------------------------------------------- */
+-------------------------------------------------------- */
 #mainNav {
   background-color: rgba(13, 13, 13, 0.95);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--mv-border);
-  height: var(--mv-nav-height);
+  min-height: var(--mv-nav-height);
   z-index: 1030;
 }
 
@@ -149,24 +149,111 @@ h6 {
   color: var(--mv-text);
   font-size: 1.2rem;
 }
+
+#mainNav .navbar-brand:hover {
+  color: var(--mv-accent);
+}
+
+#mainNav .bi-music-note-list::before {
+  color: var(--mv-accent);
+}
+
 #mainNav .nav-link {
   color: var(--mv-text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   padding: 0.5rem 0.75rem;
-  transition: color var(--mv-transition);
+  transition:
+    color var(--mv-transition),
+    background-color var(--mv-transition);
 }
+
 #mainNav .nav-link:hover,
 #mainNav .nav-link.active {
   color: var(--mv-accent);
 }
+
 #mainNav .nav-link.active {
   font-weight: 600;
 }
 
+#mainNav .navbar-toggler {
+  padding: 0.35rem 0.55rem;
+}
+
+#mainNav .navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.nav-mobile-tools .navbar-toggler {
+  margin-left: 0.15rem;
+}
+
+.nav-primary {
+  gap: 0.25rem;
+}
+
+.nav-right {
+  width: 100%;
+}
+
+.nav-search {
+  width: 100%;
+}
+
+.nav-search .input-group {
+  width: 100%;
+}
+
+.nav-search .form-control {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--mv-border);
+  color: var(--mv-text);
+}
+
+.nav-search .form-control::placeholder {
+  color: var(--mv-text-muted);
+}
+
+.nav-search .form-control:focus {
+  box-shadow: none;
+  border-color: var(--mv-accent);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--mv-text);
+}
+
+.nav-icon-link {
+  color: var(--mv-text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  transition:
+    background-color var(--mv-transition),
+    color var(--mv-transition);
+}
+
+.nav-icon-link:hover {
+  color: var(--mv-accent);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-user-toggle {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.nav-sell-btn {
+  white-space: nowrap;
+}
+
 .cart-badge {
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 2px;
+  right: 0;
   font-size: 0.65rem;
   min-width: 18px;
   height: 18px;
@@ -174,12 +261,110 @@ h6 {
   padding: 0 4px;
 }
 
+/* Mobile */
+/* Mobile */
+@media (max-width: 991.98px) {
+  #mainNav .container {
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  #mainNav .navbar-brand {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .nav-mobile-tools {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  #mainNav .navbar-collapse {
+    width: 100%;
+    flex-basis: 100%;
+    margin-top: 0.9rem;
+    padding: 1rem;
+    background: rgba(13, 13, 13, 0.98);
+    border: 1px solid var(--mv-border);
+    border-radius: 16px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
+  }
+
+  .nav-primary {
+    margin-bottom: 0;
+    gap: 0;
+  }
+
+  .nav-primary .nav-item + .nav-item {
+    margin-top: 0.4rem;
+  }
+
+  .nav-primary .nav-link {
+    padding: 0.35rem 0;
+  }
+
+  .nav-search {
+    width: 100%;
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--mv-border);
+    margin-bottom: 0;
+  }
+
+  .nav-search .input-group {
+    width: 100%;
+  }
+
+  .nav-search .form-control,
+  .nav-search .btn {
+    min-height: 42px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .nav-mobile-tools {
+    display: none !important;
+  }
+
+  #mainNav .navbar-collapse {
+    position: static;
+    background: transparent;
+    border-top: 0;
+    padding: 0;
+  }
+
+  .nav-primary {
+    align-items: center;
+    margin-right: 1.25rem;
+  }
+
+  .nav-search {
+    width: 320px;
+    margin-bottom: 0;
+  }
+
+  .nav-actions {
+    width: auto;
+    flex-wrap: nowrap;
+  }
+
+  .nav-user-toggle span {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
 /* --------------------------------------------------------
    Hero Section
    -------------------------------------------------------- */
 .hero-section {
   position: relative;
-  background-image: url("/assets/images/hero-bg.jpg");
+  background-image: url("/assets/images/hero-image.webp");
   background-size: cover;
   background-position: center;
   min-height: 520px;
@@ -336,6 +521,115 @@ h6 {
 }
 .hiw-step {
   padding: 1.5rem;
+}
+
+/* --------------------------------------------------------
+   Reviews Section (index.php)
+   -------------------------------------------------------- */
+
+.section-title {
+  font-weight: 700;
+}
+
+.testimonial-card {
+  background-color: #fff;
+  border: 1px solid var(--mv-border);
+  border-radius: var(--mv-radius);
+  padding: 25px;
+  height: 100%;
+  transition:
+    transform var(--mv-transition),
+    box-shadow var(--mv-transition),
+    border-color var(--mv-transition);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--mv-accent);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.12),
+    0 0 0 1px var(--mv-accent),
+    0 0 18px rgba(255, 0, 140, 0.18);
+}
+
+.stars {
+  color: var(--mv-accent);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.testimonial-card h5 {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.testimonial-card p {
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.username {
+  color: #777;
+  font-size: 14px;
+}
+
+/* --------------------------------------------------------
+   Promo Section
+-------------------------------------------------------- */
+
+.promo-section {
+  background: linear-gradient(135deg, #ff0f7b, #a000ff);
+  color: #fff;
+  padding: 20px 0;
+  margin-bottom: -3rem;
+}
+
+.promo-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.promo-subtitle {
+  font-size: 1.05rem;
+  opacity: 0.9;
+  max-width: 520px;
+  margin-bottom: 25px;
+}
+
+/* Buttons */
+
+.promo-buttons .btn {
+  padding: 10px 22px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+/* Phone placeholder */
+
+.phone-placeholder {
+  width: 260px;
+  height: 420px;
+  margin: auto;
+  border-radius: 24px;
+  border: 3px dashed rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.phone-mockup {
+  max-width: 500px;
+  width: auto;
+  height: 550px;
+  border-radius: 24px;
+  background-image: url("/assets/images/phone-preview.png");
+  background-size: cover;
+  background-position: center;
 }
 
 /* --------------------------------------------------------

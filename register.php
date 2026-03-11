@@ -36,7 +36,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <div class="text-center mb-4">
                         <i class="bi bi-music-note-list display-5 text-accent" aria-hidden="true"></i>
-                        <h1 class="h3 mt-2 fw-bold">Join MerchVault</h1>
+                        <h1 class="h3 mt-2 fw-bold text-white">Join MerchVault</h1>
                         <p class="text-muted small">Buy and sell music merch with the community.</p>
                     </div>
 
@@ -53,11 +53,11 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-3">
                             <label for="username" class="form-label">Username <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['username']) ? 'is-invalid' : '' ?>"
-                                   id="username" name="username" required
-                                   maxlength="50" pattern="[A-Za-z0-9_]+"
-                                   value="<?= clean($old['username'] ?? '') ?>"
-                                   autocomplete="username"
-                                   aria-describedby="usernameHelp">
+                                id="username" name="username" required
+                                maxlength="50" pattern="[A-Za-z0-9_]+"
+                                value="<?= clean($old['username'] ?? '') ?>"
+                                autocomplete="username"
+                                aria-describedby="usernameHelp">
                             <div id="usernameHelp" class="form-text">Letters, numbers and underscores only.</div>
                             <?php if (isset($errors['username'])): ?>
                                 <div class="invalid-feedback"><?= clean($errors['username']) ?></div>
@@ -68,10 +68,10 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
-                                   id="email" name="email" required
-                                   maxlength="255"
-                                   value="<?= clean($old['email'] ?? '') ?>"
-                                   autocomplete="email">
+                                id="email" name="email" required
+                                maxlength="255"
+                                value="<?= clean($old['email'] ?? '') ?>"
+                                autocomplete="email">
                             <?php if (isset($errors['email'])): ?>
                                 <div class="invalid-feedback"><?= clean($errors['email']) ?></div>
                             <?php endif; ?>
@@ -81,10 +81,10 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-3">
                             <label for="display_name" class="form-label">Display Name <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['display_name']) ? 'is-invalid' : '' ?>"
-                                   id="display_name" name="display_name" required
-                                   maxlength="100"
-                                   value="<?= clean($old['display_name'] ?? '') ?>"
-                                   autocomplete="name">
+                                id="display_name" name="display_name" required
+                                maxlength="100"
+                                value="<?= clean($old['display_name'] ?? '') ?>"
+                                autocomplete="name">
                             <?php if (isset($errors['display_name'])): ?>
                                 <div class="invalid-feedback"><?= clean($errors['display_name']) ?></div>
                             <?php endif; ?>
@@ -95,12 +95,12 @@ require_once __DIR__ . '/includes/header.php';
                             <label for="password" class="form-label">Password <span class="text-accent" aria-hidden="true">*</span></label>
                             <div class="input-group">
                                 <input type="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>"
-                                       id="password" name="password" required
-                                       minlength="8"
-                                       autocomplete="new-password"
-                                       aria-describedby="passwordHelp">
+                                    id="password" name="password" required
+                                    minlength="8"
+                                    autocomplete="new-password"
+                                    aria-describedby="passwordHelp">
                                 <button class="btn btn-outline-secondary" type="button" id="togglePassword"
-                                        aria-label="Show or hide password">
+                                    aria-label="Show or hide password">
                                     <i class="bi bi-eye" aria-hidden="true"></i>
                                 </button>
                                 <?php if (isset($errors['password'])): ?>
@@ -114,8 +114,8 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-4">
                             <label for="confirm_password" class="form-label">Confirm Password <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="password" class="form-control <?= isset($errors['confirm_password']) ? 'is-invalid' : '' ?>"
-                                   id="confirm_password" name="confirm_password" required
-                                   autocomplete="new-password">
+                                id="confirm_password" name="confirm_password" required
+                                autocomplete="new-password">
                             <?php if (isset($errors['confirm_password'])): ?>
                                 <div class="invalid-feedback"><?= clean($errors['confirm_password']) ?></div>
                             <?php endif; ?>
@@ -139,38 +139,38 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-// Toggle password visibility
-document.getElementById('togglePassword').addEventListener('click', function () {
-    const pwField = document.getElementById('password');
-    const icon    = this.querySelector('i');
-    if (pwField.type === 'password') {
-        pwField.type = 'text';
-        icon.classList.replace('bi-eye', 'bi-eye-slash');
-        this.setAttribute('aria-label', 'Hide password');
-    } else {
-        pwField.type = 'password';
-        icon.classList.replace('bi-eye-slash', 'bi-eye');
-        this.setAttribute('aria-label', 'Show password');
-    }
-});
-
-// Client-side: confirm passwords match before submit
-document.getElementById('registerForm').addEventListener('submit', function (e) {
-    const pw  = document.getElementById('password').value;
-    const cpw = document.getElementById('confirm_password').value;
-    if (pw !== cpw) {
-        e.preventDefault();
-        document.getElementById('confirm_password').classList.add('is-invalid');
-        // Append or reuse feedback element
-        let fb = document.querySelector('#confirm_password ~ .invalid-feedback');
-        if (!fb) {
-            fb = document.createElement('div');
-            fb.className = 'invalid-feedback';
-            document.getElementById('confirm_password').after(fb);
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const pwField = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (pwField.type === 'password') {
+            pwField.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+            this.setAttribute('aria-label', 'Hide password');
+        } else {
+            pwField.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+            this.setAttribute('aria-label', 'Show password');
         }
-        fb.textContent = 'Passwords do not match.';
-    }
-});
+    });
+
+    // Client-side: confirm passwords match before submit
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        const pw = document.getElementById('password').value;
+        const cpw = document.getElementById('confirm_password').value;
+        if (pw !== cpw) {
+            e.preventDefault();
+            document.getElementById('confirm_password').classList.add('is-invalid');
+            // Append or reuse feedback element
+            let fb = document.querySelector('#confirm_password ~ .invalid-feedback');
+            if (!fb) {
+                fb = document.createElement('div');
+                fb.className = 'invalid-feedback';
+                document.getElementById('confirm_password').after(fb);
+            }
+            fb.textContent = 'Passwords do not match.';
+        }
+    });
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
