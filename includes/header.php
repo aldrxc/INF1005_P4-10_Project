@@ -99,7 +99,9 @@ function navActive(string $path): string
                     </div>
                 <?php else: ?>
                     <a class="nav-link px-2" href="/login.php">Log In</a>
-                    <a class="btn btn-accent btn-sm" href="/register.php">Sign Up</a>
+                    <a class="btn btn-accent btn-sm" href="/create-listing.php">
+                        <i class="bi bi-plus-circle me-1" aria-hidden="true"></i>Sell
+                    </a>
                 <?php endif; ?>
 
                 <!-- Mobile toggle -->
