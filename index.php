@@ -6,7 +6,7 @@ require_once __DIR__ . '/includes/sanitize.php';
 
 startSession();
 
-$pageTitle = 'Home — Buy &amp; Sell Music Merch';
+$pageTitle = 'Home — Buy & Sell Music Merch';
 $pdo = getDB();
 
 // Featured listings: latest 8 available
@@ -105,7 +105,7 @@ require_once __DIR__ . '/includes/header.php';
         <?php foreach ($categories as $cat): ?>
             <div class="col">
                 <a href="/browse.php?category=<?= clean($cat['slug']) ?>"
-                   class="category-card card text-center text-decoration-none h-100 p-3">
+                    class="category-card card text-center text-decoration-none h-100 p-3">
                     <i class="bi <?= clean($cat['icon_class'] ?? 'bi-tag') ?> category-icon" aria-hidden="true"></i>
                     <div class="category-name mt-2"><?= clean($cat['name']) ?></div>
                     <div class="category-count small text-muted"><?= (int)$cat['listing_count'] ?> listings</div>
@@ -129,7 +129,7 @@ require_once __DIR__ . '/includes/header.php';
             <i class="bi bi-shop display-4" aria-hidden="true"></i>
             <p class="mt-3">No listings yet. Be the first to sell!</p>
             <a href="<?= isLoggedIn() ? '/create-listing.php' : '/register.php' ?>"
-               class="btn btn-accent">
+                class="btn btn-accent">
                 <?= isLoggedIn() ? 'Create a Listing' : 'Sign Up &amp; Sell' ?>
             </a>
         </div>
@@ -147,7 +147,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- How It Works -->
 <section class="how-it-works py-5 fade-in-section" aria-labelledby="howHeading">
     <div class="container">
-        <h2 id="howHeading" class="section-heading text-center mb-5">How It Works</h2>
+        <h2 id="howHeading" class="section-heading mb-5">Sell and buy every kinda thing on MerchVault</h2>
         <div class="row gy-4 text-center">
             <div class="col-md-4">
                 <div class="hiw-step">
@@ -181,6 +181,123 @@ require_once __DIR__ . '/includes/header.php';
             <a href="/register.php" class="btn btn-accent btn-lg px-5">
                 Get Started — It's Free
             </a>
+        </div>
+    </div>
+</section>
+
+<!-- Review Section (Not Dyanmic maybe in the future -->
+<section class="community-section py-5">
+    <div class="container">
+
+        <h2 class="section-title mb-5">
+            Transact with a trusted local community
+        </h2>
+
+        <div class="row g-4">
+
+            <!-- Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <h5>Awesome community</h5>
+                    <p>
+                        Safe, reliable & easy to use user interface. Overall
+                        an awesome community to be in! 😊
+                    </p>
+                    <span class="username">@md.helmi</span>
+                </div>
+            </div>
+
+            <!-- Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <h5>Decluttering and bargain finds</h5>
+                    <p>
+                        Love that we can make the most out of items. Helps me
+                        to clear my things without the guilt of throwing and
+                        purchase keeping the environment in mind.
+                    </p>
+                    <span class="username">@chrischross</span>
+                </div>
+            </div>
+
+            <!-- Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <h5>Great for the earth</h5>
+                    <p>
+                        Great way to save money and earth resources by buying
+                        secondhand; and giving new owners to things that are
+                        still working in great condition.
+                    </p>
+                    <span class="username">@mint_sg</span>
+                </div>
+            </div>
+
+            <!-- Card -->
+            <div class="col-md-6 col-lg-3">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <h5>Easy to buy and sell</h5>
+                    <p>
+                        Easy and convenient platform. It's convenient to buy
+                        and sell stuff. Get to chat directly with other users.
+                    </p>
+                    <span class="username">@joeboxer</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="promo-section">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <!-- Left Side (Placeholder Image) -->
+            <div class="col-lg-5 text-center mb-4 mb-lg-0 justify-content-center">
+                <!-- <div class="phone-placeholder">
+                    Phone / App Preview
+                </div> -->
+                <div class="phone-mockup"></div>
+            </div>
+
+            <!-- Right Side (Text) -->
+            <div class="col-lg-7 text-center text-lg-start">
+
+                <h2 class="promo-title">
+                    Everyone Wins on MerchVault
+                </h2>
+
+                <p class="promo-subtitle">
+                    Buy, sell and discover music merch from fans like you.
+                    List your items, find rare collectibles and connect with
+                    the community in one place.
+                </p>
+
+                <div class="promo-buttons d-flex flex-wrap gap-3 align-items-center">
+
+                    <a href="#">
+                        <img
+                            src="assets/images/apple_store.svg"
+                            alt="Download on the App Store"
+                            class="store-badge">
+                    </a>
+
+                    <a href="#">
+                        <img
+                            src="assets/images/gplay.svg"
+                            alt="Get it on Google Play"
+                            class="store-badge">
+                    </a>
+
+                </div>
+
+            </div>
+
         </div>
     </div>
 </section>
