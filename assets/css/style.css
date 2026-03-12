@@ -13,8 +13,8 @@
   --mv-surface-2: #1a1a2e;
   --mv-surface-3: #1e293b;
   --mv-border: rgba(255, 255, 255, 0.08);
-  --mv-accent: #e91e8c;
-  --mv-accent-hover: #c4166f;
+  --mv-accent: #f03ea1;
+  --mv-accent-hover: #db2288;
   --mv-accent-subtle: #3d0825;
   --mv-cyan: #00e5ff;
   --mv-text: #f1f5f9;
@@ -96,8 +96,8 @@ h6 {
 .btn-accent {
   background-color: var(--mv-accent);
   border-color: var(--mv-accent);
-  color: #fff;
-  font-weight: 600;
+  color: #0d0d0d;
+  font-weight: 650;
   transition:
     background-color var(--mv-transition),
     transform var(--mv-transition);
@@ -106,7 +106,7 @@ h6 {
 .btn-accent:focus {
   background-color: var(--mv-accent-hover);
   border-color: var(--mv-accent-hover);
-  color: #fff;
+  color: #0d0d0d;
   transform: translateY(-1px);
 }
 .btn-accent:disabled,
@@ -121,7 +121,7 @@ h6 {
 }
 .btn-outline-accent:hover {
   background-color: var(--mv-accent);
-  color: #fff;
+  color: #0d0d0d;
 }
 
 .bg-accent {
