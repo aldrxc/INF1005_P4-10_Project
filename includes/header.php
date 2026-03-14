@@ -6,6 +6,7 @@ if (!isset($pageTitle)) {
 }
 $flash = getFlash();
 $cartCount = 0;
+$unreadMessages = 0;
 if (isLoggedIn()) {
     try {
         $stmt = getDB()->prepare("SELECT COALESCE(SUM(quantity),0) AS cnt FROM cart_items WHERE user_id = ?");
@@ -14,6 +15,11 @@ if (isLoggedIn()) {
     } catch (Exception $e) {
         $cartCount = 0;
     }
+    try {
+        $stmt = getDB()->prepare("SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_read = 0");
+        $stmt->execute([getCurrentUserId()]);
+        $unreadMessages = (int)$stmt->fetchColumn();
+    } catch (Exception $e) {}
 }
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 function navActive(string $path): string
@@ -133,6 +139,11 @@ function navActive(string $path): string
                     <li class="nav-item">
                         <a class="nav-link <?= navActive('/about.php') ?>" href="/about.php">About</a>
                     </li>
+                    <?php if (isAdmin()): ?>
+                    <li class="nav-item">
+                        <a class="nav-link admin-link <?= navActive('/admin/') ?>" href="/admin/">Admin</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
 
                 <div class="nav-right ms-lg-auto d-lg-flex align-items-lg-center justify-content-lg-end">
@@ -152,6 +163,14 @@ function navActive(string $path): string
                     <?php if (isLoggedIn()): ?>
                         <!-- Desktop only actions -->
                         <div class="nav-actions d-none d-lg-flex align-items-center gap-2 flex-wrap">
+                            <a class="nav-icon-link position-relative" href="/messages.php" aria-label="Messages">
+                                <i class="bi bi-chat-dots fs-5" aria-hidden="true"></i>
+                                <?php if ($unreadMessages > 0): ?>
+                                <span class="cart-badge badge rounded-pill bg-accent" id="msgBadge">
+                                    <?= $unreadMessages ?>
+                                </span>
+                                <?php endif; ?>
+                            </a>
                             <a class="nav-icon-link position-relative" href="/cart.php" aria-label="Shopping cart">
                                 <i class="bi bi-cart3 fs-5" aria-hidden="true"></i>
                                 <span class="cart-badge badge rounded-pill bg-accent"

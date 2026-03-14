@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(html|css|js|json|md\\)$\")",
+      "Bash(head -30 handlers/*.php)",
+      "Bash(head -25 handlers/*.php api/*.php admin/*.php)"
+    ]
+  }
+}

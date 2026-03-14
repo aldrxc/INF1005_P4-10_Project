@@ -69,3 +69,21 @@ function getFlash(): ?array {
     }
     return null;
 }
+
+/**
+ * Returns true if the logged-in user is an admin.
+ */
+function isAdmin(): bool {
+    return isLoggedIn() && ($_SESSION['role'] ?? '') === 'admin';
+}
+
+/**
+ * Redirect away if not admin.
+ */
+function requireAdmin(): void {
+    requireLogin();
+    if (!isAdmin()) {
+        header('Location: /index.php');
+        exit;
+    }
+}

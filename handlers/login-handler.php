@@ -29,7 +29,7 @@ if ($identifier === '' || $password === '') {
 // Find user by email OR username
 $pdo  = getDB();
 $stmt = $pdo->prepare("
-    SELECT user_id, username, display_name, password_hash, is_active
+    SELECT user_id, username, display_name, password_hash, is_active, role
     FROM users
     WHERE email = ? OR username = ?
     LIMIT 1
@@ -56,6 +56,7 @@ session_regenerate_id(true);
 $_SESSION['user_id']      = (int)$user['user_id'];
 $_SESSION['username']     = $user['username'];
 $_SESSION['display_name'] = $user['display_name'];
+$_SESSION['role']         = $user['role'];
 
 setFlash('Welcome back, ' . htmlspecialchars($user['display_name'], ENT_QUOTES, 'UTF-8') . '!', 'success');
 

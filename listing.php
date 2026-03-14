@@ -282,6 +282,13 @@ $condLabels = [
                         </button>
                     <?php endif; ?>
 
+                    <?php if (!$isOwner && isLoggedIn()): ?>
+                        <a href="/conversation.php?listing_id=<?= (int)$listingId ?>&with=<?= (int)$listing['seller_id'] ?>"
+                           class="btn btn-outline-secondary">
+                            <i class="bi bi-chat-dots me-1" aria-hidden="true"></i>Message Seller
+                        </a>
+                    <?php endif; ?>
+
                     <!-- Share -->
                     <button type="button" id="shareBtn" class="btn btn-outline-secondary"
                         aria-label="Copy listing link to clipboard">

@@ -1180,3 +1180,46 @@ h2.h6.fw-bold.mb-2 {
     max-height: 320px;
   }
 }
+
+/* --------------------------------------------------------
+   Admin nav link
+   -------------------------------------------------------- */
+#mainNav .nav-link.admin-link { color: var(--mv-accent); }
+
+/* --------------------------------------------------------
+   Chat / messaging
+   -------------------------------------------------------- */
+.chat-bubble {
+    max-width: 70%;
+    padding: 0.5rem 0.85rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+.chat-bubble.mine {
+    background-color: var(--mv-accent);
+    color: #fff;
+    border-bottom-right-radius: 0.25rem;
+    margin-left: auto;
+}
+.chat-bubble.theirs {
+    background-color: var(--mv-surface-2);
+    color: var(--mv-text);
+    border-bottom-left-radius: 0.25rem;
+}
+.chat-window {
+    height: 420px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--mv-surface-1);
+    border: 1px solid var(--mv-border);
+    border-radius: 0.5rem;
+}
+.message-time {
+    font-size: 0.7rem;
+    color: var(--mv-text-muted);
+    margin-top: 2px;
+}
