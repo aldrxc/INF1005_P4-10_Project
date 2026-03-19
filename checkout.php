@@ -36,7 +36,7 @@ foreach ($cartItems as $item) {
         header('Location: /cart.php');
         exit();
     }
-    // Student-style addition
+
     $total = $total + ($item['price'] * $item['quantity']);
 }
 
@@ -185,7 +185,7 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-// Custom JavaScript to fulfill the rubric requirement for client-side validation
+
 function validateCheckout() {
     var postalInput = document.getElementById('shipping_postal');
     var postalError = document.getElementById('postalError');
