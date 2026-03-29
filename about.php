@@ -20,7 +20,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="container py-5 fade-in-section" aria-labelledby="storyHeading">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <h2 id="storyHeading" class="section-heading mb-3">Our Story</h2>
+            <h2 id="storyHeading" class="section-heading mb-3 text-center">Our Story</h2>
             <p class="text-muted">
                 MerchVault was born out of a simple frustration: finding a good home for concert tees,
                 rare vinyls, and unwanted event tickets meant navigating generic marketplaces that had no
@@ -46,27 +46,51 @@ require_once __DIR__ . '/includes/header.php';
         <h2 id="teamHeading" class="section-heading text-center mb-5">Meet the Team</h2>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-5 g-4 justify-content-center">
 
-            <?php
-            // Team members — update names/roles as needed
-            $team = [
-                ['name' => 'Team Member 1', 'role' => 'Full-Stack Developer', 'icon' => 'bi-code-slash'],
-                ['name' => 'Team Member 2', 'role' => 'Frontend & UI/UX',     'icon' => 'bi-palette'],
-                ['name' => 'Team Member 3', 'role' => 'Backend & Database',   'icon' => 'bi-database'],
-                ['name' => 'Team Member 4', 'role' => 'Security & Testing',   'icon' => 'bi-shield-check'],
-                ['name' => 'Team Member 5', 'role' => 'Project Manager',      'icon' => 'bi-kanban'],
-            ];
-            foreach ($team as $member):
-            ?>
-                <div class="col">
-                    <div class="team-card card text-center h-100 p-4 border-0">
-                        <div class="team-avatar mx-auto mb-3">
-                            <i class="bi <?= $member['icon'] ?>" aria-hidden="true"></i>
-                        </div>
-                        <h3 class="h6 fw-bold mb-1 text-hotpink"><?= htmlspecialchars($member['name'], ENT_QUOTES, 'UTF-8') ?></h3>
-                        <p class="text-muted small mb-0"><?= htmlspecialchars($member['role'], ENT_QUOTES, 'UTF-8') ?></p>
+            <div class="col">
+                <div class="team-card card text-center h-100 p-4 border-0">
+                    <div class="team-avatar mx-auto mb-3">
+                        <i class="bi bi-code-slash" aria-hidden="true"></i>
                     </div>
+                    <h3 class="h6 fw-bold mb-1 text-hotpink">Ho Zhi Jin Ivan</h3>
+                    <p class="text-muted small mb-0">Full-Stack Developer</p>
                 </div>
-            <?php endforeach; ?>
+            </div>
+            <div class="col">
+                <div class="team-card card text-center h-100 p-4 border-0">
+                    <div class="team-avatar mx-auto mb-3">
+                        <i class="bi bi-palette" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1 text-hotpink">Long Chay Han</h3>
+                    <p class="text-muted small mb-0">Backend &amp; Database</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="team-card card text-center h-100 p-4 border-0">
+                    <div class="team-avatar mx-auto mb-3">
+                        <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1 text-hotpink">Wong Zhen Jie</h3>
+                    <p class="text-muted small mb-0">Security &amp; Testing</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="team-card card text-center h-100 p-4 border-0">
+                    <div class="team-avatar mx-auto mb-3">
+                        <i class="bi bi-kanban" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1 text-hotpink">Tan Sze Loke Aldric</h3>
+                    <p class="text-muted small mb-0">Project Manager</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="team-card card text-center h-100 p-4 border-0">
+                    <div class="team-avatar mx-auto mb-3">
+                        <i class="bi bi-database" aria-hidden="true"></i>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1 text-hotpink">Low Dong Han</h3>
+                    <p class="text-muted small mb-0">Frontend &amp; UI/UX</p>
+                </div>
+            </div>
 
         </div>
         <p class="text-center text-muted small mt-4">
@@ -136,24 +160,8 @@ require_once __DIR__ . '/includes/header.php';
                     </h3>
                     <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Head" data-bs-parent="#faqAccordion">
                         <div class="accordion-body text-muted">
-                            Absolutely. When you create a listing, choose "Event Tickets" as the category
+                            Absolutely! When you create a listing, choose "Event Tickets" as the category
                             to unlock ticket-specific fields like event date, venue, and seat details.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h3 class="accordion-header" id="faq3Head">
-                        <button class="accordion-button collapsed" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#faq3"
-                            aria-expanded="false" aria-controls="faq3">
-                            How do I update the status of my listing?
-                        </button>
-                    </h3>
-                    <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Head" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body text-muted">
-                            Head to your Dashboard → My Listings. Each listing has a status dropdown
-                            (Available / Reserved / Sold) you can update instantly.
                         </div>
                     </div>
                 </div>
@@ -175,18 +183,32 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <div class="accordion-item">
+                    <h3 class="accordion-header" id="faq3Head">
+                        <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#faq3"
+                            aria-expanded="false" aria-controls="faq3">
+                            Is international shipping available for physical merchandise?
+                        </button>
+                    </h3>
+                    <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Head" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted">
+                            No unfortunately, currently we only support shipping within Singapore. We recommend meeting locally for ticket exchanges or merch handoffs.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
                     <h3 class="accordion-header" id="faq5Head">
                         <button class="accordion-button collapsed" type="button"
                             data-bs-toggle="collapse" data-bs-target="#faq5"
                             aria-expanded="false" aria-controls="faq5">
-                            How is my data kept secure?
+                            How do I contact the support team?
                         </button>
                     </h3>
                     <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Head" data-bs-parent="#faqAccordion">
                         <div class="accordion-body text-muted">
-                            Passwords are hashed using bcrypt. All database queries use prepared statements
-                            to prevent SQL injection. Every form is protected with CSRF tokens. All user
-                            content is sanitised to prevent cross-site scripting (XSS).
+                            Please send us an email at <a class="text-hotpink" href="mailto:support@MusicVault.com">support@musicvault.com</a>.
+                            We will do our best to respond to you within 3-5 working days.
                         </div>
                     </div>
                 </div>
