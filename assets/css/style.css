@@ -413,6 +413,12 @@ h6 {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border);
   border-radius: var(--mv-radius);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   color: var(--mv-text-muted);
   transition:
     background-color var(--mv-transition),
@@ -429,6 +435,15 @@ h6 {
 }
 .category-icon {
   font-size: 2rem;
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.category-icon::before {
+  vertical-align: 0;
 }
 .category-name {
   font-weight: 600;
@@ -1184,42 +1199,44 @@ h2.h6.fw-bold.mb-2 {
 /* --------------------------------------------------------
    Admin nav link
    -------------------------------------------------------- */
-#mainNav .nav-link.admin-link { color: var(--mv-accent); }
+#mainNav .nav-link.admin-link {
+  color: var(--mv-accent);
+}
 
 /* --------------------------------------------------------
    Chat / messaging
    -------------------------------------------------------- */
 .chat-bubble {
-    max-width: 70%;
-    padding: 0.5rem 0.85rem;
-    border-radius: 1rem;
-    font-size: 0.9rem;
-    line-height: 1.4;
+  max-width: 70%;
+  padding: 0.5rem 0.85rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 .chat-bubble.mine {
-    background-color: var(--mv-accent);
-    color: #fff;
-    border-bottom-right-radius: 0.25rem;
-    margin-left: auto;
+  background-color: var(--mv-accent);
+  color: #fff;
+  border-bottom-right-radius: 0.25rem;
+  margin-left: auto;
 }
 .chat-bubble.theirs {
-    background-color: var(--mv-surface-2);
-    color: var(--mv-text);
-    border-bottom-left-radius: 0.25rem;
+  background-color: var(--mv-surface-2);
+  color: var(--mv-text);
+  border-bottom-left-radius: 0.25rem;
 }
 .chat-window {
-    height: 420px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1rem;
-    background: var(--mv-surface-1);
-    border: 1px solid var(--mv-border);
-    border-radius: 0.5rem;
+  height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--mv-surface-1);
+  border: 1px solid var(--mv-border);
+  border-radius: 0.5rem;
 }
 .message-time {
-    font-size: 0.7rem;
-    color: var(--mv-text-muted);
-    margin-top: 2px;
+  font-size: 0.7rem;
+  color: var(--mv-text-muted);
+  margin-top: 2px;
 }

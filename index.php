@@ -29,16 +29,6 @@ $stmt = $pdo->prepare("
 $stmt->execute();
 $featuredListings = $stmt->fetchAll();
 
-// Categories with listing counts
-$categories = $pdo->query("
-    SELECT c.category_id, c.name, c.slug, c.icon_class,
-           COUNT(l.listing_id) AS listing_count
-    FROM categories c
-    LEFT JOIN listings l ON c.category_id = l.category_id AND l.status = 'available'
-    GROUP BY c.category_id
-    ORDER BY c.category_id
-")->fetchAll();
-
 // Stats
 $stats = $pdo->query("
     SELECT
@@ -102,16 +92,42 @@ require_once __DIR__ . '/includes/header.php';
 <section class="container py-5 fade-in-section" aria-labelledby="categoriesHeading">
     <h2 id="categoriesHeading" class="section-heading text-center mb-4">Shop by Category</h2>
     <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-3">
-        <?php foreach ($categories as $cat): ?>
-            <div class="col">
-                <a href="/browse.php?category=<?= clean($cat['slug']) ?>"
-                    class="category-card card text-center text-decoration-none h-100 p-3">
-                    <i class="bi <?= clean($cat['icon_class'] ?? 'bi-tag') ?> category-icon" aria-hidden="true"></i>
-                    <div class="category-name mt-2"><?= clean($cat['name']) ?></div>
-                    <div class="category-count small text-muted"><?= (int)$cat['listing_count'] ?> listings</div>
-                </a>
-            </div>
-        <?php endforeach; ?>
+        <div class="col">
+            <a href="/browse.php?category=band-tees" class="category-card card text-center text-decoration-none h-100 p-3">
+                <i class="fa-solid fa-shirt category-icon" aria-hidden="true"></i>
+                <div class="category-name mt-2">Band Tees</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/browse.php?category=vinyl-records" class="category-card card text-center text-decoration-none h-100 p-3">
+                <i class="bi bi-disc category-icon" aria-hidden="true"></i>
+                <div class="category-name mt-2">Vinyl Records</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/browse.php?category=concert-posters" class="category-card card text-center text-decoration-none h-100 p-3">
+                <i class="bi bi-image category-icon" aria-hidden="true"></i>
+                <div class="category-name mt-2">Concert Posters</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/browse.php?category=instruments" class="category-card card text-center text-decoration-none h-100 p-3">
+                <i class="bi bi-music-note-beamed category-icon" aria-hidden="true"></i>
+                <div class="category-name mt-2">Instruments</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/browse.php?category=accessories" class="category-card card text-center text-decoration-none h-100 p-3">
+                <i class="bi bi-bag category-icon" aria-hidden="true"></i>
+                <div class="category-name mt-2">Accessories</div>
+            </a>
+        </div>
+        <div class="col">
+            <a href="/browse.php?category=event-tickets" class="category-card card text-center text-decoration-none h-100 p-3">
+                <i class="bi bi-ticket-perforated category-icon" aria-hidden="true"></i>
+                <div class="category-name mt-2">Event Tickets</div>
+            </a>
+        </div>
     </div>
 </section>
 
