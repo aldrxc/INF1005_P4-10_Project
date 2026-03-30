@@ -1,158 +1,150 @@
-/* create-listing.js — Create & Edit Listing form JS for MerchVault */
+/* create-listing.js - create & Eeit listing form JS for MerchVault */
+$(function () {
 
-document.addEventListener('DOMContentLoaded', function () {
-
-    var categorySelect = document.getElementById('category_id');
-    var merchFields    = document.getElementById('merchFields');
-    var ticketFields   = document.getElementById('ticketFields');
-    var sizeField      = document.getElementById('sizeField');
-    var descTextarea   = document.getElementById('description');
-    var descCount      = document.getElementById('descCount');
-    var dropZone       = document.getElementById('dropZone');
-    var fileInput      = document.getElementById('images');
-    var previewGrid    = document.getElementById('imagePreviewGrid');
-    var countHint      = document.getElementById('imageCountHint');
+    var $categorySelect = $('#category_id');
+    var $merchFields = $('#merchFields');
+    var $ticketFields = $('#ticketFields');
+    var $sizeField = $('#sizeField');
+    var $descTextarea = $('#description');
+    var $descCount = $('#descCount');
+    var $dropZone = $('#dropZone');
+    var $fileInput = $('#images');
+    var $previewGrid = $('#imagePreviewGrid');
+    var $countHint = $('#imageCountHint');
 
     var selectedFiles = []; // track DataTransfer-style files
 
     // -----------------------------------------------
-    // Category-driven conditional field visibility
+    // category-driven conditional field visibility
     // -----------------------------------------------
     function updateFieldVisibility() {
-        if (!categorySelect) return;
-        var selectedOption = categorySelect.options[categorySelect.selectedIndex];
-        var slug = selectedOption ? selectedOption.getAttribute('data-slug') : '';
+        if (!$categorySelect.length) return;
+        var slug = $categorySelect.find('option:selected').data('slug');
 
-        var isTicket   = slug === 'event-tickets';
-        var isApparel  = slug === 'band-tees';
+        var isTicket = slug === 'event-tickets';
+        var isApparel = slug === 'band-tees';
 
-        // Show/hide field groups
-        if (ticketFields)   ticketFields.style.display  = isTicket  ? '' : 'none';
-        if (merchFields)    merchFields.style.display   = isTicket  ? 'none' : '';
-        if (sizeField)      sizeField.style.display     = isApparel ? '' : 'none';
+        // show/hide field groups
+        $ticketFields.toggle(isTicket);
+        $merchFields.toggle(!isTicket);
+        $sizeField.toggle(isApparel);
 
-        // Toggle required attributes on ticket fields
-        ['event_name', 'event_date', 'venue_name', 'venue_city'].forEach(function (id) {
-            var el = document.getElementById(id);
-            if (el) {
-                el.required = isTicket;
-            }
+        // toggle required attributes on ticket fields
+        ['#event_name', '#event_date', '#venue_name', '#venue_city'].forEach(function (id) {
+            var $el = $(id);
+            if ($el.length) $el.prop('required', isTicket);
         });
     }
 
-    if (categorySelect) {
-        categorySelect.addEventListener('change', updateFieldVisibility);
+    if ($categorySelect.length) {
+        $categorySelect.on('change', updateFieldVisibility);
         updateFieldVisibility(); // run on page load (for edit form pre-fill)
     }
 
     // -----------------------------------------------
-    // Character counter for description
+    // character counter for description
     // -----------------------------------------------
     function updateDescCount() {
-        if (!descTextarea || !descCount) return;
-        var len = descTextarea.value.length;
-        descCount.textContent = len;
-        descCount.closest('small').classList.toggle('text-danger', len > 950);
+        if (!$descTextarea.length || !$descCount.length) return;
+        var len = $descTextarea.val().length;
+        $descCount.text(len);
+        $descCount.closest('small').toggleClass('text-danger', len > 950);
     }
 
-    if (descTextarea) {
-        descTextarea.addEventListener('input', updateDescCount);
+    if ($descTextarea.length) {
+        $descTextarea.on('input', updateDescCount);
         updateDescCount();
     }
 
     // -----------------------------------------------
-    // Price: format to 2 decimal places on blur
+    // price: format to 2 decimal places on blur
     // -----------------------------------------------
-    var priceInput = document.getElementById('price');
-    if (priceInput) {
-        priceInput.addEventListener('blur', function () {
-            var val = parseFloat(priceInput.value);
-            if (!isNaN(val) && val > 0) {
-                priceInput.value = val.toFixed(2);
-            }
-        });
-    }
+    $('#price').on('blur', function () {
+        var val = parseFloat($(this).val());
+        if (!isNaN(val) && val > 0) {
+            $(this).val(val.toFixed(2));
+        }
+    });
 
     // -----------------------------------------------
-    // Event date: must be in the future
+    // event date: must be in the future
     // -----------------------------------------------
-    var eventDateInput = document.getElementById('event_date');
-    if (eventDateInput) {
+    var $eventDateInput = $('#event_date');
+    if ($eventDateInput.length) {
         var today = new Date().toISOString().split('T')[0];
-        eventDateInput.setAttribute('min', today);
+        $eventDateInput.attr('min', today);
 
-        eventDateInput.addEventListener('change', function () {
-            if (eventDateInput.value < today) {
-                eventDateInput.setCustomValidity('Event date must be in the future.');
+        $eventDateInput.on('change', function () {
+            if ($(this).val() < today) {
+                this.setCustomValidity('Event date must be in the future.');
             } else {
-                eventDateInput.setCustomValidity('');
+                this.setCustomValidity('');
             }
         });
     }
 
     // -----------------------------------------------
-    // Image upload: drag-and-drop + FileReader preview
+    // image upload: drag-and-drop + FileReader preview
     // -----------------------------------------------
     var MAX_FILES = 5;
 
     function renderPreviews() {
-        if (!previewGrid) return;
+        if (!$previewGrid.length) return;
 
-        previewGrid.innerHTML = '';
+        $previewGrid.empty();
         if (selectedFiles.length === 0) {
-            previewGrid.classList.add('d-none');
-            if (countHint) countHint.textContent = '';
+            $previewGrid.addClass('d-none');
+            if ($countHint.length) $countHint.text('');
             return;
         }
 
-        previewGrid.classList.remove('d-none');
-        if (countHint) {
-            countHint.textContent = selectedFiles.length + ' / ' + MAX_FILES + ' image' + (selectedFiles.length !== 1 ? 's' : '') + ' selected';
+        $previewGrid.removeClass('d-none');
+        if ($countHint.length) {
+            $countHint.text(selectedFiles.length + ' / ' + MAX_FILES + ' image' + (selectedFiles.length !== 1 ? 's' : '') + ' selected');
         }
 
-        selectedFiles.forEach(function (file, index) {
-            var wrapper = document.createElement('div');
-            wrapper.className = 'image-preview-item position-relative';
+        $.each(selectedFiles, function (index, file) {
+            var $wrapper = $('<div>', { class: 'image-preview-item position-relative' });
+            
             if (index === 0) {
-                var badge = document.createElement('span');
-                badge.className = 'badge bg-accent position-absolute top-0 start-0 m-1';
-                badge.style.fontSize = '0.65rem';
-                badge.textContent = 'Primary';
-                wrapper.appendChild(badge);
+                $wrapper.append($('<span>', {
+                    class: 'badge bg-accent position-absolute top-0 start-0 m-1',
+                    css: { fontSize: '0.65rem' },
+                    text: 'Primary'
+                }));
             }
 
-            var img = document.createElement('img');
-            img.alt = 'Preview of ' + file.name;
-            img.className = 'preview-img rounded';
+            var $img = $('<img>', { alt: 'Preview of ' + file.name, class: 'preview-img rounded' });
 
             var reader = new FileReader();
-            reader.onload = function (e) { img.src = e.target.result; };
+            reader.onload = function (e) { $img.attr('src', e.target.result); };
             reader.readAsDataURL(file);
-            wrapper.appendChild(img);
+            $wrapper.append($img);
 
-            // Remove button
-            var removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0 m-1 p-0';
-            removeBtn.style.cssText = 'width:22px;height:22px;font-size:0.7rem;line-height:1';
-            removeBtn.setAttribute('aria-label', 'Remove image ' + (index + 1));
-            removeBtn.innerHTML = '<i class="bi bi-x" aria-hidden="true"></i>';
-            removeBtn.addEventListener('click', function () {
+            // remove button
+            var $removeBtn = $('<button>', {
+                type: 'button',
+                class: 'btn btn-danger btn-sm position-absolute top-0 end-0 m-1 p-0',
+                css: { width: '22px', height: '22px', fontSize: '0.7rem', lineHeight: '1' },
+                'aria-label': 'Remove image ' + (index + 1),
+                html: '<i class="bi bi-x" aria-hidden="true"></i>'
+            }).on('click', function () {
                 selectedFiles.splice(index, 1);
                 syncFileInput();
                 renderPreviews();
             });
-            wrapper.appendChild(removeBtn);
-            previewGrid.appendChild(wrapper);
+
+            $wrapper.append($removeBtn);
+            $previewGrid.append($wrapper);
         });
     }
 
     function syncFileInput() {
-        // Rebuild the file input's FileList using DataTransfer
-        if (!fileInput) return;
+        // rebuild file input's FileList using DataTransfer
+        if (!$fileInput.length) return;
         var dt = new DataTransfer();
         selectedFiles.forEach(function (f) { dt.items.add(f); });
-        fileInput.files = dt.files;
+        $fileInput[0].files = dt.files;
     }
 
     function addFiles(newFiles) {
@@ -166,79 +158,79 @@ document.addEventListener('DOMContentLoaded', function () {
         renderPreviews();
     }
 
-    if (fileInput) {
-        fileInput.addEventListener('change', function () {
-            addFiles(fileInput.files);
+    if ($fileInput.length) {
+        $fileInput.on('change', function () {
+            addFiles(this.files);
         });
     }
 
-    if (dropZone) {
-        // Click to trigger file input
-        dropZone.addEventListener('click', function (e) {
-            if (e.target !== fileInput && !e.target.closest('label[for="images"]')) {
-                fileInput && fileInput.click();
+    if ($dropZone.length) {
+        // click to trigger file input
+        $dropZone.on('click', function (e) {
+            if (e.target !== $fileInput[0] && !$(e.target).closest('label[for="images"]').length) {
+                $fileInput.trigger('click');
             }
         });
 
-        // Keyboard accessibility
-        dropZone.addEventListener('keydown', function (e) {
+        // keyboard accessibility
+        $dropZone.on('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                fileInput && fileInput.click();
+                $fileInput.trigger('click');
             }
         });
 
-        dropZone.addEventListener('dragover', function (e) {
+        $dropZone.on('dragover', function (e) {
             e.preventDefault();
-            dropZone.classList.add('drag-over');
-        });
-        dropZone.addEventListener('dragleave', function () {
-            dropZone.classList.remove('drag-over');
-        });
-        dropZone.addEventListener('drop', function (e) {
+            $(this).addClass('drag-over');
+        }).on('dragleave', function () {
+            $(this).removeClass('drag-over');
+        }).on('drop', function (e) {
             e.preventDefault();
-            dropZone.classList.remove('drag-over');
-            addFiles(e.dataTransfer.files);
+            $(this).removeClass('drag-over');
+            if (e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files) {
+                addFiles(e.originalEvent.dataTransfer.files);
+            }
         });
     }
 
     // -----------------------------------------------
-    // Client-side form validation before submit
+    // client-side form validation before submit
     // -----------------------------------------------
-    var form = document.getElementById('createListingForm');
-    if (form) {
-        form.addEventListener('submit', function (e) {
+    var $form = $('#createListingForm');
+    if ($form.length) {
+        $form.on('submit', function (e) {
             var valid = true;
 
-            // Price > 0
-            var price = parseFloat(document.getElementById('price') && document.getElementById('price').value);
-            if (isNaN(price) || price <= 0) {
-                var priceEl = document.getElementById('price');
-                if (priceEl) {
-                    priceEl.setCustomValidity('Please enter a price greater than 0.');
-                    priceEl.reportValidity();
+            // price > 0
+            var $priceEl = $('#price');
+            
+            if ($priceEl.length) {
+                var price = parseFloat($priceEl.val());
+                if (isNaN(price) || price <= 0) {
+                    $priceEl[0].setCustomValidity('Please enter a price greater than 0.');
+                    $priceEl[0].reportValidity();
                     valid = false;
+                } else {
+                    $priceEl[0].setCustomValidity('');
                 }
-            } else {
-                var priceEl = document.getElementById('price');
-                if (priceEl) priceEl.setCustomValidity('');
             }
 
-            // Ticket: event date in future
-            if (ticketFields && ticketFields.style.display !== 'none') {
-                var evDate = document.getElementById('event_date');
-                if (evDate && evDate.value) {
+            // ticket: event date in future
+            if ($ticketFields.length && $ticketFields.is(':visible')) {
+                var $evDate = $('#event_date');
+                if ($evDate.length && $evDate.val()) {
                     var today = new Date().toISOString().split('T')[0];
-                    if (evDate.value < today) {
-                        evDate.setCustomValidity('Event date must be in the future.');
+                    if ($evDate.val() < today) {
+                        $evDate[0].setCustomValidity('Event date must be in the future.');
                         valid = false;
                     }
                 }
             }
 
-            if (!form.checkValidity()) {
+            if (!this.checkValidity()) {
                 e.preventDefault();
-                form.reportValidity();
+                this.reportValidity();
             } else if (!valid) {
                 e.preventDefault();
             }

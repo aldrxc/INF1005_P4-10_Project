@@ -1,93 +1,83 @@
-/* dashboard.js — Dashboard page JS for MerchVault */
-
-document.addEventListener('DOMContentLoaded', function () {
+/* dashboard.js - dashboard page JS for MerchVault */
+$(function () {
 
     // -----------------------------------------------
-    // Persist active tab in URL hash (survives refresh)
+    // persist active tab in URL hash (survives refresh)
     // -----------------------------------------------
-    var tabTriggers = document.querySelectorAll('#dashTabs [data-bs-toggle="tab"]');
-    var hashTabMap  = {
-        '#listings'  : 'listingsTab',
-        '#purchases' : 'purchasesTab',
-        '#sales'     : 'salesTab',
+    var hashTabMap = {
+        '#listings': 'listingsTab',
+        '#purchases': 'purchasesTab',
+        '#sales': 'salesTab',
     };
 
-    // Activate tab from hash on load
+    // activate tab from hash on load
     var hash = window.location.hash;
     if (hash && hashTabMap[hash]) {
-        var triggerEl = document.getElementById(hashTabMap[hash]);
-        if (triggerEl) {
-            bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+        var $triggerEl = $('#' + hashTabMap[hash]);
+        if ($triggerEl.length) {
+            bootstrap.Tab.getOrCreateInstance($triggerEl[0]).show();
         }
     }
 
-    // Update hash when tab changes
-    tabTriggers.forEach(function (trigger) {
-        trigger.addEventListener('shown.bs.tab', function (e) {
-            var paneId = e.target.getAttribute('data-bs-target');
-            if (paneId === '#listingsPane')  history.replaceState(null, '', '#listings');
-            if (paneId === '#purchasesPane') history.replaceState(null, '', '#purchases');
-            if (paneId === '#salesPane')     history.replaceState(null, '', '#sales');
+    // update hash when tab changes
+    $('#dashTabs [data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var paneId = $(e.target).data('bs-target');
+        if (paneId === '#listingsPane') history.replaceState(null, '', '#listings');
+        if (paneId === '#purchasesPane') history.replaceState(null, '', '#purchases');
+        if (paneId === '#salesPane') history.replaceState(null, '', '#sales');
+    });
+
+    // -----------------------------------------------
+    // inline listing status toggle (AJAX)
+    // -----------------------------------------------
+    $('.status-toggle').on('change', function () {
+        var $select = $(this);
+        var listingId = $select.data('listing-id');
+        var csrf = $select.data('csrf');
+        var newStatus = $select.val();
+
+        var formData = new FormData();
+        formData.append('listing_id', listingId);
+        formData.append('status', newStatus);
+        formData.append('csrf_token', csrf);
+
+         // visual feedback
+        $select.prop('disabled', true);
+
+        fetch('/handlers/status-handler.php', {
+            method: 'POST',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: formData,
+        })
+        .then(res => res.json())
+        .then(data => {
+            $select.prop('disabled', false);
+            if (!data.success) {
+                // revert on failure
+                alert('Could not update status: ' + (data.message || 'Unknown error.'));
+                // reload to get fresh state
+                window.location.reload();
+            }
+        })
+        .catch(() => {
+            $select.prop('disabled', false);
+            alert('A network error occurred. Please refresh the page.');
         });
     });
 
     // -----------------------------------------------
-    // Inline listing status toggle (AJAX)
+    // delete listing - bootstrap modal confirmation
     // -----------------------------------------------
-    document.querySelectorAll('.status-toggle').forEach(function (select) {
-        select.addEventListener('change', function () {
-            var listingId = select.getAttribute('data-listing-id');
-            var csrf      = select.getAttribute('data-csrf');
-            var newStatus = select.value;
+    var $deleteModal = $('#deleteListingModal');
+    if ($deleteModal.length) {
+        $('.delete-listing-btn').on('click', function () {
+            var listingId = $(this).data('listing-id');
+            var title = $(this).data('title');
 
-            var formData = new FormData();
-            formData.append('listing_id', listingId);
-            formData.append('status',     newStatus);
-            formData.append('csrf_token', csrf);
+            $('#deleteListingId').val(listingId);
+            $('#deleteListingTitle').text(title);
 
-            // Visual feedback
-            select.disabled = true;
-
-            fetch('/handlers/status-handler.php', {
-                method: 'POST',
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                body: formData,
-            })
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                select.disabled = false;
-                if (!data.success) {
-                    // Revert on failure
-                    alert('Could not update status: ' + (data.message || 'Unknown error.'));
-                    // Reload to get fresh state
-                    window.location.reload();
-                }
-            })
-            .catch(function () {
-                select.disabled = false;
-                alert('A network error occurred. Please refresh the page.');
-            });
-        });
-    });
-
-    // -----------------------------------------------
-    // Delete listing — Bootstrap modal confirmation
-    // -----------------------------------------------
-    var deleteModal      = document.getElementById('deleteListingModal');
-    var deleteIdInput    = document.getElementById('deleteListingId');
-    var deleteTitleEl    = document.getElementById('deleteListingTitle');
-
-    if (deleteModal) {
-        document.querySelectorAll('.delete-listing-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var listingId = btn.getAttribute('data-listing-id');
-                var title     = btn.getAttribute('data-title');
-
-                if (deleteIdInput)  deleteIdInput.value    = listingId;
-                if (deleteTitleEl)  deleteTitleEl.textContent = title;
-
-                bootstrap.Modal.getOrCreateInstance(deleteModal).show();
-            });
+            bootstrap.Modal.getOrCreateInstance($deleteModal[0]).show();
         });
     }
 
