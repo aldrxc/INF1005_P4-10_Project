@@ -5,13 +5,18 @@ $(function () {
     // debounced search - auto-submit after 1s idle
     // 400ms was too fast
     // -----------------------------------------------
-    var debounceTimer;
-    $('#filterSearch').on('input', function () {
-        clearTimeout(debounceTimer);
-        var $form = $(this).closest('form');
-        debounceTimer = setTimeout(function () {
-            if ($form.length) $form.trigger('submit');
-        }, 1000);
+    $('[id="filterSearch"]').each(function () {
+        var debounceTimer; // scoped to each individual input
+        $(this).on('input', function () {
+            clearTimeout(debounceTimer);
+            var $form = $(this).closest('form');
+            
+            debounceTimer = setTimeout(function () {
+                if ($form.length) {
+                    $form[0].submit(); // native submit, exactly like vanilla js
+                }
+            }, 1000); // 1s delay (1000ms)
+        });
     });
 
     // -----------------------------------------------
