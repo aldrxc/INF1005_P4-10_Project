@@ -13,27 +13,32 @@ $userId = getCurrentUserId();
 // one row per (listing, other-party) conversation with latest message info
 $stmt = $pdo->prepare("
     SELECT
-        m.listing_id,
+        conv.listing_id,
         l.title AS listing_title,
-        CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END AS other_user_id,
+        conv.other_user_id,
         u.display_name AS other_display,
         u.username AS other_username,
-        MAX(m.sent_at) AS last_at,
-        SUM(CASE WHEN m.receiver_id = ? AND m.is_read = 0 THEN 1 ELSE 0 END) AS unread_count,
-        (SELECT body FROM messages m2
-         WHERE m2.listing_id = m.listing_id
-           AND (m2.sender_id = ? OR m2.receiver_id = ?)
-           AND (m2.sender_id = CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END
-                OR m2.receiver_id = CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END)
-         ORDER BY m2.sent_at DESC LIMIT 1) AS last_body
-    FROM messages m
-    JOIN listings l ON m.listing_id = l.listing_id
-    JOIN users u ON u.user_id = CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END
-    WHERE m.sender_id = ? OR m.receiver_id = ?
-    GROUP BY m.listing_id, other_user_id
-    ORDER BY last_at DESC
+        conv.last_at,
+        conv.unread_count,
+        m_last.body AS last_body
+    FROM (
+        SELECT
+            m.listing_id,
+            CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END AS other_user_id,
+            MAX(m.sent_at) AS last_at,
+            SUM(CASE WHEN m.receiver_id = ? AND m.is_read = 0 THEN 1 ELSE 0 END) AS unread_count
+        FROM messages m
+        WHERE m.sender_id = ? OR m.receiver_id = ?
+        GROUP BY m.listing_id, CASE WHEN m.sender_id = ? THEN m.receiver_id ELSE m.sender_id END
+    ) conv
+    JOIN listings l ON l.listing_id = conv.listing_id
+    JOIN users u ON u.user_id = conv.other_user_id
+    LEFT JOIN messages m_last ON m_last.listing_id = conv.listing_id
+        AND m_last.sent_at = conv.last_at
+        AND (m_last.sender_id = conv.other_user_id OR m_last.receiver_id = conv.other_user_id)
+    ORDER BY conv.last_at DESC
 ");
-$stmt->execute([$userId, $userId, $userId, $userId, $userId, $userId, $userId, $userId, $userId]);
+$stmt->execute([$userId, $userId, $userId, $userId, $userId]);
 $conversations = $stmt->fetchAll();
 
 require_once __DIR__ . '/includes/header.php';

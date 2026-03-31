@@ -1,12 +1,6 @@
-/* ============================================================
-   MerchVault — Global CSS
-   Dark / concert vibe theme
-   Bootstrap 5 overrides + custom components
-   ============================================================ */
+/* MerchVault — dark theme, Bootstrap 5 overrides */
 
-/* --------------------------------------------------------
-   CSS Custom Properties (Design Tokens)
-   -------------------------------------------------------- */
+/* design tokens */
 :root {
   --mv-bg: #0d0d0d;
   --mv-surface: #111827;
@@ -27,9 +21,7 @@
   --mv-shadow-hover: 0 8px 32px rgba(233, 30, 140, 0.2);
 }
 
-/* --------------------------------------------------------
-   Global Reset & Base
-   -------------------------------------------------------- */
+/* global reset */
 *,
 *::before,
 *::after {
@@ -52,9 +44,7 @@ body {
   min-height: 100vh;
 }
 
-/* --------------------------------------------------------
-   Typography
-   -------------------------------------------------------- */
+/* typography */
 h1,
 h2,
 h3,
@@ -90,9 +80,7 @@ h6 {
   color: var(--mv-accent) !important;
 }
 
-/* --------------------------------------------------------
-   Bootstrap Overrides — Colours
-   -------------------------------------------------------- */
+/* bootstrap colour overrides */
 .btn-accent {
   background-color: var(--mv-accent);
   border-color: var(--mv-accent);
@@ -134,9 +122,7 @@ h6 {
   color: #f472b6 !important;
 }
 
-/* --------------------------------------------------------
-   Navigation
--------------------------------------------------------- */
+/* nav */
 #mainNav {
   background-color: rgba(13, 13, 13, 0.95);
   backdrop-filter: blur(12px);
@@ -261,8 +247,7 @@ h6 {
   padding: 0 4px;
 }
 
-/* Mobile */
-/* Mobile */
+/* mobile nav */
 @media (max-width: 991.98px) {
   #mainNav .container {
     flex-wrap: wrap;
@@ -321,7 +306,7 @@ h6 {
   }
 }
 
-/* Desktop */
+/* desktop nav */
 @media (min-width: 992px) {
   .nav-mobile-tools {
     display: none !important;
@@ -359,9 +344,7 @@ h6 {
   }
 }
 
-/* --------------------------------------------------------
-   Hero Section
-   -------------------------------------------------------- */
+/* hero */
 .hero-section {
   position: relative;
   background-image: url("/assets/images/hero-image.webp");
@@ -386,9 +369,7 @@ h6 {
   padding: 4rem 1rem;
 }
 
-/* --------------------------------------------------------
-   Stats Strip
-   -------------------------------------------------------- */
+/* stats strip */
 .stats-strip {
   background-color: var(--mv-surface);
   border-top: 1px solid var(--mv-border);
@@ -406,9 +387,7 @@ h6 {
   letter-spacing: 0.05em;
 }
 
-/* --------------------------------------------------------
-   Category Cards (index.php)
-   -------------------------------------------------------- */
+/* category cards */
 .category-card {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border);
@@ -453,9 +432,7 @@ h6 {
   font-size: 0.75rem;
 }
 
-/* --------------------------------------------------------
-   Listing Card
-   -------------------------------------------------------- */
+/* listing card */
 .listing-card {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border);
@@ -516,9 +493,7 @@ h6 {
   font-size: 0.68rem;
 }
 
-/* --------------------------------------------------------
-   How It Works (index.php)
-   -------------------------------------------------------- */
+/* how it works */
 .how-it-works {
   background-color: var(--mv-surface);
 }
@@ -538,10 +513,7 @@ h6 {
   padding: 1.5rem;
 }
 
-/* --------------------------------------------------------
-   Reviews Section (index.php)
-   -------------------------------------------------------- */
-
+/* testimonials */
 .section-title {
   font-weight: 700;
 }
@@ -590,10 +562,7 @@ h6 {
   font-size: 14px;
 }
 
-/* --------------------------------------------------------
-   Promo Section
--------------------------------------------------------- */
-
+/* promo section */
 .promo-section {
   background: linear-gradient(135deg, #ff0f7b, #a000ff);
   color: #fff;
@@ -614,15 +583,11 @@ h6 {
   margin-bottom: 25px;
 }
 
-/* Buttons */
-
 .promo-buttons .btn {
   padding: 10px 22px;
   font-weight: 600;
   border-radius: 6px;
 }
-
-/* Phone placeholder */
 
 .phone-placeholder {
   width: 260px;
@@ -647,9 +612,7 @@ h6 {
   background-position: center;
 }
 
-/* --------------------------------------------------------
-   Page Header (sub-pages)
-   -------------------------------------------------------- */
+/* page header */
 .page-header {
   background: linear-gradient(
     135deg,
@@ -659,9 +622,7 @@ h6 {
   border-bottom: 1px solid var(--mv-border);
 }
 
-/* --------------------------------------------------------
-   Filter Sidebar
-   -------------------------------------------------------- */
+/* filter sidebar */
 .filter-sidebar .form-control,
 .filter-sidebar .form-select {
   background-color: var(--mv-surface-3);
@@ -712,9 +673,7 @@ h6 {
   box-shadow: 0 0 0 3px rgba(233, 30, 140, 0.15);
 }
 
-/* --------------------------------------------------------
-   Listing Detail Page
-   -------------------------------------------------------- */
+/* listing detail */
 .listing-price {
   font-size: 2.2rem;
   font-weight: 800;
@@ -725,7 +684,7 @@ h6 {
   color: var(--mv-text);
 }
 
-/* Gallery */
+/* gallery */
 .gallery-main-img {
   width: 100%;
   max-height: 480px;
@@ -755,14 +714,14 @@ h6 {
   border-color: var(--mv-accent);
 }
 
-/* Ticket details card */
+/* ticket details card */
 .ticket-details-card {
   background-color: var(--mv-surface-2);
   border: 1px solid rgba(0, 229, 255, 0.2) !important;
   border-radius: var(--mv-radius);
 }
 
-/* Seller card */
+/* seller card */
 .seller-card {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border) !important;
@@ -787,7 +746,7 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-accent) !important;
 }
 
-/* Breadcrumb */
+/* breadcrumb */
 .breadcrumb-dark .breadcrumb-item + .breadcrumb-item::before {
   color: var(--mv-text-muted);
 }
@@ -802,9 +761,7 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-text-muted);
 }
 
-/* --------------------------------------------------------
-   Forms (Create / Edit Listing)
-   -------------------------------------------------------- */
+/* forms */
 .form-control,
 .form-select {
   background-color: var(--mv-surface-3);
@@ -854,7 +811,7 @@ h2.h6.fw-bold.mb-2 {
   border-radius: var(--mv-radius);
 }
 
-/* Drop zone */
+/* drop zone */
 .drop-zone {
   border: 2px dashed var(--mv-border);
   border-radius: var(--mv-radius);
@@ -876,7 +833,7 @@ h2.h6.fw-bold.mb-2 {
   font-size: 2.5rem;
 }
 
-/* Image preview grid */
+/* image preview grid */
 .image-preview-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
@@ -897,9 +854,7 @@ h2.h6.fw-bold.mb-2 {
   overflow: hidden;
 }
 
-/* --------------------------------------------------------
-   Cart Page
-   -------------------------------------------------------- */
+/* cart */
 .cart-thumb {
   flex-shrink: 0;
 }
@@ -913,18 +868,14 @@ h2.h6.fw-bold.mb-2 {
   border-radius: var(--mv-radius);
 }
 
-/* --------------------------------------------------------
-   Auth Cards (Login / Register)
-   -------------------------------------------------------- */
+/* auth cards */
 .auth-card {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border) !important;
   border-radius: var(--mv-radius) !important;
 }
 
-/* --------------------------------------------------------
-   Dashboard
-   -------------------------------------------------------- */
+/* dashboard */
 .dashboard-profile-card {
   background: linear-gradient(135deg, var(--mv-surface-2), var(--mv-surface-3));
   border: 1px solid var(--mv-border) !important;
@@ -955,7 +906,7 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-accent);
 }
 
-/* Tables */
+/* tables */
 .table-dark {
   --bs-table-bg: var(--mv-surface-2);
   --bs-table-striped-bg: var(--mv-surface-3);
@@ -964,9 +915,7 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-text);
 }
 
-/* --------------------------------------------------------
-   Profile Page
-   -------------------------------------------------------- */
+/* profile */
 .profile-header {
   background: linear-gradient(135deg, var(--mv-surface-2), var(--mv-surface-3));
   border: 1px solid var(--mv-border) !important;
@@ -983,9 +932,7 @@ h2.h6.fw-bold.mb-2 {
   border: 3px solid var(--mv-accent);
 }
 
-/* --------------------------------------------------------
-   About Page
-   -------------------------------------------------------- */
+/* about */
 .team-card {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border) !important;
@@ -1051,9 +998,7 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-text-muted);
 }
 
-/* --------------------------------------------------------
-   Footer
-   -------------------------------------------------------- */
+/* footer */
 .site-footer {
   background-color: var(--mv-surface);
   border-top: 1px solid var(--mv-border);
@@ -1073,9 +1018,7 @@ h2.h6.fw-bold.mb-2 {
   border-color: var(--mv-border);
 }
 
-/* --------------------------------------------------------
-   Back-to-top Button
-   -------------------------------------------------------- */
+/* back to top */
 .back-to-top {
   position: fixed;
   bottom: 1.5rem;
@@ -1090,9 +1033,7 @@ h2.h6.fw-bold.mb-2 {
   box-shadow: var(--mv-shadow);
 }
 
-/* --------------------------------------------------------
-   Pagination
-   -------------------------------------------------------- */
+/* pagination */
 .page-link {
   background-color: var(--mv-surface-2);
   border-color: var(--mv-border);
@@ -1109,17 +1050,13 @@ h2.h6.fw-bold.mb-2 {
   color: #fff;
 }
 
-/* --------------------------------------------------------
-   Alerts & Badges
-   -------------------------------------------------------- */
+/* alerts */
 .alert {
   border-radius: var(--mv-radius-sm);
   font-size: 0.9rem;
 }
 
-/* --------------------------------------------------------
-   Fade-in Animation (scroll-triggered)
-   -------------------------------------------------------- */
+/* scroll fade-in */
 .fade-in-section {
   opacity: 0;
   transform: translateY(20px);
@@ -1132,9 +1069,7 @@ h2.h6.fw-bold.mb-2 {
   transform: translateY(0);
 }
 
-/* --------------------------------------------------------
-   Dropdown menus
-   -------------------------------------------------------- */
+/* dropdowns */
 .dropdown-menu-dark {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border);
@@ -1151,9 +1086,7 @@ h2.h6.fw-bold.mb-2 {
   border-color: var(--mv-border);
 }
 
-/* --------------------------------------------------------
-   Modal overrides
-   -------------------------------------------------------- */
+/* modals */
 .modal-content {
   background-color: var(--mv-surface-2);
   border: 1px solid var(--mv-border);
@@ -1169,9 +1102,7 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-text);
 }
 
-/* --------------------------------------------------------
-   Responsive adjustments
-   -------------------------------------------------------- */
+/* responsive */
 @media (max-width: 576px) {
   .hero-section {
     min-height: 400px;
@@ -1196,16 +1127,43 @@ h2.h6.fw-bold.mb-2 {
   }
 }
 
-/* --------------------------------------------------------
-   Admin nav link
-   -------------------------------------------------------- */
+/* admin nav link */
 #mainNav .nav-link.admin-link {
   color: var(--mv-accent);
 }
 
-/* --------------------------------------------------------
-   Chat / messaging
-   -------------------------------------------------------- */
+/* admin panel */
+.admin-manage-card {
+  transition:
+    border-color var(--mv-transition),
+    transform var(--mv-transition),
+    box-shadow var(--mv-transition);
+}
+.admin-manage-card:hover {
+  border-color: var(--mv-accent) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--mv-shadow-hover);
+  color: var(--mv-text);
+}
+
+/* cards — global dark theme override so Bootstrap's default white doesn't show */
+.card {
+  background-color: var(--mv-surface-2);
+  border-color: var(--mv-border);
+  color: var(--mv-text);
+}
+.card .text-muted {
+  color: var(--mv-text-muted) !important;
+  opacity: 0.65;
+}
+.card a.text-reset {
+  color: var(--mv-text) !important;
+}
+.card a.text-reset:hover {
+  color: var(--mv-accent) !important;
+}
+
+/* chat / messaging */
 .chat-bubble {
   max-width: 70%;
   padding: 0.5rem 0.85rem;

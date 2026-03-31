@@ -51,7 +51,6 @@ if (!(bool)$user['is_active']) {
     exit;
 }
 
-// --- Start authenticated session ---
 session_regenerate_id(true);
 $_SESSION['user_id']      = (int)$user['user_id'];
 $_SESSION['username']     = $user['username'];

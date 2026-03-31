@@ -45,7 +45,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
         <div class="col-6 col-md-3">
             <div class="card h-100 text-center p-3">
-                <div class="fs-1 fw-bold text-muted"><?= $flagged ?></div>
+                <div class="fs-1 fw-bold" style="color:var(--mv-text-muted);opacity:0.4"><?= $flagged ?></div>
                 <div class="text-muted small">Flagged</div>
             </div>
         </div>
@@ -55,24 +55,24 @@ require_once __DIR__ . '/../includes/header.php';
     <h2 class="h5 mb-3">Manage</h2>
     <div class="row g-3">
         <div class="col-md-4">
-            <a href="/admin/users.php" class="card p-4 text-decoration-none d-block">
+            <a href="/admin/users.php" class="card admin-manage-card p-4 text-decoration-none d-block">
                 <i class="bi bi-people fs-3 text-accent mb-2 d-block" aria-hidden="true"></i>
                 <div class="fw-semibold">Users</div>
-                <div class="text-muted small">View, ban, and manage accounts</div>
+                <div class="small" style="color:var(--mv-text);opacity:0.55">View, ban, and manage accounts</div>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/admin/listings.php" class="card p-4 text-decoration-none d-block">
+            <a href="/admin/listings.php" class="card admin-manage-card p-4 text-decoration-none d-block">
                 <i class="bi bi-tags fs-3 text-accent mb-2 d-block" aria-hidden="true"></i>
                 <div class="fw-semibold">Listings</div>
-                <div class="text-muted small">Browse and delete any listing</div>
+                <div class="small" style="color:var(--mv-text);opacity:0.55">Browse and delete any listing</div>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/admin/orders.php" class="card p-4 text-decoration-none d-block">
+            <a href="/admin/orders.php" class="card admin-manage-card p-4 text-decoration-none d-block">
                 <i class="bi bi-bag-check fs-3 text-accent mb-2 d-block" aria-hidden="true"></i>
                 <div class="fw-semibold">Orders</div>
-                <div class="text-muted small">Read-only order history</div>
+                <div class="small" style="color:var(--mv-text);opacity:0.55">Read-only order history</div>
             </a>
         </div>
     </div>

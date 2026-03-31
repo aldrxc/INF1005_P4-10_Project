@@ -39,6 +39,8 @@ if (!$listing) {
     exit;
 }
 
+$isOwner = isLoggedIn() && (int)$listing['seller_id'] === getCurrentUserId();
+
 // Increment view counter
 if (!$isOwner) {
     $pdo->prepare("UPDATE listings SET views = views + 1 WHERE listing_id = ?")->execute([$listingId]);
@@ -87,8 +89,6 @@ if (isLoggedIn()) {
     $cStmt->execute([getCurrentUserId(), $listingId]);
     $inCart = (bool)$cStmt->fetch();
 }
-
-$isOwner = isLoggedIn() && (int)$listing['seller_id'] === getCurrentUserId();
 
 $pageTitle = $listing['title'];
 generateCsrfToken();

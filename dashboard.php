@@ -15,6 +15,11 @@ $userId    = getCurrentUserId();
 $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id = ? LIMIT 1");
 $stmt->execute([$userId]);
 $user = $stmt->fetch();
+if (!$user) {
+    session_destroy();
+    header('Location: /login.php');
+    exit;
+}
 
 // My Listings
 $myListings = $pdo->prepare("

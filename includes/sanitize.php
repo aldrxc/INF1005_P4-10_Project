@@ -2,8 +2,8 @@
 // sanitize.php — input validation & XSS helpers
 
 // escape for safe HTML output
-function clean(string $value): string {
-    return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+function clean(?string $value): string {
+    return htmlspecialchars(trim($value ?? ''), ENT_QUOTES, 'UTF-8');
 }
 
 function sanitizeInt(mixed $value): ?int {
@@ -18,8 +18,8 @@ function sanitizePrice(mixed $value): ?float {
     return round((float)$result, 2);
 }
 
-function sanitizeEmail(string $value): ?string {
-    $result = filter_var(trim($value), FILTER_VALIDATE_EMAIL);
+function sanitizeEmail(?string $value): ?string {
+    $result = filter_var(trim($value ?? ''), FILTER_VALIDATE_EMAIL);
     return ($result === false) ? null : $result;
 }
 

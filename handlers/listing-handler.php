@@ -31,10 +31,16 @@ $price       = sanitizePrice($_POST['price']     ?? '');
 $condition   = sanitizeEnum(trim($_POST['condition_type'] ?? ''), ['new','like_new','good','fair','poor', '']) ?: null;
 $size        = trim($_POST['size'] ?? '') ?: null;
 
-$old = compact('title','description','artist_band','category_id','genre_id','price','condition_type','size');
-$old['condition_type'] = $condition;
-$old['category_id']    = $categoryId;
-$old['genre_id']       = $genreId;
+$old = [
+    'title'          => $title,
+    'description'    => $description,
+    'artist_band'    => $artist_band,
+    'category_id'    => $categoryId,
+    'genre_id'       => $genreId,
+    'price'          => $price,
+    'condition_type' => $condition,
+    'size'           => $size,
+];
 
 if ($title === '')           $errors['title']       = 'Title is required.';
 elseif (strlen($title) > 200) $errors['title']      = 'Title must be 200 characters or fewer.';
@@ -68,8 +74,17 @@ if ($isTicket) {
     $quantity     = max(1, (int)($_POST['quantity'] ?? 1));
     $isETicket    = isset($_POST['is_e_ticket']) ? 1 : 0;
 
-    $old = array_merge($old, compact('event_name','event_date','venue_name','venue_city','seat_section','seat_row','seat_number','quantity','is_e_ticket'));
-    $old['event_date'] = $eventDateStr;
+    $old = array_merge($old, [
+        'event_name'   => $eventName,
+        'event_date'   => $eventDateStr,
+        'venue_name'   => $venueName,
+        'venue_city'   => $venueCity,
+        'seat_section' => $seatSection,
+        'seat_row'     => $seatRow,
+        'seat_number'  => $seatNumber,
+        'quantity'     => $quantity,
+        'is_e_ticket'  => $isETicket,
+    ]);
 
     if ($eventName === '')    $errors['event_name'] = 'Event name is required.';
     if ($venueName === '')    $errors['venue_name'] = 'Venue name is required.';
@@ -82,7 +97,7 @@ if ($isTicket) {
         $eventDate = sanitizeDate($eventDateStr);
         if (!$eventDate) {
             $errors['event_date'] = 'Please enter a valid date.';
-        } elseif ($eventDate < new DateTime('today')) {
+        } elseif (new DateTime($eventDate) < new DateTime('today')) {
             $errors['event_date'] = 'Event date must be in the future.';
         }
     }
