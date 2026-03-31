@@ -11,11 +11,21 @@ $pageTitle = 'Admin — Users';
 $pdo = getDB();
 $myId = getCurrentUserId();
 
-$users = $pdo->query("
+$page    = max(1, (int)($_GET['page'] ?? 1));
+$perPage = 25;
+$offset  = ($page - 1) * $perPage;
+
+$total      = (int)$pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+$totalPages = (int)ceil($total / $perPage);
+
+$stmt = $pdo->prepare("
     SELECT user_id, display_name, username, joined_at, is_active, role
     FROM users
     ORDER BY joined_at DESC
-")->fetchAll();
+    LIMIT ? OFFSET ?
+");
+$stmt->execute([$perPage, $offset]);
+$users = $stmt->fetchAll();
 
 generateCsrfToken();
 require_once __DIR__ . '/../includes/header.php';
@@ -28,7 +38,7 @@ require_once __DIR__ . '/../includes/header.php';
             <li class="breadcrumb-item active">Users</li>
         </ol>
     </nav>
-    <h1 class="mb-4">Users <span class="badge bg-secondary ms-2"><?= count($users) ?></span></h1>
+    <h1 class="mb-4">Users <span class="badge bg-secondary ms-2"><?= $total ?></span></h1>
 
     <div class="table-responsive">
         <table class="table table-dark table-hover align-middle">
@@ -69,7 +79,6 @@ require_once __DIR__ . '/../includes/header.php';
                             <span class="text-muted small">You</span>
                         <?php else: ?>
                             <div class="d-flex gap-1 flex-wrap">
-                                <!-- ban / unban -->
                                 <form method="POST" action="/admin/ban-handler.php" class="d-inline">
                                     <?= getCsrfField() ?>
                                     <input type="hidden" name="user_id" value="<?= (int)$u['user_id'] ?>">
@@ -87,7 +96,6 @@ require_once __DIR__ . '/../includes/header.php';
                                     <?php endif; ?>
                                 </form>
 
-                                <!-- promote / demote -->
                                 <form method="POST" action="/admin/role-handler.php" class="d-inline">
                                     <?= getCsrfField() ?>
                                     <input type="hidden" name="user_id" value="<?= (int)$u['user_id'] ?>">
@@ -113,6 +121,32 @@ require_once __DIR__ . '/../includes/header.php';
             </tbody>
         </table>
     </div>
+
+    <?php if ($totalPages > 1): ?>
+        <nav class="mt-3" aria-label="Users pagination">
+            <ul class="pagination justify-content-center">
+                <?php if ($page > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page - 1 ?>">
+                            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <?php for ($p = max(1, $page - 2); $p <= min($totalPages, $page + 2); $p++): ?>
+                    <li class="page-item <?= $p === $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                    </li>
+                <?php endfor; ?>
+                <?php if ($page < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page + 1 ?>">
+                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    <?php endif; ?>
 </div>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

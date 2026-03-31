@@ -25,10 +25,15 @@ if (!$profileUser) {
     exit;
 }
 
-// Listing count
 $countStmt = $pdo->prepare("SELECT COUNT(*) FROM listings WHERE seller_id = ? AND status = 'available'");
 $countStmt->execute([$profileUser['user_id']]);
 $listingCount = (int)$countStmt->fetchColumn();
+
+$ratingStmt = $pdo->prepare("SELECT ROUND(AVG(rating), 1) AS avg_rating, COUNT(*) AS review_count FROM reviews WHERE seller_id = ?");
+$ratingStmt->execute([$profileUser['user_id']]);
+$ratingRow = $ratingStmt->fetch();
+$avgRating   = $ratingRow['avg_rating'];
+$reviewCount = (int)$ratingRow['review_count'];
 
 // Pagination
 $page    = max(1, (int)($_GET['page'] ?? 1));
@@ -92,6 +97,12 @@ require_once __DIR__ . '/includes/header.php';
                     <?php endif; ?>
                     <span><i class="bi bi-calendar3 me-1" aria-hidden="true"></i>Joined <?= clean(date('M Y', strtotime($profileUser['joined_at']))) ?></span>
                     <span><i class="bi bi-tags me-1" aria-hidden="true"></i><?= $listingCount ?> active listing<?= $listingCount !== 1 ? 's' : '' ?></span>
+                    <?php if ($reviewCount > 0): ?>
+                        <span>
+                            <i class="bi bi-star-fill text-accent me-1" aria-hidden="true"></i>
+                            <?= $avgRating ?> / 5 &bull; <?= $reviewCount ?> review<?= $reviewCount !== 1 ? 's' : '' ?>
+                        </span>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -139,6 +150,41 @@ require_once __DIR__ . '/includes/header.php';
                 </ul>
             </nav>
         <?php endif; ?>
+    <?php endif; ?>
+
+    <!-- Reviews -->
+    <?php
+    $reviewsStmt = $pdo->prepare("
+        SELECT r.rating, r.body, r.created_at, u.display_name AS reviewer_display, u.username AS reviewer_username
+        FROM reviews r
+        JOIN users u ON u.user_id = r.reviewer_id
+        WHERE r.seller_id = ?
+        ORDER BY r.created_at DESC
+        LIMIT 10
+    ");
+    $reviewsStmt->execute([$profileUser['user_id']]);
+    $reviews = $reviewsStmt->fetchAll();
+    ?>
+    <?php if (!empty($reviews)): ?>
+        <h2 class="h5 fw-semibold mt-5 mb-3">
+            <i class="bi bi-star me-2 text-accent" aria-hidden="true"></i>Reviews
+        </h2>
+        <div class="d-flex flex-column gap-3">
+            <?php foreach ($reviews as $rev): ?>
+                <div class="card p-3">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="text-accent">
+                            <?= str_repeat('★', (int)$rev['rating']) ?><?= str_repeat('☆', 5 - (int)$rev['rating']) ?>
+                        </span>
+                        <span class="fw-semibold small"><?= clean($rev['reviewer_display']) ?></span>
+                        <span class="text-muted small ms-auto"><?= clean(date('d M Y', strtotime($rev['created_at']))) ?></span>
+                    </div>
+                    <?php if ($rev['body']): ?>
+                        <p class="small mb-0" style="opacity:0.8"><?= clean($rev['body']) ?></p>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     <?php endif; ?>
 
 </div>

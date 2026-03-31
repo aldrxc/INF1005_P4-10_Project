@@ -9,16 +9,26 @@ requireAdmin();
 $pageTitle = 'Admin — Orders';
 $pdo = getDB();
 
-$orders = $pdo->query("
+$page    = max(1, (int)($_GET['page'] ?? 1));
+$perPage = 25;
+$offset  = ($page - 1) * $perPage;
+
+$total      = (int)$pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();
+$totalPages = (int)ceil($total / $perPage);
+
+$stmt = $pdo->prepare("
     SELECT o.order_id, o.total_amount, o.status, o.created_at,
            u.display_name AS buyer_display,
            COUNT(oi.order_item_id) AS item_count
     FROM orders o
     JOIN users u ON o.buyer_id = u.user_id
     LEFT JOIN order_items oi ON oi.order_id = o.order_id
-    GROUP BY o.order_id
+    GROUP BY o.order_id, o.total_amount, o.status, o.created_at, u.display_name
     ORDER BY o.created_at DESC
-")->fetchAll();
+    LIMIT ? OFFSET ?
+");
+$stmt->execute([$perPage, $offset]);
+$orders = $stmt->fetchAll();
 
 require_once __DIR__ . '/../includes/header.php';
 ?>
@@ -30,7 +40,7 @@ require_once __DIR__ . '/../includes/header.php';
             <li class="breadcrumb-item active">Orders</li>
         </ol>
     </nav>
-    <h1 class="mb-4">Orders <span class="badge bg-secondary ms-2"><?= count($orders) ?></span></h1>
+    <h1 class="mb-4">Orders <span class="badge bg-secondary ms-2"><?= $total ?></span></h1>
 
     <?php if (empty($orders)): ?>
         <p class="text-muted">No orders yet.</p>
@@ -70,6 +80,28 @@ require_once __DIR__ . '/../includes/header.php';
             </tbody>
         </table>
     </div>
+    <?php endif; ?>
+
+    <?php if ($totalPages > 1): ?>
+        <nav class="mt-3" aria-label="Orders pagination">
+            <ul class="pagination justify-content-center">
+                <?php if ($page > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page - 1 ?>"><i class="bi bi-chevron-left" aria-hidden="true"></i></a>
+                    </li>
+                <?php endif; ?>
+                <?php for ($p = max(1, $page - 2); $p <= min($totalPages, $page + 2); $p++): ?>
+                    <li class="page-item <?= $p === $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $p ?>"><?= $p ?></a>
+                    </li>
+                <?php endfor; ?>
+                <?php if ($page < $totalPages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page + 1 ?>"><i class="bi bi-chevron-right" aria-hidden="true"></i></a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
     <?php endif; ?>
 </div>
 

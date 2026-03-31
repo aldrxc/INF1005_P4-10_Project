@@ -27,21 +27,22 @@ $userId = getCurrentUserId();
 $pdo = getDB();
 
 // sanitise inputs
-$shippingName = clean($_POST['shipping_name'] ?? '');
-$shippingBlock = clean($_POST['shipping_block'] ?? '');
-$shippingStreet = clean($_POST['shipping_street'] ?? '');
-$shippingUnit = clean($_POST['shipping_unit'] ?? '');
-$shippingPostal = clean($_POST['shipping_postal'] ?? '');
+$shippingName    = clean($_POST['shipping_name']    ?? '');
+$shippingBlock   = clean($_POST['shipping_block']   ?? '');
+$shippingStreet  = clean($_POST['shipping_street']  ?? '');
+$shippingUnit    = clean($_POST['shipping_unit']     ?? '');
+$shippingPostal  = clean($_POST['shipping_postal']  ?? '');
 $shippingCountry = clean($_POST['shipping_country'] ?? 'Singapore');
-
+$paymentMethod   = sanitizeEnum(trim($_POST['payment_method'] ?? ''), ['credit_card', 'paynow', 'bank_transfer']);
 
 $_SESSION['checkout_old'] = [
-    'shipping_name' => $shippingName,
-    'shipping_block' => $shippingBlock,
-    'shipping_street' => $shippingStreet,
-    'shipping_unit' => $shippingUnit,
-    'shipping_postal' => $shippingPostal,
-    'shipping_country' => $shippingCountry
+    'shipping_name'    => $shippingName,
+    'shipping_block'   => $shippingBlock,
+    'shipping_street'  => $shippingStreet,
+    'shipping_unit'    => $shippingUnit,
+    'shipping_postal'  => $shippingPostal,
+    'shipping_country' => $shippingCountry,
+    'payment_method'   => $paymentMethod ?? '',
 ];
 
 
@@ -70,9 +71,12 @@ if (empty($shippingPostal)) {
     $errors['shipping_postal'] = "Please enter a valid 6-digit Singapore postal code.";
 }
 
-// Strict Country Check
 if (strtolower(trim($shippingCountry)) !== 'singapore') {
     $errors['shipping_country'] = "Sorry, we currently only ship within Singapore.";
+}
+
+if (!$paymentMethod) {
+    $errors['payment_method'] = "Please select a payment method.";
 }
 
 // If there are errors, send them back to the checkout page
@@ -112,16 +116,18 @@ try {
     }
 
 
-    $insertOrderSql = "INSERT INTO orders (buyer_id, total_amount, shipping_name, shipping_address, shipping_postal, shipping_country) 
-                       VALUES (?, ?, ?, ?, ?, ?)";
-    $orderStmt = $pdo->prepare($insertOrderSql);
+    $orderStmt = $pdo->prepare("
+        INSERT INTO orders (buyer_id, total_amount, shipping_name, shipping_address, shipping_postal, shipping_country, payment_method)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ");
     $orderStmt->execute([
-        $userId, 
-        $totalAmount, 
-        $shippingName, 
-        $shippingAddress, 
-        $shippingPostal, 
-        $shippingCountry
+        $userId,
+        $totalAmount,
+        $shippingName,
+        $shippingAddress,
+        $shippingPostal,
+        $shippingCountry,
+        $paymentMethod,
     ]);
     
     // Get the ID of the order we just created

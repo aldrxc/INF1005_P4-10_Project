@@ -83,6 +83,10 @@ $relStmt = $pdo->prepare("
 $relStmt->execute([$listing['category_id'], $listingId]);
 $related = $relStmt->fetchAll();
 
+$ratingStmt = $pdo->prepare("SELECT ROUND(AVG(rating),1) AS avg_rating, COUNT(*) AS review_count FROM reviews WHERE seller_id = ?");
+$ratingStmt->execute([$listing['seller_id']]);
+$sellerRating = $ratingStmt->fetch();
+
 $inCart = false;
 if (isLoggedIn()) {
     $cStmt = $pdo->prepare("SELECT 1 FROM cart_items WHERE user_id = ? AND listing_id = ? LIMIT 1");
@@ -312,6 +316,12 @@ $condLabels = [
                                 @<?= clean($listing['seller_username']) ?> &bull;
                                 Member since <?= date('M Y', strtotime($listing['seller_joined'])) ?>
                             </div>
+                            <?php if ((int)$sellerRating['review_count'] > 0): ?>
+                                <div class="small mt-1">
+                                    <span class="text-accent"><?= str_repeat('★', (int)round($sellerRating['avg_rating'])) ?><?= str_repeat('☆', 5 - (int)round($sellerRating['avg_rating'])) ?></span>
+                                    <span class="text-muted ms-1"><?= $sellerRating['avg_rating'] ?> / 5 (<?= (int)$sellerRating['review_count'] ?> review<?= $sellerRating['review_count'] != 1 ? 's' : '' ?>)</span>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

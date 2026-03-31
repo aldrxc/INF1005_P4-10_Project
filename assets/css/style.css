@@ -1163,6 +1163,11 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-accent) !important;
 }
 
+/* star rating widget */
+.star-label { transition: color 0.1s; }
+.star-label:hover,
+.star-label.selected { color: var(--mv-accent) !important; }
+
 /* chat / messaging */
 .chat-bubble {
   max-width: 70%;

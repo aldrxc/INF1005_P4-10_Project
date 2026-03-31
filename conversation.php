@@ -177,7 +177,7 @@ async function pollMessages() {
         scrollBottom();
     } catch (_) {}
 }
-setInterval(pollMessages, 5000);
+setInterval(pollMessages, 15000);
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

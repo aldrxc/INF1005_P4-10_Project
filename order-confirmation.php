@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config/db.php';
 require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/csrf.php';
 require_once __DIR__ . '/includes/sanitize.php';
 
 startSession();
@@ -41,6 +42,22 @@ $stmt = $pdo->prepare("
 $stmt->execute([$orderId]);
 $orderItems = $stmt->fetchAll();
 
+// check which sellers the buyer has already reviewed for this order
+$reviewedStmt = $pdo->prepare("SELECT seller_id FROM reviews WHERE order_id = ? AND reviewer_id = ?");
+$reviewedStmt->execute([$orderId, getCurrentUserId()]);
+$alreadyReviewed = $reviewedStmt->fetchAll(PDO::FETCH_COLUMN);
+
+// collect distinct sellers in this order
+$sellerStmt = $pdo->prepare("
+    SELECT DISTINCT oi.seller_id, u.display_name AS seller_display
+    FROM order_items oi
+    JOIN users u ON u.user_id = oi.seller_id
+    WHERE oi.order_id = ?
+");
+$sellerStmt->execute([$orderId]);
+$orderSellers = $sellerStmt->fetchAll();
+
+generateCsrfToken();
 $pageTitle = 'Order Confirmed — #' . $orderId;
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -107,6 +124,42 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
+            <?php
+            $unreviewedSellers = array_filter($orderSellers, fn($s) => !in_array((int)$s['seller_id'], array_map('intval', $alreadyReviewed)));
+            ?>
+            <?php if (!empty($unreviewedSellers)): ?>
+                <div class="card mb-4">
+                    <div class="card-body p-4">
+                        <h3 class="h6 fw-bold mb-3">
+                            <i class="bi bi-star me-2 text-accent" aria-hidden="true"></i>Leave a Review
+                        </h3>
+                        <?php foreach ($unreviewedSellers as $seller): ?>
+                            <p class="small text-muted mb-2">Rate your experience with <strong><?= clean($seller['seller_display']) ?></strong>:</p>
+                            <form method="POST" action="/handlers/review-handler.php" class="mb-3">
+                                <?= getCsrfField() ?>
+                                <input type="hidden" name="order_id"  value="<?= $orderId ?>">
+                                <input type="hidden" name="seller_id" value="<?= (int)$seller['seller_id'] ?>">
+                                <div class="d-flex gap-2 mb-2 align-items-center">
+                                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input visually-hidden" type="radio"
+                                                   name="rating" id="star_<?= (int)$seller['seller_id'] ?>_<?= $i ?>"
+                                                   value="<?= $i ?>" required>
+                                            <label class="form-check-label star-label fs-4"
+                                                   for="star_<?= (int)$seller['seller_id'] ?>_<?= $i ?>"
+                                                   style="cursor:pointer;color:var(--mv-border)">&#9733;</label>
+                                        </div>
+                                    <?php endfor; ?>
+                                </div>
+                                <textarea class="form-control mb-2" name="body" rows="2" maxlength="500"
+                                          placeholder="Optional comment…"></textarea>
+                                <button type="submit" class="btn btn-sm btn-accent">Submit Review</button>
+                            </form>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
                 <a href="/dashboard.php#purchases" class="btn btn-outline-secondary">
                     <i class="bi bi-receipt me-2"></i>View My Orders
@@ -120,4 +173,29 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<script>
+// highlight stars up to the hovered/selected one
+document.querySelectorAll('.star-label').forEach(label => {
+    label.addEventListener('mouseenter', () => highlightStars(label, true));
+    label.addEventListener('mouseleave', () => highlightStars(label, false));
+});
+document.querySelectorAll('input[name="rating"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        const form = radio.closest('form');
+        form.querySelectorAll('.star-label').forEach(l => l.classList.remove('selected'));
+        const idx = radio.value;
+        form.querySelectorAll('.star-label').forEach((l, i) => {
+            if (i < idx) l.classList.add('selected');
+        });
+    });
+});
+function highlightStars(label, on) {
+    const form = label.closest('form');
+    const labels = [...form.querySelectorAll('.star-label')];
+    const idx = labels.indexOf(label);
+    labels.forEach((l, i) => {
+        l.style.color = on && i <= idx ? 'var(--mv-accent)' : '';
+    });
+}
+</script>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

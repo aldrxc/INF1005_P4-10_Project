@@ -138,6 +138,20 @@ require_once __DIR__ . '/includes/header.php';
                             </div>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="payment_method" class="form-label">Payment Method <span class="text-accent">*</span></label>
+                            <select class="form-select <?= isset($errors['payment_method']) ? 'is-invalid' : '' ?>"
+                                    id="payment_method" name="payment_method" required>
+                                <option value="">— Select payment method —</option>
+                                <option value="credit_card"    <?= ($old['payment_method'] ?? '') === 'credit_card'    ? 'selected' : '' ?>>Credit / Debit Card</option>
+                                <option value="paynow"         <?= ($old['payment_method'] ?? '') === 'paynow'         ? 'selected' : '' ?>>PayNow</option>
+                                <option value="bank_transfer"  <?= ($old['payment_method'] ?? '') === 'bank_transfer'  ? 'selected' : '' ?>>Bank Transfer</option>
+                            </select>
+                            <?php if (isset($errors['payment_method'])): ?>
+                                <div class="invalid-feedback" style="display:block;"><?= clean($errors['payment_method']) ?></div>
+                            <?php endif; ?>
+                        </div>
+
                         <button type="submit" class="btn btn-accent w-100 fw-semibold btn-lg">
                             <i class="bi bi-lock me-2"></i>Place Order — S$<?= number_format($total, 2) ?>
                         </button>
