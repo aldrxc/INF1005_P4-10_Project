@@ -30,21 +30,27 @@ $(function () {
     // -----------------------------------------------
     // price range: ensure min <= max on blur
     // -----------------------------------------------
-    function validatePriceRange() {
-        var min = parseFloat($('#minPrice').val());
-        var max = parseFloat($('#maxPrice').val());
-        var $maxPrice = $('#maxPrice');
+    $('[id="minPrice"], [id="maxPrice"]').on('blur', function () {
+        // scope check to specific form user is interacting with
+        var $form = $(this).closest('form');
+        var $minInput = $form.find('[id="minPrice"]');
+        var $maxInput = $form.find('[id="maxPrice"]');
 
-        if ($maxPrice.length && !isNaN(min) && !isNaN(max) && min > max) {
-            $maxPrice[0].setCustomValidity('Max price must be greater than min price.');
-            $maxPrice.addClass('is-invalid');
-        } else if ($maxPrice.length) {
-            $maxPrice[0].setCustomValidity('');
-            $maxPrice.removeClass('is-invalid');
+        // safety check in case form is missing one of inputs
+        if (!$minInput.length || !$maxInput.length) return;
+
+        var min = parseFloat($minInput.val());
+        var max = parseFloat($maxInput.val());
+
+        // validate
+        if (!isNaN(min) && !isNaN(max) && min > max) {
+            $maxInput[0].setCustomValidity('Max price must be greater than min price.');
+            $maxInput.addClass('is-invalid');
+        } else {
+            $maxInput[0].setCustomValidity('');
+            $maxInput.removeClass('is-invalid');
         }
-    }
-
-    $('#minPrice, #maxPrice').on('blur', validatePriceRange);
+    });
 
     // -----------------------------------------------
     // sort dropdown: sync hidden sort input in filter form
