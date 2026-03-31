@@ -1,92 +1,91 @@
-/* main.js — Global JavaScript for MerchVault */
-
-document.addEventListener('DOMContentLoaded', function () {
+/* main.js - global javascript for MerchVault */
+$(function () {
 
     // -----------------------------------------------
-    // Auto-dismiss Bootstrap flash alerts after 4s
+    // auto-dismiss bootstrap flash alerts after 4s
     // -----------------------------------------------
-    document.querySelectorAll('.flash-message').forEach(function (alert) {
+    $('.flash-message').each(function () {
+        var alertEl = this;
         setTimeout(function () {
-            var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+            var bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
             bsAlert.close();
         }, 4000);
     });
 
     // -----------------------------------------------
-    // Back-to-top button
+    // back-to-top button
     // -----------------------------------------------
-    var backToTopBtn = document.getElementById('backToTop');
-    if (backToTopBtn) {
-        window.addEventListener('scroll', function () {
-            backToTopBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+    var $backToTopBtn = $('#backToTop');
+    if ($backToTopBtn.length) {
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() > 400) {
+                $backToTopBtn.fadeIn();
+            } else {
+                $backToTopBtn.fadeOut();
+            }
         });
-        backToTopBtn.addEventListener('click', function () {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        $backToTopBtn.on('click', function () {
+            $('html, body').animate({ scrollTop: 0 }, 'smooth');
         });
     }
 
     // -----------------------------------------------
-    // Active nav link highlighting
+    // active nav link highlighting
     // -----------------------------------------------
     var currentPath = window.location.pathname;
-    document.querySelectorAll('#mainNav .nav-link').forEach(function (link) {
-        var href = link.getAttribute('href');
+    $('#mainNav .nav-link').each(function () {
+        var href = $(this).attr('href');
         if (href && href !== '/' && currentPath.startsWith(href)) {
-            link.classList.add('active');
-            link.setAttribute('aria-current', 'page');
+            $(this).addClass('active').attr('aria-current', 'page');
         } else if (href === '/index.php' && currentPath === '/') {
-            link.classList.add('active');
+            $(this).addClass('active');
         }
     });
 
     // -----------------------------------------------
-    // Collapse mobile navbar on nav-link click
+    // collapse mobile navbar on nav-link click
     // -----------------------------------------------
-    var navCollapse = document.getElementById('navbarMain');
-    if (navCollapse) {
-        document.querySelectorAll('#navbarMain .nav-link:not(.dropdown-toggle)').forEach(function (link) {
-            link.addEventListener('click', function () {
-                var bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
-                if (bsCollapse) bsCollapse.hide();
-            });
+    var $navCollapse = $('#navbarMain');
+    if ($navCollapse.length) {
+        $('#navbarMain .nav-link:not(.dropdown-toggle)').on('click', function () {
+            var bsCollapse = bootstrap.Collapse.getInstance($navCollapse[0]);
+            if (bsCollapse) bsCollapse.hide();
         });
     }
 
     // -----------------------------------------------
-    // Scroll-triggered fade-in for sections
+    // scroll-triggered fade-in for sections
     // -----------------------------------------------
     if ('IntersectionObserver' in window) {
         var fadeObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    $(entry.target).addClass('visible');
                     fadeObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-in-section').forEach(function (el) {
-            fadeObserver.observe(el);
+        $('.fade-in-section').each(function () {
+            fadeObserver.observe(this);
         });
     } else {
-        // Fallback: show all immediately
-        document.querySelectorAll('.fade-in-section').forEach(function (el) {
-            el.classList.add('visible');
-        });
+        // fallback: show all immediately
+        $('.fade-in-section').addClass('visible');
     }
 
     // -----------------------------------------------
-    // Update cart badge count (shared utility)
-    // Called by listing.js and cart.js after AJAX
+    // update cart badge count (shared utility)
+    // called by listing.js and cart.js after AJAX
     // -----------------------------------------------
     window.updateCartBadge = function (count) {
-        var badge = document.getElementById('cartBadge');
-        if (!badge) return;
+        var $badge = $('#cartBadge');
+        if (!$badge.length) return;
         if (count > 0) {
-            badge.textContent = count;
-            badge.style.display = '';
+            $badge.text(count).show();
         } else {
-            badge.style.display = 'none';
+            $badge.hide();
         }
     };
 
