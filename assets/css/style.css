@@ -1146,10 +1146,10 @@ h2.h6.fw-bold.mb-2 {
   color: var(--mv-text);
 }
 
-/* cards — global dark theme override so Bootstrap's default white doesn't show */
+/* cards — force dark background regardless of Bootstrap's --bs-card-bg */
 .card {
-  background-color: var(--mv-surface-2);
-  border-color: var(--mv-border);
+  background-color: var(--mv-surface-2) !important;
+  border-color: var(--mv-border) !important;
   color: var(--mv-text);
 }
 .card .text-muted {
