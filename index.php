@@ -215,7 +215,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <h5>Awesome community</h5>
+                    <h3 class="h5">Awesome community</h3>
                     <p>
                         Safe, reliable & easy to use user interface. Overall
                         an awesome community to be in! 😊
@@ -228,7 +228,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <h5>Decluttering and bargain finds</h5>
+                    <h3 class="h5">Decluttering and bargain finds</h3>
                     <p>
                         Love that we can make the most out of items. Helps me
                         to clear my things without the guilt of throwing and
@@ -242,7 +242,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <h5>Great for the earth</h5>
+                    <h3 class="h5">Great for the earth</h3>
                     <p>
                         Great way to save money and earth resources by buying
                         secondhand; and giving new owners to things that are
@@ -256,7 +256,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
-                    <h5>Easy to buy and sell</h5>
+                    <h3 class="h5">Easy to buy and sell</h3>
                     <p>
                         Easy and convenient platform. It's convenient to buy
                         and sell stuff. Get to chat directly with other users.

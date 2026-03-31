@@ -246,7 +246,7 @@ require_once __DIR__ . '/includes/header.php';
                         <?php endif; ?>
 
                         <!-- Drop zone -->
-                        <div id="dropZone" class="drop-zone" role="button" tabindex="0"
+                        <div id="dropZone" class="drop-zone" tabindex="0" role="region"
                             aria-label="Drop images here or click to select files">
                             <i class="bi bi-cloud-arrow-up drop-zone-icon" aria-hidden="true"></i>
                             <p class="mb-1 fw-semibold">Drag &amp; drop images here</p>

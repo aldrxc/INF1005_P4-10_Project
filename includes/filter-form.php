@@ -3,12 +3,13 @@
 // Requires: $allCategories, $allGenres, $allowedConditions,
 //           $catSlug, $genreId, $conditions, $minPrice, $maxPrice, $searchQ, $sortKey
 ?>
-<form method="GET" action="/browse.php" id="filterForm" aria-label="Filter listings">
+<?php $suffix = $filterSuffix ?? ''; ?>
+<form method="GET" action="/browse.php" id="filterForm<?= $suffix ?>" aria-label="Filter listings">
     <!-- Search -->
     <div class="mb-3">
-        <label for="filterSearch" class="form-label fw-semibold small">Search</label>
+        <label for="filterSearch<?= $suffix ?>" class="form-label fw-semibold small">Search</label>
         <input type="search" class="form-control form-control-sm"
-               id="filterSearch" name="q"
+               id="filterSearch<?= $suffix ?>" name="q"
                value="<?= clean($searchQ) ?>"
                placeholder="Title, artist, description…"
                aria-label="Search listings by keyword">
@@ -21,17 +22,17 @@
             <div class="d-flex flex-column gap-1">
                 <div class="form-check">
                     <input class="form-check-input filter-check" type="radio"
-                           name="category" id="catAll" value=""
+                           name="category" id="catAll<?= $suffix ?>" value=""
                            <?= $catSlug === '' ? 'checked' : '' ?>>
-                    <label class="form-check-label small" for="catAll">All Categories</label>
+                    <label class="form-check-label small" for="catAll<?= $suffix ?>">All Categories</label>
                 </div>
                 <?php foreach ($allCategories as $cat): ?>
                     <div class="form-check">
                         <input class="form-check-input filter-check" type="radio"
-                               name="category" id="cat<?= (int)$cat['category_id'] ?>"
+                               name="category" id="cat<?= (int)$cat['category_id'] ?><?= $suffix ?>"
                                value="<?= clean($cat['slug']) ?>"
                                <?= $catSlug === $cat['slug'] ? 'checked' : '' ?>>
-                        <label class="form-check-label small" for="cat<?= (int)$cat['category_id'] ?>">
+                        <label class="form-check-label small" for="cat<?= (int)$cat['category_id'] ?><?= $suffix ?>">
                             <?= clean($cat['name']) ?>
                         </label>
                     </div>
@@ -42,8 +43,8 @@
 
     <!-- Genre -->
     <div class="mb-3">
-        <label for="filterGenre" class="form-label fw-semibold small">Genre</label>
-        <select class="form-select form-select-sm" id="filterGenre" name="genre" aria-label="Filter by genre">
+        <label for="filterGenre<?= $suffix ?>" class="form-label fw-semibold small">Genre</label>
+        <select class="form-select form-select-sm" id="filterGenre<?= $suffix ?>" name="genre" aria-label="Filter by genre">
             <option value="">All Genres</option>
             <?php foreach ($allGenres as $g): ?>
                 <option value="<?= (int)$g['genre_id'] ?>"
@@ -70,10 +71,10 @@
             ?>
                 <div class="form-check">
                     <input class="form-check-input filter-check" type="checkbox"
-                           name="condition[]" id="cond<?= $val ?>"
+                           name="condition[]" id="cond<?= $val ?><?= $suffix ?>"
                            value="<?= $val ?>"
                            <?= in_array($val, $conditions, true) ? 'checked' : '' ?>>
-                    <label class="form-check-label small" for="cond<?= $val ?>"><?= $label ?></label>
+                    <label class="form-check-label small" for="cond<?= $val ?><?= $suffix ?>"><?= $label ?></label>
                 </div>
             <?php endforeach; ?>
         </fieldset>
@@ -85,13 +86,13 @@
             <legend class="fw-semibold small mb-2">Price (S$)</legend>
             <div class="d-flex gap-2 align-items-center">
                 <input type="number" class="form-control form-control-sm"
-                       name="min_price" id="minPrice"
+                       name="min_price" id="minPrice<?= $suffix ?>"
                        placeholder="Min" min="0" step="0.01"
                        value="<?= $minPrice !== null ? $minPrice : '' ?>"
                        aria-label="Minimum price">
                 <span class="text-muted small">–</span>
                 <input type="number" class="form-control form-control-sm"
-                       name="max_price" id="maxPrice"
+                       name="max_price" id="maxPrice<?= $suffix ?>"
                        placeholder="Max" min="0" step="0.01"
                        value="<?= $maxPrice !== null ? $maxPrice : '' ?>"
                        aria-label="Maximum price">

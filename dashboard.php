@@ -325,11 +325,11 @@ $orderStatusLabels = [
 
 <!-- Delete confirmation modal -->
 <div class="modal fade" id="deleteListingModal" tabindex="-1"
-    aria-labelledby="deleteListingModalLabel" aria-hidden="true">
+    aria-labelledby="deleteListingModalLabel" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark border-secondary">
             <div class="modal-header border-secondary">
-                <h3 class="modal-title h5" id="deleteListingModalLabel">Delete Listing</h3>
+                <h2 class="modal-title h5" id="deleteListingModalLabel">Delete Listing</h2>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-muted">

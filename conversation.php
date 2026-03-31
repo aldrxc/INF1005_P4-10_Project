@@ -88,6 +88,7 @@ require_once __DIR__ . '/includes/header.php';
         </a>
     </div>
 
+    <h1 class="visually-hidden"><?= clean($pageTitle) ?></h1>
     <h2 class="h5 mb-3">
         <i class="bi bi-chat-dots me-2 text-accent" aria-hidden="true"></i>
         <?= clean($other['display_name']) ?>

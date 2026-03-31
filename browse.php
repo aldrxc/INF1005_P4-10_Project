@@ -134,21 +134,27 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <div class="offcanvas offcanvas-start offcanvas-dark" tabindex="-1"
-             id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+             id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel" role="dialog">
             <div class="offcanvas-header">
                 <h2 class="offcanvas-title h5" id="filterOffcanvasLabel">Filters</h2>
                 <button type="button" class="btn-close btn-close-white"
                         data-bs-dismiss="offcanvas" aria-label="Close filters"></button>
             </div>
             <div class="offcanvas-body">
-                <?php include __DIR__ . '/includes/filter-form.php'; ?>
+                <?php
+                $filterSuffix = '-mobile';
+                include __DIR__ . '/includes/filter-form.php'; 
+                ?>
             </div>
         </div>
 
         <!-- Desktop sidebar -->
         <aside class="col-lg-3 d-none d-lg-block" aria-label="Listing filters">
             <div class="filter-sidebar sticky-top" style="top:80px">
-                <?php include __DIR__ . '/includes/filter-form.php'; ?>
+                <?php 
+                $filterSuffix = '-desktop';
+                include __DIR__ . '/includes/filter-form.php'; 
+                ?>
             </div>
         </aside>
 
