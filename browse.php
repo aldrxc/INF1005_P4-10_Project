@@ -8,7 +8,6 @@ startSession();
 $pageTitle = 'Browse Listings';
 $pdo = getDB();
 
-// --- Allowed filter values (whitelist) ---
 $allowedSorts = [
     'newest'     => 'l.created_at DESC',
     'oldest'     => 'l.created_at ASC',
@@ -17,7 +16,6 @@ $allowedSorts = [
 ];
 $allowedConditions = ['new', 'like_new', 'good', 'fair', 'poor'];
 
-// --- Read & validate GET params ---
 $searchQ    = trim($_GET['q']         ?? '');
 $catSlug    = trim($_GET['category']  ?? '');
 $genreId    = sanitizeInt($_GET['genre']  ?? '');
@@ -42,7 +40,6 @@ if ($catSlug !== '') {
     }
 }
 
-// --- Build query ---
 $where  = ["l.status = 'available'"];
 $params = [];
 
@@ -78,13 +75,11 @@ if ($searchQ !== '') {
 $whereClause = 'WHERE ' . implode(' AND ', $where);
 $orderClause = 'ORDER BY ' . $allowedSorts[$sortKey];
 
-// Count total results for pagination
 $countStmt = $pdo->prepare("SELECT COUNT(*) FROM listings l $whereClause");
 $countStmt->execute($params);
 $totalResults = (int)$countStmt->fetchColumn();
 $totalPages   = (int)ceil($totalResults / $perPage);
 
-// Fetch listings for current page
 $listingParams   = array_merge($params, [$perPage, $offset]);
 $listingStmt = $pdo->prepare("
     SELECT l.listing_id, l.title, l.price, l.artist_band, l.condition_type,
@@ -104,7 +99,6 @@ $listingStmt = $pdo->prepare("
 $listingStmt->execute($listingParams);
 $listings = $listingStmt->fetchAll();
 
-// Filter sidebar data
 $allCategories = $pdo->query("SELECT category_id, name, slug FROM categories ORDER BY name")->fetchAll();
 $allGenres     = $pdo->query("SELECT genre_id, name FROM genres ORDER BY name")->fetchAll();
 
@@ -127,8 +121,7 @@ require_once __DIR__ . '/includes/header.php';
 <div class="container py-4">
     <div class="row g-4">
 
-        <!-- ===================== FILTER SIDEBAR ===================== -->
-        <!-- Mobile: offcanvas trigger -->
+        <!-- filter sidebar (mobile: offcanvas, desktop: sidebar) -->
         <div class="d-lg-none mb-2">
             <button class="btn btn-outline-secondary btn-sm w-100" type="button"
                     data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas"
@@ -140,7 +133,6 @@ require_once __DIR__ . '/includes/header.php';
             </button>
         </div>
 
-        <!-- Offcanvas for mobile -->
         <div class="offcanvas offcanvas-start offcanvas-dark" tabindex="-1"
              id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
             <div class="offcanvas-header">
@@ -160,10 +152,8 @@ require_once __DIR__ . '/includes/header.php';
             </div>
         </aside>
 
-        <!-- ===================== RESULTS AREA ===================== -->
         <div class="col-lg-9">
 
-            <!-- Active filter chips + sort -->
             <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
                 <span class="text-muted small me-auto">
                     <?= $totalResults ?> <?= $totalResults === 1 ? 'result' : 'results' ?>
@@ -187,7 +177,6 @@ require_once __DIR__ . '/includes/header.php';
                     </a>
                 <?php endif; ?>
 
-                <!-- Sort -->
                 <form method="GET" id="sortForm" class="ms-auto" aria-label="Sort listings">
                     <?php foreach ($_GET as $k => $v): if ($k === 'sort' || $k === 'page') continue; ?>
                         <?php if (is_array($v)): foreach ($v as $vi): ?>
@@ -206,7 +195,6 @@ require_once __DIR__ . '/includes/header.php';
                 </form>
             </div>
 
-            <!-- Listings grid -->
             <?php if (empty($listings)): ?>
                 <div class="text-center py-5 text-muted" role="status">
                     <i class="bi bi-search display-4" aria-hidden="true"></i>

@@ -1,12 +1,5 @@
 <?php
-// =============================================================
-// CSRF Token Helpers
-// =============================================================
 
-/**
- * Generate (if not already set) and return the session CSRF token.
- * Call this at the start of any GET page that renders a form.
- */
 function generateCsrfToken(): string {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -14,18 +7,13 @@ function generateCsrfToken(): string {
     return $_SESSION['csrf_token'];
 }
 
-/**
- * Output a hidden CSRF input field. Include inside every <form>.
- */
+// include inside every <form>
 function getCsrfField(): string {
     $token = generateCsrfToken();
     return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
 }
 
-/**
- * Validate the CSRF token from a POST request.
- * Aborts with 403 if the token is missing or does not match.
- */
+// aborts with 403 if token is missing or doesn't match
 function validateCsrfToken(): void {
     $submitted = $_POST['csrf_token'] ?? '';
     $expected  = $_SESSION['csrf_token'] ?? '';

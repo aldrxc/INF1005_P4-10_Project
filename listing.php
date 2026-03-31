@@ -14,7 +14,6 @@ if (!$listingId) {
 
 $pdo = getDB();
 
-// Fetch listing with joins
 $stmt = $pdo->prepare("
     SELECT l.*, c.name AS category_name, c.slug AS category_slug,
            g.name AS genre_name,
@@ -45,7 +44,6 @@ if (!$isOwner) {
     $pdo->prepare("UPDATE listings SET views = views + 1 WHERE listing_id = ?")->execute([$listingId]);
 }
 
-// Fetch images
 $imgStmt = $pdo->prepare("
     SELECT image_id, file_path, is_primary
     FROM listing_images
@@ -63,7 +61,7 @@ if ($listing['category_slug'] === 'event-tickets') {
     $ticketDetails = $tStmt->fetch();
 }
 
-// Related listings (same category, excluding this one)
+// related listings
 $relStmt = $pdo->prepare("
     SELECT l.listing_id, l.title, l.price, l.artist_band, l.condition_type,
            c.name AS category_name, c.slug AS category_slug,
@@ -83,7 +81,6 @@ $relStmt = $pdo->prepare("
 $relStmt->execute([$listing['category_id'], $listingId]);
 $related = $relStmt->fetchAll();
 
-// Check if in cart
 $inCart = false;
 if (isLoggedIn()) {
     $cStmt = $pdo->prepare("SELECT 1 FROM cart_items WHERE user_id = ? AND listing_id = ? LIMIT 1");
@@ -124,10 +121,8 @@ $condLabels = [
 
     <div class="row g-4">
 
-        <!-- ========== IMAGE GALLERY ========== -->
         <div class="col-lg-6">
             <div class="listing-gallery" id="listingGallery">
-                <!-- Main image -->
                 <div class="gallery-main mb-2">
                     <?php $mainImg = !empty($images) ? $images[0]['file_path'] : null; ?>
                     <img src="<?= $mainImg ? '/' . clean($mainImg) : '/assets/images/placeholder.php' ?>"
@@ -155,11 +150,9 @@ $condLabels = [
             </div>
         </div>
 
-        <!-- ========== DETAILS PANEL ========== -->
         <div class="col-lg-6">
             <div class="listing-details">
 
-                <!-- Status badge -->
                 <?php if ($listing['status'] !== 'available'): ?>
                     <span class="badge bg-<?= $listing['status'] === 'reserved' ? 'warning' : 'danger' ?> mb-2">
                         <?= ucfirst($listing['status']) ?>
@@ -168,10 +161,8 @@ $condLabels = [
 
                 <h1 class="listing-title h3 fw-bold mb-1"><?= clean($listing['title']) ?></h1>
 
-                <!-- Price -->
                 <div class="listing-price my-3">S$<?= number_format((float)$listing['price'], 2) ?></div>
 
-                <!-- Tags row -->
                 <div class="d-flex flex-wrap gap-2 mb-3">
                     <span class="badge bg-secondary-subtle text-secondary-emphasis">
                         <i class="bi bi-folder me-1" aria-hidden="true"></i><?= clean($listing['category_name']) ?>
@@ -234,13 +225,11 @@ $condLabels = [
                     </div>
                 <?php endif; ?>
 
-                <!-- Description -->
                 <div class="listing-description mb-3">
                     <h2 class="h6 fw-bold mb-1">Description</h2>
                     <p class="text-muted" style="white-space:pre-line"><?= clean($listing['description']) ?></p>
                 </div>
 
-                <!-- Views -->
                 <p class="text-muted small mb-3">
                     <i class="bi bi-eye me-1" aria-hidden="true"></i>
                     <?= number_format((int)$listing['views']) ?> view<?= $listing['views'] !== '1' ? 's' : '' ?>
@@ -248,7 +237,6 @@ $condLabels = [
                     Listed <?= clean(date('d M Y', strtotime($listing['created_at']))) ?>
                 </p>
 
-                <!-- Actions -->
                 <div class="d-flex flex-wrap gap-2 mb-4">
                     <?php if ($isOwner): ?>
                         <a href="/edit-listing.php?id=<?= (int)$listingId ?>" class="btn btn-outline-secondary">
@@ -291,7 +279,6 @@ $condLabels = [
                         </a>
                     <?php endif; ?>
 
-                    <!-- Share -->
                     <button type="button" id="shareBtn" class="btn btn-outline-secondary"
                         aria-label="Copy listing link to clipboard">
                         <i class="bi bi-share me-1" aria-hidden="true"></i>Share

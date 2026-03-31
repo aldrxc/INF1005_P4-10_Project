@@ -1,6 +1,5 @@
 <?php
-// POST handler — add / update / remove cart items
-// Also handles AJAX requests (returns JSON)
+// POST handler — add / update / remove cart items (also handles AJAX)
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -36,7 +35,7 @@ $cartAction = trim($_POST['cart_action'] ?? '');
 $pdo        = getDB();
 $userId     = getCurrentUserId();
 
-// ---- ADD TO CART ----
+// add to cart
 if ($cartAction === 'add') {
     $listingId = sanitizeInt($_POST['listing_id'] ?? '');
     if (!$listingId) {
@@ -45,7 +44,6 @@ if ($cartAction === 'add') {
         exit;
     }
 
-    // Verify listing exists, is available, and not owned by buyer
     $stmt = $pdo->prepare("SELECT listing_id, status, seller_id FROM listings WHERE listing_id = ? LIMIT 1");
     $stmt->execute([$listingId]);
     $listing = $stmt->fetch();
@@ -63,7 +61,6 @@ if ($cartAction === 'add') {
         exit;
     }
 
-    // Upsert cart item
     $stmt = $pdo->prepare("
         INSERT INTO cart_items (user_id, listing_id, quantity)
         VALUES (?, ?, 1)
@@ -71,7 +68,6 @@ if ($cartAction === 'add') {
     ");
     $stmt->execute([$userId, $listingId]);
 
-    // Cart count
     $countStmt = $pdo->prepare("SELECT COALESCE(SUM(quantity),0) FROM cart_items WHERE user_id = ?");
     $countStmt->execute([$userId]);
     $cartCount = (int)$countStmt->fetchColumn();
@@ -82,7 +78,7 @@ if ($cartAction === 'add') {
     exit;
 }
 
-// ---- UPDATE QUANTITY ----
+// update quantity
 if ($cartAction === 'update') {
     $cartItemId = sanitizeInt($_POST['cart_item_id'] ?? '');
     $newQty     = max(1, (int)($_POST['quantity'] ?? 1));
@@ -93,7 +89,6 @@ if ($cartAction === 'update') {
         exit;
     }
 
-    // Verify ownership
     $stmt = $pdo->prepare("
         SELECT ci.cart_item_id, l.price
         FROM cart_items ci
@@ -115,7 +110,6 @@ if ($cartAction === 'update') {
 
     $lineTotal = (float)$item['price'] * $newQty;
 
-    // Recalculate cart total
     $totalStmt = $pdo->prepare("
         SELECT COALESCE(SUM(l.price * ci.quantity), 0)
         FROM cart_items ci
@@ -139,7 +133,7 @@ if ($cartAction === 'update') {
     exit;
 }
 
-// ---- REMOVE FROM CART ----
+// remove from cart
 if ($cartAction === 'remove') {
     $cartItemId = sanitizeInt($_POST['cart_item_id'] ?? '');
 

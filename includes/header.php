@@ -41,15 +41,11 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
     <meta name="description" content="MerchVault — Buy and sell music merchandise and event tickets">
     <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?> | MerchVault</title>
 
-    <!-- Bootstrap 5 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
@@ -59,13 +55,12 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav" aria-label="Main navigation">
         <div class="container">
 
-            <!-- Brand -->
             <a class="navbar-brand d-flex align-items-center gap-2" href="/index.php">
                 <i class="bi bi-music-note-list fs-4" aria-hidden="true"></i>
                 <span class="fw-bold">MerchVault</span>
             </a>
 
-            <!-- Right side: mobile quick actions + toggle -->
+            <!-- mobile: quick actions + hamburger toggle -->
             <div class="nav-mobile-tools d-flex d-lg-none align-items-center gap-2 ms-auto">
                 <?php if (isLoggedIn()): ?>
                     <a class="nav-icon-link position-relative" href="/cart.php" aria-label="Shopping cart">
@@ -116,7 +111,6 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                     </a>
                 <?php endif; ?>
 
-                <!-- Mobile toggle -->
                 <button class="navbar-toggler border-0 shadow-none" type="button"
                     data-bs-toggle="collapse" data-bs-target="#navbarMain"
                     aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,17 +118,15 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                 </button>
             </div>
 
-            <!-- Desktop toggle -->
+            <!-- hidden desktop toggle (required by Bootstrap collapse) -->
             <button class="navbar-toggler border-0 shadow-none d-none" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarMain"
                 aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Collapsible content -->
             <div class="collapse navbar-collapse" id="navbarMain">
 
-                <!-- Left nav links -->
                 <ul class="navbar-nav nav-primary mb-3 mb-lg-0">
                     <!-- <li class="nav-item">
                         <a class="nav-link <?= navActive('/index.php') ?>" href="/index.php">Home</a>
@@ -167,7 +159,6 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                     </form>
 
                     <?php if (isLoggedIn()): ?>
-                        <!-- Desktop only actions -->
                         <div class="nav-actions d-none d-lg-flex align-items-center gap-2 flex-wrap">
                             <a class="nav-icon-link position-relative" href="/messages.php" aria-label="Messages">
                                 <i class="bi bi-chat-dots fs-5" aria-hidden="true"></i>
@@ -222,7 +213,6 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                             </div>
                         </div>
                     <?php else: ?>
-                        <!-- Desktop only guest actions -->
                         <div class="nav-actions d-none d-lg-flex align-items-center gap-2 flex-wrap">
                             <a class="nav-link px-2" href="/login.php">Login</a>
                             <a class="btn btn-accent btn-sm nav-sell-btn" href="/create-listing.php">
@@ -246,5 +236,4 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
         </div>
     <?php endif; ?>
 
-    <!-- Main content wrapper -->
     <main id="main-content">

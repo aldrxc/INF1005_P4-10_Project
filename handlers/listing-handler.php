@@ -21,9 +21,7 @@ $listingId = sanitizeInt($_POST['listing_id'] ?? '');
 $errors    = [];
 $old       = [];
 
-// -----------------------------------------------
-// Collect & validate common fields
-// -----------------------------------------------
+// collect & validate common fields
 $title       = trim($_POST['title']       ?? '');
 $description = trim($_POST['description'] ?? '');
 $artist_band = trim($_POST['artist_band'] ?? '');
@@ -57,9 +55,7 @@ if ($categoryId) {
 
 $isTicket = $catRow && $catRow['slug'] === 'event-tickets';
 
-// -----------------------------------------------
-// Ticket-specific validation
-// -----------------------------------------------
+// ticket-specific validation
 $ticketData = [];
 if ($isTicket) {
     $eventName    = trim($_POST['event_name']    ?? '');
@@ -94,9 +90,7 @@ if ($isTicket) {
     $ticketData = compact('eventName','eventDate','venueName','venueCity','seatSection','seatRow','seatNumber','quantity','isETicket');
 }
 
-// -----------------------------------------------
-// Ownership check for edits
-// -----------------------------------------------
+// ownership check for edits
 $existingListing = null;
 if ($action === 'edit') {
     if (!$listingId) {
@@ -114,9 +108,7 @@ if ($action === 'edit') {
     }
 }
 
-// -----------------------------------------------
-// Image upload
-// -----------------------------------------------
+// image upload
 $uploadedPaths = [];
 if (!empty($_FILES['images']['name'][0])) {
     $filesArray = reindexFilesArray($_FILES['images']);
@@ -148,9 +140,7 @@ if (!empty($errors)) {
     exit;
 }
 
-// -----------------------------------------------
-// Persist to database
-// -----------------------------------------------
+// save to database
 $pdo->beginTransaction();
 try {
     if ($action === 'create') {
@@ -196,7 +186,7 @@ try {
         ]);
     }
 
-    // Ticket details
+    // ticket details
     if ($isTicket && $ticketData) {
         if ($action === 'edit') {
             $pdo->prepare("DELETE FROM ticket_details WHERE listing_id = ?")->execute([$listingId]);
@@ -223,9 +213,8 @@ try {
         ]);
     }
 
-    // Images
+    // images
     if (!empty($uploadedPaths)) {
-        $isPrimary = ($action === 'create') ? 1 : 0; // first image is primary on create only
         foreach ($uploadedPaths as $i => $path) {
             $stmt = $pdo->prepare("
                 INSERT INTO listing_images (listing_id, file_path, is_primary, sort_order)

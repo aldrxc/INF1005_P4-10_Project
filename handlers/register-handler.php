@@ -7,7 +7,6 @@ require_once __DIR__ . '/../includes/sanitize.php';
 
 startSession();
 
-// Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /register.php');
     exit;
@@ -18,18 +17,15 @@ validateCsrfToken();
 $errors = [];
 $old    = [];
 
-// --- Collect & trim raw input ---
-$username        = trim($_POST['username']        ?? '');
-$email           = trim($_POST['email']           ?? '');
-$display_name    = trim($_POST['display_name']    ?? '');
-$password        = $_POST['password']             ?? '';
-$confirm_password= $_POST['confirm_password']     ?? '';
+$username         = trim($_POST['username']         ?? '');
+$email            = trim($_POST['email']            ?? '');
+$display_name     = trim($_POST['display_name']     ?? '');
+$password         = $_POST['password']              ?? '';
+$confirm_password = $_POST['confirm_password']      ?? '';
 
 $old = compact('username', 'email', 'display_name');
 
-// --- Server-side validation ---
-
-// Username: 3–50 chars, alphanumeric + underscores only
+// username: 3–50 chars, letters/numbers/underscores only
 if ($username === '') {
     $errors['username'] = 'Username is required.';
 } elseif (strlen($username) < 3 || strlen($username) > 50) {
@@ -38,7 +34,6 @@ if ($username === '') {
     $errors['username'] = 'Username may only contain letters, numbers, and underscores.';
 }
 
-// Email
 if ($email === '') {
     $errors['email'] = 'Email address is required.';
 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -47,28 +42,24 @@ if ($email === '') {
     $errors['email'] = 'Email address is too long.';
 }
 
-// Display name
 if ($display_name === '') {
     $errors['display_name'] = 'Display name is required.';
 } elseif (strlen($display_name) > 100) {
     $errors['display_name'] = 'Display name must be 100 characters or fewer.';
 }
 
-// Password
 if ($password === '') {
     $errors['password'] = 'Password is required.';
 } elseif (strlen($password) < 8) {
     $errors['password'] = 'Password must be at least 8 characters.';
 }
 
-// Confirm password
 if ($confirm_password === '') {
     $errors['confirm_password'] = 'Please confirm your password.';
 } elseif ($password !== $confirm_password) {
     $errors['confirm_password'] = 'Passwords do not match.';
 }
 
-// If validation failed so far, redirect back
 if (!empty($errors)) {
     $_SESSION['register_errors'] = $errors;
     $_SESSION['register_old']    = $old;
@@ -76,7 +67,6 @@ if (!empty($errors)) {
     exit;
 }
 
-// --- Uniqueness checks ---
 $pdo = getDB();
 
 $stmt = $pdo->prepare("SELECT user_id FROM users WHERE username = ? LIMIT 1");
@@ -98,7 +88,6 @@ if (!empty($errors)) {
     exit;
 }
 
-// --- Create user ---
 $hash = password_hash($password, PASSWORD_BCRYPT);
 
 $stmt = $pdo->prepare("
@@ -114,12 +103,11 @@ $stmt->execute([
 
 $userId = (int)$pdo->lastInsertId();
 
-// --- Start session ---
 session_regenerate_id(true);
 $_SESSION['user_id']      = $userId;
 $_SESSION['username']     = $username;
 $_SESSION['display_name'] = $display_name;
-$_SESSION['role'] = 'user';
+$_SESSION['role']         = 'user';
 
 setFlash('Welcome to MerchVault, ' . htmlspecialchars($display_name, ENT_QUOTES, 'UTF-8') . '! Your account is ready.', 'success');
 header('Location: /dashboard.php');
