@@ -223,7 +223,18 @@ $(function () {
                     var today = new Date().toISOString().split('T')[0];
                     if ($evDate.val() < today) {
                         $evDate[0].setCustomValidity('Event date must be in the future.');
+                        $evDate.addClass('is-invalid'); // turns input box red
+                        
+                        // inject text error directly below input if it isnt there already
+                        if ($evDate.siblings('.invalid-feedback.date-error').length === 0) {
+                            $evDate.after('<div class="invalid-feedback date-error">Event date must be in the future.</div>');
+                        }
+                        
                         valid = false;
+                    } else {
+                        $evDate[0].setCustomValidity('');
+                        $evDate.removeClass('is-invalid'); // removes red box
+                        $evDate.siblings('.invalid-feedback.date-error').remove(); // clears text
                     }
                 }
             }
