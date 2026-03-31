@@ -1,4 +1,4 @@
-/* create-listing.js - create & Eeit listing form JS for MerchVault */
+/* create-listing.js - create & edit listing form JS for MerchVault */
 $(function () {
 
     var $categorySelect = $('#category_id');
