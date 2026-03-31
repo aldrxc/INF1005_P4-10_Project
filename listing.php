@@ -41,7 +41,9 @@ if (!$listing) {
 }
 
 // Increment view counter
-$pdo->prepare("UPDATE listings SET views = views + 1 WHERE listing_id = ?")->execute([$listingId]);
+if (!$isOwner) {
+    $pdo->prepare("UPDATE listings SET views = views + 1 WHERE listing_id = ?")->execute([$listingId]);
+}
 
 // Fetch images
 $imgStmt = $pdo->prepare("

@@ -119,6 +119,7 @@ session_regenerate_id(true);
 $_SESSION['user_id']      = $userId;
 $_SESSION['username']     = $username;
 $_SESSION['display_name'] = $display_name;
+$_SESSION['role'] = 'user';
 
 setFlash('Welcome to MerchVault, ' . htmlspecialchars($display_name, ENT_QUOTES, 'UTF-8') . '! Your account is ready.', 'success');
 header('Location: /dashboard.php');

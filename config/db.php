@@ -38,10 +38,7 @@ if (file_exists($_localConfig)) {
     ];
 }
 
-// Security headers applied on every request
-header('X-Frame-Options: SAMEORIGIN');
-header('X-Content-Type-Options: nosniff');
-header('Referrer-Policy: strict-origin-when-cross-origin');
+
 
 /**
  * Returns a singleton PDO instance.
@@ -50,22 +47,15 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 function getDB(): PDO {
     static $pdo = null;
     if ($pdo === null) {
-        global $_db;
-        $dsn = sprintf(
-            'mysql:host=%s;dbname=%s;charset=%s',
-            $_db['host'], $_db['name'], DB_CHARSET
-        );
-        $options = [
+        $db = file_exists(__DIR__ . '/db.local.php')
+            ? require __DIR__ . '/db.local.php'
+            : ['host'=>'localhost','name'=>'merch_vault','user'=>'root','pass'=>''];
+        $dsn = "mysql:host={$db['host']};dbname={$db['name']};charset=utf8mb4";
+        $pdo = new PDO($dsn, $db['user'], $db['pass'], [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false, // real prepared statements
-        ];
-        try {
-            $pdo = new PDO($dsn, $_db['user'], $_db['pass'], $options);
-        } catch (PDOException $e) {
-            error_log('Database connection failed: ' . $e->getMessage());
-            die('A database error occurred. Please try again later.');
-        }
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ]);
     }
     return $pdo;
 }

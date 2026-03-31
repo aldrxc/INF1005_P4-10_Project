@@ -50,10 +50,7 @@ function sanitizeEnum(mixed $value, array $allowed): mixed {
  * Validate a date string in Y-m-d format.
  * Returns a DateTime object on success, or null.
  */
-function sanitizeDate(string $value): ?DateTime {
+function sanitizeDate(string $value): ?string {
     $dt = DateTime::createFromFormat('Y-m-d', trim($value));
-    if ($dt === false || DateTime::getLastErrors()['warning_count'] > 0) {
-        return null;
-    }
-    return $dt;
+    return $dt ? $dt->format('Y-m-d') : null;
 }

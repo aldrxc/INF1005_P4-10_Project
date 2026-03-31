@@ -22,11 +22,15 @@ if (isLoggedIn()) {
     } catch (Exception $e) {}
 }
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-function navActive(string $path): string
-{
-    global $currentPath;
-    return ($currentPath === $path || strpos($currentPath, $path) === 0 && $path !== '/') ? 'active' : '';
+if (!function_exists('navActive')) {
+    function navActive(string $path): string {
+        global $currentPath;
+        return ($currentPath === $path || strpos($currentPath, $path) === 0 && $path !== '/') ? 'active' : '';
+    }
 }
+header('X-Frame-Options: SAMEORIGIN');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: strict-origin-when-cross-origin');
 ?>
 <!DOCTYPE html>
 <html lang="en">

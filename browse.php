@@ -91,13 +91,12 @@ $listingStmt = $pdo->prepare("
            c.name AS category_name, c.slug AS category_slug,
            g.name AS genre_name,
            u.username AS seller_username, u.display_name AS seller_display,
-           (SELECT file_path FROM listing_images
-            WHERE listing_id = l.listing_id AND is_primary = 1
-            LIMIT 1) AS primary_image
+           li.file_path AS primary_image
     FROM listings l
     JOIN categories c ON l.category_id = c.category_id
     LEFT JOIN genres g ON l.genre_id = g.genre_id
     JOIN users u ON l.seller_id = u.user_id
+    LEFT JOIN listing_images li ON li.listing_id = l.listing_id AND li.is_primary = 1
     $whereClause
     $orderClause
     LIMIT ? OFFSET ?

@@ -212,7 +212,7 @@ try {
         $stmt->execute([
             ':listing_id'  => $listingId,
             ':event_name'  => $ticketData['eventName'],
-            ':event_date'  => $ticketData['eventDate']->format('Y-m-d'),
+            ':event_date'  => $ticketData['eventDate'],
             ':venue_name'  => $ticketData['venueName'],
             ':venue_city'  => $ticketData['venueCity'],
             ':seat_section'=> $ticketData['seatSection'],
