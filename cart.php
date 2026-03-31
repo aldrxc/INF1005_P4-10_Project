@@ -160,7 +160,7 @@ require_once __DIR__ . '/includes/header.php';
                         <hr>
                         <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
                             <span class="text-white">Total</span>
-                            <span class="text-white" id=" cartTotal">S$<?= number_format($total, 2) ?></span>
+                            <span class="text-white" id="cartTotal">S$<?= number_format($total, 2) ?></span>
                         </div>
 
                         <a href="/checkout.php"

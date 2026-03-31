@@ -55,8 +55,13 @@ $(function () {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                $('#itemTotal' + cartItemId).text(data.lineTotal);
-                $('#cartSubtotal, #cartTotal').text(data.cartTotal);
+                // update specific item line total
+                $('[id="itemTotal' + cartItemId + '"]').text(data.lineTotal);
+
+                // update all instances of subtotal and total on page
+                // check if data.cartSubtotal exists, otherwise fallback to data.cartTotal
+                $('[id="cartSubtotal"]').text(data.cartSubtotal !== undefined ? data.cartSubtotal : data.cartTotal);
+                $('[id="cartTotal"]').text(data.cartTotal);
 
                 if (typeof window.updateCartBadge === 'function') {
                     window.updateCartBadge(data.cartCount);
@@ -82,13 +87,15 @@ $(function () {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                var $row = $('#cartItem' + cartItemId);
+                var $row = $('[id="cartItem' + cartItemId + '"]');
                 if ($row.length) {
                     $row.css({ 'transition': 'opacity 0.3s ease', 'opacity': '0' });
                     setTimeout(() => $row.remove(), 310);
                 }
 
-                $('#cartSubtotal, #cartTotal').text(data.cartTotal);
+                // update all instances of subtotal and total on page
+                $('[id="cartSubtotal"]').text(data.cartSubtotal !== undefined ? data.cartSubtotal : data.cartTotal);
+                $('[id="cartTotal"]').text(data.cartTotal);
 
                 if (typeof window.updateCartBadge === 'function') {
                     window.updateCartBadge(data.cartCount);
