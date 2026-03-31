@@ -1,81 +1,75 @@
-/* browse.js — Browse & filter page JS for MerchVault */
-
-document.addEventListener('DOMContentLoaded', function () {
+/* browse.js - browse & filter page JS for MerchVault */
+$(function () {
 
     // -----------------------------------------------
-    // Debounced search — auto-submit after 400ms idle
+    // debounced search - auto-submit after 1s idle
+    // 400ms was too fast
     // -----------------------------------------------
-    var searchInputs = document.querySelectorAll('#filterSearch');
-    searchInputs.forEach(function (input) {
-        var debounceTimer;
-        input.addEventListener('input', function () {
+    $('[id="filterSearch"]').each(function () {
+        var debounceTimer; // scoped to each individual input
+        $(this).on('input', function () {
             clearTimeout(debounceTimer);
+            var $form = $(this).closest('form');
+            
             debounceTimer = setTimeout(function () {
-                var form = input.closest('form');
-                if (form) form.submit();
-            }, 400);
+                if ($form.length) {
+                    $form[0].submit(); // native submit, exactly like vanilla js
+                }
+            }, 1000); // 1s delay (1000ms)
         });
     });
 
     // -----------------------------------------------
-    // Auto-submit filter form on checkbox/radio/select change
+    // auto-submit filter form on checkbox/radio/select change
     // (category radios, genre select, condition checkboxes)
     // -----------------------------------------------
-    document.querySelectorAll('.filter-check, #filterGenre').forEach(function (el) {
-        el.addEventListener('change', function () {
-            var form = el.closest('form');
-            if (form) form.submit();
-        });
+    $('.filter-check, #filterGenre').on('change', function () {
+        $(this).closest('form').trigger('submit');
     });
 
     // -----------------------------------------------
-    // Price range: ensure min <= max on blur
+    // price range: ensure min <= max on blur
     // -----------------------------------------------
-    var minPrice = document.getElementById('minPrice');
-    var maxPrice = document.getElementById('maxPrice');
+    $('[id="minPrice"], [id="maxPrice"]').on('blur', function () {
+        // scope check to specific form user is interacting with
+        var $form = $(this).closest('form');
+        var $minInput = $form.find('[id="minPrice"]');
+        var $maxInput = $form.find('[id="maxPrice"]');
 
-    function validatePriceRange() {
-        if (!minPrice || !maxPrice) return;
-        var min = parseFloat(minPrice.value);
-        var max = parseFloat(maxPrice.value);
+        // safety check in case form is missing one of inputs
+        if (!$minInput.length || !$maxInput.length) return;
+
+        var min = parseFloat($minInput.val());
+        var max = parseFloat($maxInput.val());
+
+        // validate
         if (!isNaN(min) && !isNaN(max) && min > max) {
-            maxPrice.setCustomValidity('Max price must be greater than min price.');
-            maxPrice.classList.add('is-invalid');
+            $maxInput[0].setCustomValidity('Max price must be greater than min price.');
+            $maxInput.addClass('is-invalid');
         } else {
-            maxPrice.setCustomValidity('');
-            maxPrice.classList.remove('is-invalid');
+            $maxInput[0].setCustomValidity('');
+            $maxInput.removeClass('is-invalid');
         }
-    }
-
-    if (minPrice) minPrice.addEventListener('blur', validatePriceRange);
-    if (maxPrice) maxPrice.addEventListener('blur', validatePriceRange);
+    });
 
     // -----------------------------------------------
-    // Sort dropdown: sync hidden sort input in filter form
+    // sort dropdown: sync hidden sort input in filter form
     // when both sort selects are present (desktop sort +
     // offcanvas filter form)
     // -----------------------------------------------
-    var mainSortSelect = document.querySelector('#sortForm select[name="sort"]');
-    var filterSortInputs = document.querySelectorAll('#filterForm input[name="sort"]');
-
-    if (mainSortSelect) {
-        mainSortSelect.addEventListener('change', function () {
-            filterSortInputs.forEach(function (input) {
-                input.value = mainSortSelect.value;
-            });
+    var $mainSortSelect = $('#sortForm select[name="sort"]');
+    if ($mainSortSelect.length) {
+        $mainSortSelect.on('change', function () {
+            $('#filterForm input[name="sort"]').val($(this).val());
         });
     }
 
     // -----------------------------------------------
-    // Listing card hover: show quick-view overlay
+    // listing card hover: show quick-view overlay
     // -----------------------------------------------
-    document.querySelectorAll('.listing-card').forEach(function (card) {
-        card.addEventListener('mouseenter', function () {
-            card.classList.add('hovered');
-        });
-        card.addEventListener('mouseleave', function () {
-            card.classList.remove('hovered');
-        });
-    });
+    $('.listing-card').hover(
+        function () { $(this).addClass('hovered'); },
+        function () { $(this).removeClass('hovered'); }
+    );
 
 });

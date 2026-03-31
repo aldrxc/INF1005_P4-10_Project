@@ -1,46 +1,40 @@
-/* cart.js — Shopping cart page JS for MerchVault */
-
-document.addEventListener('DOMContentLoaded', function () {
+/* cart.js - shopping cart page JS for MerchVault */
+$(function () {
 
     // -----------------------------------------------
-    // Quantity stepper buttons
+    // quantity stepper buttons
     // -----------------------------------------------
-    document.querySelectorAll('.qty-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var action = btn.getAttribute('data-action');
-            var itemId = btn.getAttribute('data-item-id');
-            var input  = document.querySelector('.qty-input[data-item-id="' + itemId + '"]');
-            if (!input) return;
+    $('.qty-btn').on('click', function () {
+        var action = $(this).data('action');
+        var itemId = $(this).data('item-id');
+        var $input = $('.qty-input[data-item-id="' + itemId + '"]');
+        
+        if (!$input.length) return;
 
-            var current = parseInt(input.value, 10);
-            var newQty  = action === 'plus' ? current + 1 : Math.max(1, current - 1);
-            if (newQty === current) return;
+        var current = parseInt($input.val(), 10);
+        var newQty = action === 'plus' ? current + 1 : Math.max(1, current - 1);
+        if (newQty === current) return;
 
-            input.value = newQty;
-            updateCartItem(itemId, newQty);
-        });
+        $input.val(newQty);
+        updateCartItem(itemId, newQty);
     });
 
     // -----------------------------------------------
-    // Manual quantity input change
+    // manual quantity input change
     // -----------------------------------------------
-    document.querySelectorAll('.qty-input').forEach(function (input) {
-        input.addEventListener('change', function () {
-            var itemId = input.getAttribute('data-item-id');
-            var newQty = Math.max(1, parseInt(input.value, 10) || 1);
-            input.value = newQty;
-            updateCartItem(itemId, newQty);
-        });
+    $('.qty-input').on('change', function () {
+        var itemId = $(this).data('item-id');
+        var newQty = Math.max(1, parseInt($(this).val(), 10) || 1);
+        $(this).val(newQty);
+        updateCartItem(itemId, newQty);
     });
 
     // -----------------------------------------------
-    // Remove item buttons
+    // remove item buttons
     // -----------------------------------------------
-    document.querySelectorAll('.remove-item-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var itemId = btn.getAttribute('data-item-id');
-            removeCartItem(itemId);
-        });
+    $('.remove-item-btn').on('click', function () {
+        var itemId = $(this).data('item-id');
+        removeCartItem(itemId);
     });
 
     // -----------------------------------------------
@@ -48,35 +42,32 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------------
     function updateCartItem(cartItemId, qty) {
         var formData = new FormData();
-        formData.append('cart_action',   'update');
-        formData.append('cart_item_id',  cartItemId);
-        formData.append('quantity',      qty);
-        formData.append('csrf_token',    typeof CSRF_TOKEN !== 'undefined' ? CSRF_TOKEN : '');
+        formData.append('cart_action', 'update');
+        formData.append('cart_item_id', cartItemId);
+        formData.append('quantity', qty);
+        formData.append('csrf_token', typeof CSRF_TOKEN !== 'undefined' ? CSRF_TOKEN : '');
 
         fetch('/handlers/cart-handler.php', {
             method: 'POST',
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             body: formData,
         })
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
+        .then(res => res.json())
+        .then(data => {
             if (data.success) {
-                var itemTotalEl = document.getElementById('itemTotal' + cartItemId);
-                if (itemTotalEl) itemTotalEl.textContent = data.lineTotal;
+                // update specific item line total
+                $('[id="itemTotal' + cartItemId + '"]').text(data.lineTotal);
 
-                var subtotalEl = document.getElementById('cartSubtotal');
-                var totalEl    = document.getElementById('cartTotal');
-                if (subtotalEl) subtotalEl.textContent = data.cartTotal;
-                if (totalEl)    totalEl.textContent    = data.cartTotal;
+                // update all instances of subtotal and total on page
+                // check if data.cartSubtotal exists, otherwise fallback to data.cartTotal
+                $('[id="cartSubtotal"]').text(data.cartSubtotal !== undefined ? data.cartSubtotal : data.cartTotal);
+                $('[id="cartTotal"]').text(data.cartTotal);
 
                 if (typeof window.updateCartBadge === 'function') {
                     window.updateCartBadge(data.cartCount);
                 }
             }
-        })
-        .catch(function () {
-            // Silent fail — page still functional
-        });
+        }).catch(() => { /* silent fail - page still functional */ });
     }
 
     // -----------------------------------------------
@@ -84,43 +75,38 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------------
     function removeCartItem(cartItemId) {
         var formData = new FormData();
-        formData.append('cart_action',  'remove');
+        formData.append('cart_action', 'remove');
         formData.append('cart_item_id', cartItemId);
-        formData.append('csrf_token',   typeof CSRF_TOKEN !== 'undefined' ? CSRF_TOKEN : '');
+        formData.append('csrf_token', typeof CSRF_TOKEN !== 'undefined' ? CSRF_TOKEN : '');
 
         fetch('/handlers/cart-handler.php', {
             method: 'POST',
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             body: formData,
         })
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
+        .then(res => res.json())
+        .then(data => {
             if (data.success) {
-                var row = document.getElementById('cartItem' + cartItemId);
-                if (row) {
-                    row.style.transition = 'opacity 0.3s ease';
-                    row.style.opacity    = '0';
-                    setTimeout(function () { row.remove(); }, 310);
+                var $row = $('[id="cartItem' + cartItemId + '"]');
+                if ($row.length) {
+                    $row.css({ 'transition': 'opacity 0.3s ease', 'opacity': '0' });
+                    setTimeout(() => $row.remove(), 310);
                 }
 
-                var subtotalEl = document.getElementById('cartSubtotal');
-                var totalEl    = document.getElementById('cartTotal');
-                if (subtotalEl) subtotalEl.textContent = data.cartTotal;
-                if (totalEl)    totalEl.textContent    = data.cartTotal;
+                // update all instances of subtotal and total on page
+                $('[id="cartSubtotal"]').text(data.cartSubtotal !== undefined ? data.cartSubtotal : data.cartTotal);
+                $('[id="cartTotal"]').text(data.cartTotal);
 
                 if (typeof window.updateCartBadge === 'function') {
                     window.updateCartBadge(data.cartCount);
                 }
 
-                // If cart is now empty, reload to show empty state
+                // if cart is now empty, reload to show empty state
                 if (data.cartCount === 0) {
                     window.location.reload();
                 }
             }
-        })
-        .catch(function () {
-            // Silent fail
-        });
+        }).catch(() => { /* silent fail - page still functional */ });
     }
 
 });
