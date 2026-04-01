@@ -93,16 +93,19 @@ $(function () {
                     setTimeout(() => $row.remove(), 310);
                 }
 
-                // update all instances of subtotal and total on page
                 $('[id="cartSubtotal"]').text(data.cartSubtotal !== undefined ? data.cartSubtotal : data.cartTotal);
                 $('[id="cartTotal"]').text(data.cartTotal);
 
+                // distinct item rows remaining (cartCount is SUM(qty), not row count)
+                var distinctCount = $('#cartItemsList .cart-item').length - 1;
+                $('[id="cartHeadingCount"]').text(distinctCount);
+                $('[id="cartSubtotalLabel"]').html('Subtotal (<span id="cartItemCount">' + distinctCount + '</span> item' + (distinctCount !== 1 ? 's' : '') + ')');
+
                 if (typeof window.updateCartBadge === 'function') {
-                    window.updateCartBadge(data.cartCount);
+                    window.updateCartBadge(count);
                 }
 
-                // if cart is now empty, reload to show empty state
-                if (data.cartCount === 0) {
+                if (count === 0) {
                     window.location.reload();
                 }
             }

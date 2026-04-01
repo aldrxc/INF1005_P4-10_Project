@@ -125,10 +125,11 @@ if ($cartAction === 'update') {
     $cartCount = (int)$countStmt->fetchColumn();
 
     if ($isAjax) jsonResponse([
-        'success'   => true,
-        'lineTotal' => 'S$' . number_format($lineTotal, 2),
-        'cartTotal' => 'S$' . number_format($cartTotal, 2),
-        'cartCount' => $cartCount,
+        'success'      => true,
+        'lineTotal'    => 'S$' . number_format($lineTotal, 2),
+        'cartSubtotal' => 'S$' . number_format($cartTotal, 2),
+        'cartTotal'    => 'S$' . number_format($cartTotal, 2),
+        'cartCount'    => $cartCount,
     ]);
     header('Location: /cart.php');
     exit;
@@ -161,9 +162,10 @@ if ($cartAction === 'remove') {
     $cartCount = (int)$countStmt->fetchColumn();
 
     if ($isAjax) jsonResponse([
-        'success'   => true,
-        'cartTotal' => 'S$' . number_format($cartTotal, 2),
-        'cartCount' => $cartCount,
+        'success'      => true,
+        'cartSubtotal' => 'S$' . number_format($cartTotal, 2),
+        'cartTotal'    => 'S$' . number_format($cartTotal, 2),
+        'cartCount'    => $cartCount,
     ]);
     setFlash('Item removed from cart.', 'info');
     header('Location: /cart.php');

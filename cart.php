@@ -43,7 +43,7 @@ require_once __DIR__ . '/includes/header.php';
 <div class="container py-4">
     <h1 class="h3 fw-bold mb-4">
         <i class="bi bi-cart3 text-accent me-2" aria-hidden="true"></i>Shopping Cart
-        <span class="badge bg-secondary ms-2 fs-6"><?= count($cartItems) ?></span>
+        <span class="badge bg-secondary ms-2 fs-6" id="cartHeadingCount"><?= count($cartItems) ?></span>
     </h1>
 
     <?php if (empty($cartItems)): ?>
@@ -150,7 +150,7 @@ require_once __DIR__ . '/includes/header.php';
                         <h2 class="h5 fw-bold mb-3 text-hotpink">Order Summary</h2>
 
                         <div class="d-flex justify-content-between mb-2 text-muted small">
-                            <span>Subtotal (<?= count($cartItems) ?> items)</span>
+                            <span id="cartSubtotalLabel">Subtotal (<span id="cartItemCount"><?= count($cartItems) ?></span> item<?= count($cartItems) !== 1 ? 's' : '' ?>)</span>
                             <span id="cartSubtotal">S$<?= number_format($total, 2) ?></span>
                         </div>
                         <div class="d-flex justify-content-between mb-3 text-muted small">
