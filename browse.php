@@ -20,8 +20,8 @@ $searchQ    = trim($_GET['q']         ?? '');
 $catSlug    = trim($_GET['category']  ?? '');
 $genreId    = sanitizeInt($_GET['genre']  ?? '');
 $conditions = isset($_GET['condition']) && is_array($_GET['condition'])
-              ? array_filter($_GET['condition'], fn($v) => in_array($v, $allowedConditions, true))
-              : [];
+    ? array_filter($_GET['condition'], fn($v) => in_array($v, $allowedConditions, true))
+    : [];
 $minPrice   = sanitizePrice($_GET['min_price'] ?? '');
 $maxPrice   = sanitizePrice($_GET['max_price'] ?? '');
 $sortKey    = array_key_exists($_GET['sort'] ?? '', $allowedSorts) ? $_GET['sort'] : 'newest';
@@ -29,7 +29,7 @@ $page       = max(1, (int)($_GET['page'] ?? 1));
 $perPage    = 12;
 $offset     = ($page - 1) * $perPage;
 
-// Validate category slug
+// validate category slug
 $categoryRow = null;
 if ($catSlug !== '') {
     $stmt = $pdo->prepare("SELECT category_id, name, slug FROM categories WHERE slug = ? LIMIT 1");
@@ -105,7 +105,7 @@ $allGenres     = $pdo->query("SELECT genre_id, name FROM genres ORDER BY name")-
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- Page header -->
+<!-- page header -->
 <section class="page-header py-4" aria-labelledby="browseHeading">
     <div class="container">
         <h1 id="browseHeading" class="h3 fw-bold text-white mb-0">Browse Listings</h1>
@@ -124,8 +124,8 @@ require_once __DIR__ . '/includes/header.php';
         <!-- filter sidebar (mobile: offcanvas, desktop: sidebar) -->
         <div class="d-lg-none mb-2">
             <button class="btn btn-outline-secondary btn-sm w-100" type="button"
-                    data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas"
-                    aria-controls="filterOffcanvas">
+                data-bs-toggle="offcanvas" data-bs-target="#filterOffcanvas"
+                aria-controls="filterOffcanvas">
                 <i class="bi bi-funnel me-2" aria-hidden="true"></i>Filters
                 <?php if (!empty($conditions) || $catSlug || $genreId || $minPrice || $maxPrice): ?>
                     <span class="badge bg-accent ms-1">Active</span>
@@ -134,26 +134,26 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <div class="offcanvas offcanvas-start offcanvas-dark" tabindex="-1"
-             id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel" role="dialog">
+            id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel" role="dialog">
             <div class="offcanvas-header">
                 <h2 class="offcanvas-title h5" id="filterOffcanvasLabel">Filters</h2>
                 <button type="button" class="btn-close btn-close-white"
-                        data-bs-dismiss="offcanvas" aria-label="Close filters"></button>
+                    data-bs-dismiss="offcanvas" aria-label="Close filters"></button>
             </div>
             <div class="offcanvas-body">
                 <?php
                 $filterSuffix = '-mobile';
-                include __DIR__ . '/includes/filter-form.php'; 
+                include __DIR__ . '/includes/filter-form.php';
                 ?>
             </div>
         </div>
 
-        <!-- Desktop sidebar -->
+        <!-- desktop sidebar -->
         <aside class="col-lg-3 d-none d-lg-block" aria-label="Listing filters">
             <div class="filter-sidebar sticky-top" style="top:80px">
-                <?php 
+                <?php
                 $filterSuffix = '-desktop';
-                include __DIR__ . '/includes/filter-form.php'; 
+                include __DIR__ . '/includes/filter-form.php';
                 ?>
             </div>
         </aside>
@@ -167,13 +167,13 @@ require_once __DIR__ . '/includes/header.php';
 
                 <?php if ($searchQ): ?>
                     <a href="<?= clean(strtok($_SERVER['REQUEST_URI'], '?') . '?' . http_build_query(array_merge($_GET, ['q' => '']))) ?>"
-                       class="filter-chip badge">
+                        class="filter-chip badge">
                         "<?= clean(mb_strimwidth($searchQ, 0, 20, '…')) ?>" <i class="bi bi-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($catSlug && $categoryRow): ?>
                     <a href="?<?= clean(http_build_query(array_merge($_GET, ['category' => '', 'page' => 1]))) ?>"
-                       class="filter-chip badge">
+                        class="filter-chip badge">
                         <?= clean($categoryRow['name']) ?> <i class="bi bi-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
@@ -186,16 +186,17 @@ require_once __DIR__ . '/includes/header.php';
                 <form method="GET" id="sortForm" class="ms-auto" aria-label="Sort listings">
                     <?php foreach ($_GET as $k => $v): if ($k === 'sort' || $k === 'page') continue; ?>
                         <?php if (is_array($v)): foreach ($v as $vi): ?>
-                            <input type="hidden" name="<?= clean($k) ?>[]" value="<?= clean($vi) ?>">
-                        <?php endforeach; else: ?>
+                                <input type="hidden" name="<?= clean($k) ?>[]" value="<?= clean($vi) ?>">
+                            <?php endforeach;
+                        else: ?>
                             <input type="hidden" name="<?= clean($k) ?>" value="<?= clean($v) ?>">
                         <?php endif; ?>
                     <?php endforeach; ?>
                     <select name="sort" class="form-select form-select-sm sort-select" onchange="this.form.submit()"
-                            aria-label="Sort by">
-                        <option value="newest"     <?= $sortKey === 'newest'     ? 'selected' : '' ?>>Newest</option>
-                        <option value="oldest"     <?= $sortKey === 'oldest'     ? 'selected' : '' ?>>Oldest</option>
-                        <option value="price_asc"  <?= $sortKey === 'price_asc'  ? 'selected' : '' ?>>Price: Low–High</option>
+                        aria-label="Sort by">
+                        <option value="newest" <?= $sortKey === 'newest'     ? 'selected' : '' ?>>Newest</option>
+                        <option value="oldest" <?= $sortKey === 'oldest'     ? 'selected' : '' ?>>Oldest</option>
+                        <option value="price_asc" <?= $sortKey === 'price_asc'  ? 'selected' : '' ?>>Price: Low–High</option>
                         <option value="price_desc" <?= $sortKey === 'price_desc' ? 'selected' : '' ?>>Price: High–Low</option>
                     </select>
                 </form>
@@ -216,7 +217,7 @@ require_once __DIR__ . '/includes/header.php';
                     <?php endforeach; ?>
                 </div>
 
-                <!-- Pagination -->
+                <!-- pagination -->
                 <?php if ($totalPages > 1): ?>
                     <nav class="mt-4" aria-label="Listings pagination">
                         <ul class="pagination justify-content-center">
@@ -228,8 +229,8 @@ require_once __DIR__ . '/includes/header.php';
                             ?>
                                 <li class="page-item <?= $p === $page ? 'active' : '' ?>">
                                     <a class="page-link"
-                                       href="<?= clean($pUrl) ?>"
-                                       <?= $p === $page ? 'aria-current="page"' : '' ?>>
+                                        href="<?= clean($pUrl) ?>"
+                                        <?= $p === $page ? 'aria-current="page"' : '' ?>>
                                         <?= $p ?>
                                     </a>
                                 </li>

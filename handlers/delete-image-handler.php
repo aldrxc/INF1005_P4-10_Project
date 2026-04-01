@@ -1,5 +1,5 @@
 <?php
-// POST: remove a single image from a listing (owner verified)
+// POST - remove a single image from a listing (owner verified)
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -26,7 +26,7 @@ if (!$imageId || !$listingId) {
 
 $pdo = getDB();
 
-// Verify ownership via listing
+// verify ownership via listing
 $stmt = $pdo->prepare("
     SELECT li.image_id, li.file_path
     FROM listing_images li
@@ -43,10 +43,10 @@ if (!$img) {
     exit;
 }
 
-// Delete record
+// delete record
 $pdo->prepare("DELETE FROM listing_images WHERE image_id = ?")->execute([$imageId]);
 
-// Delete file (best effort)
+// delete file (best effort)
 $filePath = __DIR__ . '/../../' . $img['file_path'];
 if (file_exists($filePath)) {
     @unlink($filePath);

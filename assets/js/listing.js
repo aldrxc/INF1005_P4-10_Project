@@ -67,7 +67,7 @@ $(function () {
     }
 
     // -----------------------------------------------
-    // share button - copy URL to clipboard
+    // share button - copy url to clipboard
     // -----------------------------------------------
     var $shareBtn = $('#shareBtn');
     if ($shareBtn.length) {

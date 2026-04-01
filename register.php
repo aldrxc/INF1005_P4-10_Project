@@ -6,7 +6,7 @@ require_once __DIR__ . '/includes/sanitize.php';
 
 startSession();
 
-// Already logged in → redirect to dashboard
+// already logged in -> redirect to dashboard
 if (isLoggedIn()) {
     header('Location: /dashboard.php');
     exit;
@@ -16,7 +16,7 @@ $pageTitle = 'Create Account';
 $errors    = [];
 $old       = [];
 
-// Repopulate form on error
+// repopulate form on error
 if (!empty($_SESSION['register_errors'])) {
     $errors = $_SESSION['register_errors'];
     $old    = $_SESSION['register_old'] ?? [];
@@ -49,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
                     <form method="POST" action="/handlers/register-handler.php" novalidate id="registerForm">
                         <?= getCsrfField() ?>
 
-                        <!-- Username -->
+                        <!-- username -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Username <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['username']) ? 'is-invalid' : '' ?>"
@@ -64,7 +64,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php endif; ?>
                         </div>
 
-                        <!-- Email -->
+                        <!-- email -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email Address <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>"
@@ -77,7 +77,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php endif; ?>
                         </div>
 
-                        <!-- Display Name -->
+                        <!-- display name -->
                         <div class="mb-3">
                             <label for="display_name" class="form-label">Display Name <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['display_name']) ? 'is-invalid' : '' ?>"
@@ -90,7 +90,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php endif; ?>
                         </div>
 
-                        <!-- Password -->
+                        <!-- password -->
                         <div class="mb-3">
                             <label for="password" class="form-label">Password <span class="text-accent" aria-hidden="true">*</span></label>
                             <div class="input-group">
@@ -110,7 +110,7 @@ require_once __DIR__ . '/includes/header.php';
                             <div id="passwordHelp" class="form-text">Minimum 8 characters.</div>
                         </div>
 
-                        <!-- Confirm Password -->
+                        <!-- confirm password -->
                         <div class="mb-4">
                             <label for="confirm_password" class="form-label">Confirm Password <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="password" class="form-control <?= isset($errors['confirm_password']) ? 'is-invalid' : '' ?>"
@@ -139,7 +139,7 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-    // Toggle password visibility
+    // toggle password visibility
     document.getElementById('togglePassword').addEventListener('click', function() {
         const pwField = document.getElementById('password');
         const icon = this.querySelector('i');
@@ -154,14 +154,14 @@ require_once __DIR__ . '/includes/header.php';
         }
     });
 
-    // Client-side: confirm passwords match before submit
+    // client-side: confirm passwords match before submit
     document.getElementById('registerForm').addEventListener('submit', function(e) {
         const pw = document.getElementById('password').value;
         const cpw = document.getElementById('confirm_password').value;
         if (pw !== cpw) {
             e.preventDefault();
             document.getElementById('confirm_password').classList.add('is-invalid');
-            // Append or reuse feedback element
+            // append or reuse feedback element
             let fb = document.querySelector('#confirm_password ~ .invalid-feedback');
             if (!fb) {
                 fb = document.createElement('div');

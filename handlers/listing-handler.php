@@ -1,5 +1,5 @@
 <?php
-// POST handler — create or update a listing
+// POST handler - create or update a listing
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -28,7 +28,7 @@ $artist_band = trim($_POST['artist_band'] ?? '');
 $categoryId  = sanitizeInt($_POST['category_id'] ?? '');
 $genreId     = sanitizeInt($_POST['genre_id']    ?? '') ?: null;
 $price       = sanitizePrice($_POST['price']     ?? '');
-$condition   = sanitizeEnum(trim($_POST['condition_type'] ?? ''), ['new','like_new','good','fair','poor', '']) ?: null;
+$condition   = sanitizeEnum(trim($_POST['condition_type'] ?? ''), ['new', 'like_new', 'good', 'fair', 'poor', '']) ?: null;
 $size        = trim($_POST['size'] ?? '') ?: null;
 
 $old = [
@@ -49,7 +49,7 @@ elseif (strlen($description) > 1000) $errors['description'] = 'Description must 
 if (!$categoryId)            $errors['category_id'] = 'Please select a category.';
 if ($price === null)         $errors['price']       = 'Please enter a valid positive price.';
 
-// Verify category exists
+// verify category exists
 $pdo = getDB();
 $catRow = null;
 if ($categoryId) {
@@ -102,7 +102,7 @@ if ($isTicket) {
         }
     }
 
-    $ticketData = compact('eventName','eventDate','venueName','venueCity','seatSection','seatRow','seatNumber','quantity','isETicket');
+    $ticketData = compact('eventName', 'eventDate', 'venueName', 'venueCity', 'seatSection', 'seatRow', 'seatNumber', 'quantity', 'isETicket');
 }
 
 // ownership check for edits
@@ -142,7 +142,7 @@ if (!empty($_FILES['images']['name'][0])) {
     }
 }
 
-// Require at least one image on create
+// require at least one image on create
 if ($action === 'create' && empty($uploadedPaths) && !isset($errors['images'])) {
     $errors['images'] = 'Please upload at least one image.';
 }
@@ -175,7 +175,7 @@ try {
             ':description'   => $description,
             ':artist_band'   => $artist_band ?: null,
             ':price'         => $price,
-            ':condition_type'=> $isTicket ? null : $condition,
+            ':condition_type' => $isTicket ? null : $condition,
             ':size'          => $isTicket ? null : $size,
         ]);
         $listingId = (int)$pdo->lastInsertId();
@@ -194,7 +194,7 @@ try {
             ':description'   => $description,
             ':artist_band'   => $artist_band ?: null,
             ':price'         => $price,
-            ':condition_type'=> $isTicket ? null : $condition,
+            ':condition_type' => $isTicket ? null : $condition,
             ':size'          => $isTicket ? null : $size,
             ':listing_id'    => $listingId,
             ':seller_id'     => getCurrentUserId(),
@@ -220,7 +220,7 @@ try {
             ':event_date'  => $ticketData['eventDate'],
             ':venue_name'  => $ticketData['venueName'],
             ':venue_city'  => $ticketData['venueCity'],
-            ':seat_section'=> $ticketData['seatSection'],
+            ':seat_section' => $ticketData['seatSection'],
             ':seat_row'    => $ticketData['seatRow'],
             ':seat_number' => $ticketData['seatNumber'],
             ':quantity'    => $ticketData['quantity'],

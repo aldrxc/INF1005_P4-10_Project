@@ -1,21 +1,24 @@
 <?php
 
-function startSession(): void {
+function startSession(): void
+{
     if (session_status() === PHP_SESSION_NONE) {
         ini_set('session.cookie_httponly', '1');
         ini_set('session.cookie_samesite', 'Strict');
         ini_set('session.use_strict_mode', '1');
-        // ini_set('session.cookie_secure', '1'); // enable on HTTPS
+        // ini_set('session.cookie_secure', '1'); // enable on https
         session_start();
     }
 }
 
-function isLoggedIn(): bool {
+function isLoggedIn(): bool
+{
     return isset($_SESSION['user_id']) && !empty($_SESSION['user_id']);
 }
 
-// redirects to login, preserving the intended destination
-function requireLogin(): void {
+// redirects to login, preserving intended destination
+function requireLogin(): void
+{
     if (!isLoggedIn()) {
         $redirect = urlencode($_SERVER['REQUEST_URI'] ?? '/');
         header('Location: /login.php?redirect=' . $redirect);
@@ -23,20 +26,24 @@ function requireLogin(): void {
     }
 }
 
-function getCurrentUserId(): ?int {
+function getCurrentUserId(): ?int
+{
     return isLoggedIn() ? (int)$_SESSION['user_id'] : null;
 }
 
-function getCurrentUsername(): ?string {
+function getCurrentUsername(): ?string
+{
     return $_SESSION['username'] ?? null;
 }
 
 // type: 'success' | 'danger' | 'warning' | 'info'
-function setFlash(string $message, string $type = 'info'): void {
+function setFlash(string $message, string $type = 'info'): void
+{
     $_SESSION['flash'] = ['message' => $message, 'type' => $type];
 }
 
-function getFlash(): ?array {
+function getFlash(): ?array
+{
     if (isset($_SESSION['flash'])) {
         $flash = $_SESSION['flash'];
         unset($_SESSION['flash']);
@@ -45,11 +52,13 @@ function getFlash(): ?array {
     return null;
 }
 
-function isAdmin(): bool {
+function isAdmin(): bool
+{
     return isLoggedIn() && ($_SESSION['role'] ?? '') === 'admin';
 }
 
-function requireAdmin(): void {
+function requireAdmin(): void
+{
     requireLogin();
     if (!isAdmin()) {
         header('Location: /index.php');

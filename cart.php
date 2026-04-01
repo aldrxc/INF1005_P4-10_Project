@@ -61,7 +61,7 @@ require_once __DIR__ . '/includes/header.php';
         <?php endif; ?>
 
         <div class="row g-4">
-            <!-- Cart items -->
+            <!-- cart items -->
             <div class="col-lg-8">
                 <div class="card border-0">
                     <ul class="list-group list-group-flush" id="cartItemsList" aria-label="Cart items">
@@ -74,7 +74,7 @@ require_once __DIR__ . '/includes/header.php';
                                 data-price="<?= (float)$item['price'] ?>">
 
                                 <div class="d-flex gap-3 align-items-start">
-                                    <!-- Thumbnail -->
+                                    <!-- thumbnail -->
                                     <a href="/listing.php?id=<?= (int)$item['listing_id'] ?>" tabindex="-1" aria-hidden="true">
                                         <img src="<?= $item['primary_image'] ? '/' . clean($item['primary_image']) : '/assets/images/placeholder.php' ?>"
                                             alt="<?= clean($item['title']) ?>"
@@ -82,7 +82,7 @@ require_once __DIR__ . '/includes/header.php';
                                             width="80" height="80" style="object-fit:cover">
                                     </a>
 
-                                    <!-- Details -->
+                                    <!-- details -->
                                     <div class="flex-grow-1 min-w-0">
                                         <a href="/listing.php?id=<?= (int)$item['listing_id'] ?>"
                                             class="fw-semibold text-decoration-none text-reset">
@@ -101,7 +101,7 @@ require_once __DIR__ . '/includes/header.php';
                                             </span>
                                         <?php else: ?>
                                             <div class="d-flex align-items-center gap-2 mt-2">
-                                                <!-- Qty stepper -->
+                                                <!-- qty stepper -->
                                                 <div class="input-group input-group-sm qty-stepper" style="width:110px">
                                                     <button class="btn btn-outline-secondary qty-btn" type="button"
                                                         data-action="minus" data-item-id="<?= (int)$item['cart_item_id'] ?>"
@@ -121,7 +121,7 @@ require_once __DIR__ . '/includes/header.php';
                                         <?php endif; ?>
                                     </div>
 
-                                    <!-- Price & remove -->
+                                    <!-- price & remove -->
                                     <div class="text-end d-flex flex-column align-items-end gap-2">
                                         <div class="cart-item-total fw-bold"
                                             id="itemTotal<?= (int)$item['cart_item_id'] ?>">
@@ -143,7 +143,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Order summary -->
+            <!-- order summary -->
             <div class="col-lg-4">
                 <div class="card border-0 order-summary-card sticky-top" style="top:80px">
                     <div class="card-body p-4">
@@ -181,7 +181,7 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-    // Pass CSRF token to cart.js
+    // pass csrf token to cart.js
     const CSRF_TOKEN = <?= json_encode($_SESSION['csrf_token'] ?? '') ?>;
 </script>
 <script src="/assets/js/cart.js" defer></script>

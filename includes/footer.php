@@ -1,8 +1,8 @@
-<?php // footer.php — included at the bottom of every page 
+<?php // footer.php - included at the bottom of every page 
 ?>
 </main><!-- /#main-content -->
 
-<!-- Back to top button -->
+<!-- back to top button -->
 <button id="backToTop" class="btn btn-accent btn-sm back-to-top" aria-label="Back to top" style="display:none">
     <i class="bi bi-arrow-up" aria-hidden="true"></i>
 </button>
@@ -10,7 +10,7 @@
 <footer class="site-footer mt-5 py-5">
     <div class="container">
         <div class="row gy-4">
-            <!-- Brand -->
+            <!-- brand -->
             <div class="col-md-4">
                 <a href="/index.php" class="d-flex align-items-center gap-2 text-decoration-none mb-2">
                     <i class="bi bi-music-note-list fs-4 text-accent" aria-hidden="true"></i>
@@ -19,7 +19,7 @@
                 <p class="text-muted small">Your go-to marketplace for music merchandise and event tickets. Buy and sell with the community.</p>
             </div>
 
-            <!-- Quick links -->
+            <!-- quick links -->
             <div class="col-6 col-md-2 offset-md-1">
                 <h2 class="h6 text-hotpink fw-semibold mb-3">Explore</h2>
                 <ul class="list-unstyled small">
@@ -61,17 +61,17 @@
     </div>
 </footer>
 
-<!-- Bootstrap 5 JS Bundle (includes Popper) -->
+<!-- bootstrap 5 JS Bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
-<!-- JS jquery minified build bundle  -->
+<!-- JS jquery 4.0.0 minified build bundle  -->
 <script src="https://code.jquery.com/jquery-4.0.0.min.js"
     integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
     crossorigin="anonymous"></script>
 
-<!-- Global JS -->
+<!-- global JS -->
 <script src="/assets/js/main.js"></script>
 </body>
 

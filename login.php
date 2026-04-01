@@ -48,14 +48,14 @@ require_once __DIR__ . '/includes/header.php';
                         <?= getCsrfField() ?>
 
                         <?php
-                        // Preserve redirect destination
+                        // preserve redirect destination
                         $redirect = htmlspecialchars($_GET['redirect'] ?? '', ENT_QUOTES, 'UTF-8');
                         if ($redirect):
                         ?>
                             <input type="hidden" name="redirect" value="<?= $redirect ?>">
                         <?php endif; ?>
 
-                        <!-- Email or Username -->
+                        <!-- email or username -->
                         <div class="mb-3">
                             <label for="identifier" class="form-label">Email or Username <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control"
@@ -64,7 +64,7 @@ require_once __DIR__ . '/includes/header.php';
                                 autocomplete="username">
                         </div>
 
-                        <!-- Password -->
+                        <!-- password -->
                         <div class="mb-4">
                             <label for="password" class="form-label">Password <span class="text-accent" aria-hidden="true">*</span></label>
                             <div class="input-group">

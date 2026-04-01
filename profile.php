@@ -35,7 +35,7 @@ $ratingRow = $ratingStmt->fetch();
 $avgRating   = $ratingRow['avg_rating'];
 $reviewCount = (int)$ratingRow['review_count'];
 
-// Pagination
+// pagination
 $page    = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 12;
 $offset  = ($page - 1) * $perPage;
@@ -65,10 +65,10 @@ require_once __DIR__ . '/includes/header.php';
 
 <div class="container py-4">
 
-    <!-- Profile header -->
+    <!-- profile header -->
     <div class="profile-header card border-0 mb-4 p-4">
         <div class="d-flex align-items-start gap-4 flex-wrap">
-            <!-- Avatar -->
+            <!-- avatar -->
             <div class="flex-shrink-0">
                 <?php if ($profileUser['avatar_path']): ?>
                     <img src="/<?= clean($profileUser['avatar_path']) ?>"
@@ -82,7 +82,7 @@ require_once __DIR__ . '/includes/header.php';
                 <?php endif; ?>
             </div>
 
-            <!-- Info -->
+            <!-- info -->
             <div class="flex-grow-1">
                 <h1 class="h3 fw-bold mb-0 text-white"><?= clean($profileUser['display_name']) ?></h1>
                 <div class="text-muted mb-1">@<?= clean($profileUser['username']) ?></div>
@@ -106,7 +106,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Own profile edit link -->
+            <!-- own profile edit link -->
             <?php if (isLoggedIn() && getCurrentUserId() === (int)$profileUser['user_id']): ?>
                 <a href="/dashboard.php" class="btn btn-sm btn-outline-secondary">
                     <i class="bi bi-speedometer2 me-1" aria-hidden="true"></i>My Dashboard
@@ -115,7 +115,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
     </div>
 
-    <!-- Active listings -->
+    <!-- active listings -->
     <h2 class="h5 fw-semibold mb-3">
         <i class="bi bi-tags me-2 text-accent" aria-hidden="true"></i>Active Listings
     </h2>
@@ -134,7 +134,7 @@ require_once __DIR__ . '/includes/header.php';
             <?php endforeach; ?>
         </div>
 
-        <!-- Pagination -->
+        <!-- pagination -->
         <?php if ($totalPages > 1): ?>
             <nav class="mt-4" aria-label="Profile listings pagination">
                 <ul class="pagination justify-content-center">
@@ -152,7 +152,7 @@ require_once __DIR__ . '/includes/header.php';
         <?php endif; ?>
     <?php endif; ?>
 
-    <!-- Reviews -->
+    <!-- reviews -->
     <?php
     $reviewsStmt = $pdo->prepare("
         SELECT r.rating, r.body, r.created_at, u.display_name AS reviewer_display, u.username AS reviewer_username

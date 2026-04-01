@@ -1,12 +1,12 @@
 <?php
 // =============================================================
-// Local database overrides — copy this file to db.local.php
-// and edit the values below.
+// local database overrides - copy this file to db.local.php
+// and edit the values below
 //
 //   cp config/db.local.php.example config/db.local.php
 //
 // db.local.php is listed in .gitignore and will never be
-// committed — it is safe to put real passwords here.
+// committed - it is safe to put real passwords here
 // =============================================================
 
 return [

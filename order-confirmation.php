@@ -86,15 +86,15 @@ require_once __DIR__ . '/includes/header.php';
                     <ul class="list-group list-group-flush mb-3">
                         <?php foreach ($orderItems as $item): ?>
                             <li class="list-group-item d-flex gap-3 align-items-center order-summary-card">
-                                <?php 
-                                    // Human-readable image pathing
-                                    $imgSrc = '/assets/images/placeholder.png'; 
-                                    if ($item['primary_image']) {
-                                        $imgSrc = '/' . clean($item['primary_image']);
-                                    }
+                                <?php
+                                // human-readable image pathing
+                                $imgSrc = '/assets/images/placeholder.png';
+                                if ($item['primary_image']) {
+                                    $imgSrc = '/' . clean($item['primary_image']);
+                                }
                                 ?>
                                 <img src="<?= $imgSrc ?>" alt="<?= clean($item['title']) ?>" class="rounded" width="56" height="56" style="object-fit:cover">
-                                
+
                                 <div class="flex-grow-1">
                                     <div class="fw-semibold">
                                         <a href="/listing.php?id=<?= (int)$item['listing_id'] ?>" class="text-decoration-none text-reset">
@@ -137,22 +137,22 @@ require_once __DIR__ . '/includes/header.php';
                             <p class="small text-muted mb-2">Rate your experience with <strong><?= clean($seller['seller_display']) ?></strong>:</p>
                             <form method="POST" action="/handlers/review-handler.php" class="mb-3">
                                 <?= getCsrfField() ?>
-                                <input type="hidden" name="order_id"  value="<?= $orderId ?>">
+                                <input type="hidden" name="order_id" value="<?= $orderId ?>">
                                 <input type="hidden" name="seller_id" value="<?= (int)$seller['seller_id'] ?>">
                                 <div class="d-flex gap-2 mb-2 align-items-center">
                                     <?php for ($i = 1; $i <= 5; $i++): ?>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input visually-hidden" type="radio"
-                                                   name="rating" id="star_<?= (int)$seller['seller_id'] ?>_<?= $i ?>"
-                                                   value="<?= $i ?>" required>
+                                                name="rating" id="star_<?= (int)$seller['seller_id'] ?>_<?= $i ?>"
+                                                value="<?= $i ?>" required>
                                             <label class="form-check-label star-label fs-4"
-                                                   for="star_<?= (int)$seller['seller_id'] ?>_<?= $i ?>"
-                                                   style="cursor:pointer;color:var(--mv-border)">&#9733;</label>
+                                                for="star_<?= (int)$seller['seller_id'] ?>_<?= $i ?>"
+                                                style="cursor:pointer;color:var(--mv-border)">&#9733;</label>
                                         </div>
                                     <?php endfor; ?>
                                 </div>
                                 <textarea class="form-control mb-2" name="body" rows="2" maxlength="500"
-                                          placeholder="Optional comment…"></textarea>
+                                    placeholder="Optional comment…"></textarea>
                                 <button type="submit" class="btn btn-sm btn-accent">Submit Review</button>
                             </form>
                         <?php endforeach; ?>
@@ -174,28 +174,29 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-// highlight stars up to the hovered/selected one
-document.querySelectorAll('.star-label').forEach(label => {
-    label.addEventListener('mouseenter', () => highlightStars(label, true));
-    label.addEventListener('mouseleave', () => highlightStars(label, false));
-});
-document.querySelectorAll('input[name="rating"]').forEach(radio => {
-    radio.addEventListener('change', () => {
-        const form = radio.closest('form');
-        form.querySelectorAll('.star-label').forEach(l => l.classList.remove('selected'));
-        const idx = radio.value;
-        form.querySelectorAll('.star-label').forEach((l, i) => {
-            if (i < idx) l.classList.add('selected');
+    // highlight stars up to hovered/selected one
+    document.querySelectorAll('.star-label').forEach(label => {
+        label.addEventListener('mouseenter', () => highlightStars(label, true));
+        label.addEventListener('mouseleave', () => highlightStars(label, false));
+    });
+    document.querySelectorAll('input[name="rating"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            const form = radio.closest('form');
+            form.querySelectorAll('.star-label').forEach(l => l.classList.remove('selected'));
+            const idx = radio.value;
+            form.querySelectorAll('.star-label').forEach((l, i) => {
+                if (i < idx) l.classList.add('selected');
+            });
         });
     });
-});
-function highlightStars(label, on) {
-    const form = label.closest('form');
-    const labels = [...form.querySelectorAll('.star-label')];
-    const idx = labels.indexOf(label);
-    labels.forEach((l, i) => {
-        l.style.color = on && i <= idx ? 'var(--mv-accent)' : '';
-    });
-}
+
+    function highlightStars(label, on) {
+        const form = label.closest('form');
+        const labels = [...form.querySelectorAll('.star-label')];
+        const idx = labels.indexOf(label);
+        labels.forEach((l, i) => {
+            l.style.color = on && i <= idx ? 'var(--mv-accent)' : '';
+        });
+    }
 </script>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

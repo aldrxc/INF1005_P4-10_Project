@@ -28,7 +28,7 @@ if (!$orderId || !$sellerId || $rating < 1 || $rating > 5) {
 
 $pdo = getDB();
 
-// confirm the order belongs to this buyer and includes this seller
+// confirm order belongs to this buyer and includes this seller
 $stmt = $pdo->prepare("
     SELECT 1 FROM orders o
     JOIN order_items oi ON oi.order_id = o.order_id
@@ -42,7 +42,7 @@ if (!$stmt->fetch()) {
     exit;
 }
 
-// one review per (order, seller) — ignore duplicate silently
+// one review per (order, seller) - ignore duplicate silently
 $stmt = $pdo->prepare("
     INSERT IGNORE INTO reviews (order_id, reviewer_id, seller_id, rating, body)
     VALUES (?, ?, ?, ?, ?)

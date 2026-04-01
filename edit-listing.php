@@ -15,7 +15,7 @@ if (!$listingId) {
 
 $pdo = getDB();
 
-// Fetch listing (must belong to current user)
+// fetch listing (must belong to current user)
 $stmt = $pdo->prepare("
     SELECT l.*, c.slug AS category_slug
     FROM listings l
@@ -32,7 +32,7 @@ if (!$listing) {
     exit;
 }
 
-// Ticket details
+// ticket details
 $ticketDetails = null;
 if ($listing['category_slug'] === 'event-tickets') {
     $tStmt = $pdo->prepare("SELECT * FROM ticket_details WHERE listing_id = ? LIMIT 1");
@@ -40,7 +40,7 @@ if ($listing['category_slug'] === 'event-tickets') {
     $ticketDetails = $tStmt->fetch();
 }
 
-// Existing images
+// existing images
 $imgStmt = $pdo->prepare("SELECT * FROM listing_images WHERE listing_id = ? ORDER BY is_primary DESC, sort_order ASC");
 $imgStmt->execute([$listingId]);
 $existingImages = $imgStmt->fetchAll();
@@ -78,7 +78,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="alert alert-danger" role="alert"><?= clean($errors['general']) ?></div>
             <?php endif; ?>
 
-            <!-- Existing images management -->
+            <!-- existing images management -->
             <?php if (!empty($existingImages)): ?>
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
@@ -118,7 +118,7 @@ require_once __DIR__ . '/includes/header.php';
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="listing_id" value="<?= (int)$listingId ?>">
 
-                <!-- Basic Info card (same structure as create-listing.php) -->
+                <!-- basic info card (same structure as create-listing.php) -->
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-3 text-hotpink">Basic Information</h2>
@@ -187,7 +187,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- Merch fields -->
+                <!-- merch fields -->
                 <div class="card form-section-card mb-4" id="merchFields">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-3 text-hotpink">Merch Details</h2>
@@ -214,7 +214,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- Ticket fields -->
+                <!-- ticket fields -->
                 <div class="card form-section-card mb-4" id="ticketFields" style="display:none">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-3 text-hotpink">
@@ -273,7 +273,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- Add more images -->
+                <!-- add more images -->
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-1 text-hotpink">Add More Photos</h2>

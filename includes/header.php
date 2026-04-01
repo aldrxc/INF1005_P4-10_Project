@@ -1,6 +1,7 @@
 <?php
-// header.php — included at the top of every page
-// Expects: $pageTitle (string), session already started
+// header.php - included at the top of every page
+// expects:
+//      $pageTitle (string), session already started
 if (!isset($pageTitle)) {
     $pageTitle = 'MerchVault';
 }
@@ -19,11 +20,13 @@ if (isLoggedIn()) {
         $stmt = getDB()->prepare("SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_read = 0");
         $stmt->execute([getCurrentUserId()]);
         $unreadMessages = (int)$stmt->fetchColumn();
-    } catch (Exception $e) {}
+    } catch (Exception $e) {
+    }
 }
 $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if (!function_exists('navActive')) {
-    function navActive(string $path): string {
+    function navActive(string $path): string
+    {
         global $currentPath;
         return ($currentPath === $path || strpos($currentPath, $path) === 0 && $path !== '/') ? 'active' : '';
     }
@@ -51,7 +54,7 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 
 <body>
 
-    <!-- Navigation -->
+    <!-- navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav" aria-label="Main navigation">
         <div class="container">
 
@@ -118,7 +121,7 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                 </button>
             </div>
 
-            <!-- hidden desktop toggle (required by Bootstrap collapse) -->
+            <!-- hidden desktop toggle (required by bootstrap collapse) -->
             <button class="navbar-toggler border-0 shadow-none d-none" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarMain"
                 aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -138,14 +141,14 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                         <a class="nav-link <?= navActive('/about.php') ?>" href="/about.php">About</a>
                     </li>
                     <?php if (isAdmin()): ?>
-                    <li class="nav-item">
-                        <a class="nav-link admin-link <?= navActive('/admin/') ?>" href="/admin/">Admin</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link admin-link <?= navActive('/admin/') ?>" href="/admin/">Admin</a>
+                        </li>
                     <?php endif; ?>
                 </ul>
 
                 <div class="nav-right ms-lg-auto d-lg-flex align-items-lg-center justify-content-lg-end">
-                    <!-- Search -->
+                    <!-- search -->
                     <form class="nav-search me-lg-3 mb-3 mb-lg-0" role="search" method="GET" action="/browse.php">
                         <div class="input-group input-group-sm">
                             <input class="form-control" type="search" name="q"
@@ -163,9 +166,9 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
                             <a class="nav-icon-link position-relative" href="/messages.php" aria-label="Messages">
                                 <i class="bi bi-chat-dots fs-5" aria-hidden="true"></i>
                                 <?php if ($unreadMessages > 0): ?>
-                                <span class="cart-badge badge rounded-pill bg-accent" id="msgBadge">
-                                    <?= $unreadMessages ?>
-                                </span>
+                                    <span class="cart-badge badge rounded-pill bg-accent" id="msgBadge">
+                                        <?= $unreadMessages ?>
+                                    </span>
                                 <?php endif; ?>
                             </a>
                             <a class="nav-icon-link position-relative" href="/cart.php" aria-label="Shopping cart">
@@ -226,7 +229,7 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
         </div>
     </nav>
 
-    <!-- Flash message -->
+    <!-- flash message -->
     <?php if ($flash): ?>
         <div class="container mt-3" role="alert" aria-live="polite">
             <div class="alert alert-<?= htmlspecialchars($flash['type'], ENT_QUOTES, 'UTF-8') ?> alert-dismissible fade show flash-message" role="alert">

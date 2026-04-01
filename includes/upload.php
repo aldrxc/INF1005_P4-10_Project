@@ -5,7 +5,8 @@ define('UPLOAD_ALLOWED_MIME', ['image/jpeg', 'image/png', 'image/webp', 'image/g
 define('UPLOAD_ALLOWED_EXT',  ['jpg', 'jpeg', 'png', 'webp', 'gif']);
 
 // throws RuntimeException on validation or move failure
-function handleImageUpload(array $file): string {
+function handleImageUpload(array $file): string
+{
     if ($file['error'] !== UPLOAD_ERR_OK) {
         throw new RuntimeException('Upload error code: ' . $file['error']);
     }
@@ -13,7 +14,7 @@ function handleImageUpload(array $file): string {
         throw new RuntimeException('File exceeds maximum allowed size of 5MB.');
     }
 
-    // use finfo, not the browser-supplied MIME type
+    // use finfo, not browser-supplied MIME type
     $finfo    = finfo_open(FILEINFO_MIME_TYPE);
     $mimeType = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
@@ -42,7 +43,8 @@ function handleImageUpload(array $file): string {
 }
 
 // reindex PHP's parallel-arrays multi-upload format into array-of-arrays
-function reindexFilesArray(array $filesInput): array {
+function reindexFilesArray(array $filesInput): array
+{
     $result = [];
     if (!isset($filesInput['name']) || !is_array($filesInput['name'])) {
         return $result;

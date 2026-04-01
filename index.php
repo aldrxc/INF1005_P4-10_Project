@@ -9,7 +9,7 @@ startSession();
 $pageTitle = 'Home — Buy & Sell Music Merch';
 $pdo = getDB();
 
-// Featured listings: latest 8 available
+// featured listings: latest 8 available
 $stmt = $pdo->prepare("
     SELECT l.listing_id, l.title, l.price, l.artist_band, l.condition_type,
            c.name AS category_name, c.slug AS category_slug,
@@ -29,7 +29,7 @@ $stmt = $pdo->prepare("
 $stmt->execute();
 $featuredListings = $stmt->fetchAll();
 
-// Stats
+// stats
 $stats = $pdo->query("
     SELECT
         (SELECT COUNT(*) FROM listings WHERE status = 'available') AS total_listings,
@@ -40,7 +40,7 @@ $stats = $pdo->query("
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- Hero Section -->
+<!-- hero section -->
 <section class="hero-section" aria-labelledby="heroHeading">
     <div class="hero-overlay"></div>
     <div class="container hero-content text-center">
@@ -68,7 +68,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Stats Strip -->
+<!-- stats strip -->
 <section class="stats-strip py-3" aria-label="Platform statistics">
     <div class="container">
         <div class="row text-center gy-2">
@@ -88,7 +88,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Category Quicklinks -->
+<!-- category quicklinks -->
 <section class="container py-5 fade-in-section" aria-labelledby="categoriesHeading">
     <h2 id="categoriesHeading" class="section-heading text-center mb-4">Shop by Category</h2>
     <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-6 g-3">
@@ -131,7 +131,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Featured Listings -->
+<!-- featured listings -->
 <section class="container py-5 fade-in-section" aria-labelledby="featuredHeading">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 id="featuredHeading" class="section-heading mb-0">Latest Listings</h2>
@@ -160,7 +160,7 @@ require_once __DIR__ . '/includes/header.php';
     <?php endif; ?>
 </section>
 
-<!-- How It Works -->
+<!-- how it works -->
 <section class="how-it-works py-5 fade-in-section" aria-labelledby="howHeading">
     <div class="container">
         <h2 id="howHeading" class="section-heading mb-5">Sell and buy every kinda thing on MerchVault</h2>
@@ -201,7 +201,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Review Section (Not Dyanmic maybe in the future -->
+<!-- review section (not dyanmic, maybe in future -->
 <section class="community-section py-5">
     <div class="container">
 
@@ -211,7 +211,7 @@ require_once __DIR__ . '/includes/header.php';
 
         <div class="row g-4">
 
-            <!-- Card -->
+            <!-- card -->
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
@@ -224,7 +224,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Card -->
+            <!-- card -->
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
@@ -238,7 +238,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Card -->
+            <!-- card -->
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
@@ -252,7 +252,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
             </div>
 
-            <!-- Card -->
+            <!-- card -->
             <div class="col-md-6 col-lg-3">
                 <div class="testimonial-card">
                     <div class="stars">★★★★★</div>
@@ -273,7 +273,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="container">
         <div class="row align-items-center">
 
-            <!-- Left Side (Placeholder Image) -->
+            <!-- left side (placeholder image) -->
             <div class="col-lg-5 text-center mb-4 mb-lg-0 justify-content-center">
                 <!-- <div class="phone-placeholder">
                     Phone / App Preview
@@ -281,7 +281,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="phone-mockup"></div>
             </div>
 
-            <!-- Right Side (Text) -->
+            <!-- right side (text) -->
             <div class="col-lg-7 text-center text-lg-start">
 
                 <h2 class="promo-title">

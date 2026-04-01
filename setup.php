@@ -1,5 +1,5 @@
 <?php
-// one-time admin setup — only works when there are zero admin accounts
+// one-time admin setup - only works when there are zero admin accounts
 // once an admin exists this page locks itself and redirects away
 
 require_once __DIR__ . '/config/db.php';
@@ -72,7 +72,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="mb-3">
                     <label for="username" class="form-label fw-semibold">Username to promote</label>
                     <input type="text" class="form-control" id="username" name="username"
-                           placeholder="e.g. ivan" required autofocus>
+                        placeholder="e.g. ivan" required autofocus>
                     <div class="form-text text-muted">The account must already exist and be active.</div>
                 </div>
                 <button type="submit" class="btn btn-accent w-100">

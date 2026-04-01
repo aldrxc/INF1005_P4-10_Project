@@ -45,11 +45,11 @@ $old = [];
 
 if (isset($_SESSION['checkout_errors'])) {
     $errors = $_SESSION['checkout_errors'];
-    
+
     if (isset($_SESSION['checkout_old'])) {
         $old = $_SESSION['checkout_old'];
     }
-    
+
     unset($_SESSION['checkout_errors']);
     unset($_SESSION['checkout_old']);
 }
@@ -96,7 +96,7 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="invalid-feedback" style="display:block;"><?= clean($errors['shipping_block']) ?></div>
                                 <?php endif; ?>
                             </div>
-                            
+
                             <div class="col-sm-8">
                                 <label for="shipping_street" class="form-label">Street Name <span class="text-accent">*</span></label>
                                 <input type="text" class="form-control <?= isset($errors['shipping_street']) ? 'is-invalid' : '' ?>"
@@ -141,11 +141,11 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="mb-4">
                             <label for="payment_method" class="form-label">Payment Method <span class="text-accent">*</span></label>
                             <select class="form-select <?= isset($errors['payment_method']) ? 'is-invalid' : '' ?>"
-                                    id="payment_method" name="payment_method" required>
+                                id="payment_method" name="payment_method" required>
                                 <option value="">— Select payment method —</option>
-                                <option value="credit_card"    <?= ($old['payment_method'] ?? '') === 'credit_card'    ? 'selected' : '' ?>>Credit / Debit Card</option>
-                                <option value="paynow"         <?= ($old['payment_method'] ?? '') === 'paynow'         ? 'selected' : '' ?>>PayNow</option>
-                                <option value="bank_transfer"  <?= ($old['payment_method'] ?? '') === 'bank_transfer'  ? 'selected' : '' ?>>Bank Transfer</option>
+                                <option value="credit_card" <?= ($old['payment_method'] ?? '') === 'credit_card'    ? 'selected' : '' ?>>Credit / Debit Card</option>
+                                <option value="paynow" <?= ($old['payment_method'] ?? '') === 'paynow'         ? 'selected' : '' ?>>PayNow</option>
+                                <option value="bank_transfer" <?= ($old['payment_method'] ?? '') === 'bank_transfer'  ? 'selected' : '' ?>>Bank Transfer</option>
                             </select>
                             <?php if (isset($errors['payment_method'])): ?>
                                 <div class="invalid-feedback" style="display:block;"><?= clean($errors['payment_method']) ?></div>
@@ -167,14 +167,14 @@ require_once __DIR__ . '/includes/header.php';
                     <ul class="list-group list-group-flush order-summary-card">
                         <?php foreach ($cartItems as $item): ?>
                             <li class="list-group-item py-2 d-flex gap-3 align-items-center order-summary-card">
-                                <?php 
-                                    $imgSrc = '/assets/images/placeholder.png'; 
-                                    if ($item['primary_image']) {
-                                        $imgSrc = '/' . clean($item['primary_image']);
-                                    }
+                                <?php
+                                $imgSrc = '/assets/images/placeholder.png';
+                                if ($item['primary_image']) {
+                                    $imgSrc = '/' . clean($item['primary_image']);
+                                }
                                 ?>
                                 <img src="<?= $imgSrc ?>" alt="<?= clean($item['title']) ?>" class="rounded" width="48" height="48" style="object-fit:cover">
-                                    
+
                                 <div class="flex-grow-1 min-w-0">
                                     <div class="small fw-semibold text-truncate text-white"><?= clean($item['title']) ?></div>
                                     <div class="text-muted" style="font-size:0.78rem">
@@ -199,25 +199,24 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
+    function validateCheckout() {
+        var postalInput = document.getElementById('shipping_postal');
+        var postalError = document.getElementById('postalError');
+        var postalValue = postalInput.value.trim();
 
-function validateCheckout() {
-    var postalInput = document.getElementById('shipping_postal');
-    var postalError = document.getElementById('postalError');
-    var postalValue = postalInput.value.trim();
-    
-    // Check for exactly 6 digits (Singapore format)
-    var sgPostalRegex = /^[0-9]{6}$/;
-    
-    if (!postalValue.match(sgPostalRegex)) {
-        postalInput.classList.add('is-invalid');
-        postalError.style.display = 'block';
-        return false; 
+        // check for exactly 6 digits (singapore postal code format)
+        var sgPostalRegex = /^[0-9]{6}$/;
+
+        if (!postalValue.match(sgPostalRegex)) {
+            postalInput.classList.add('is-invalid');
+            postalError.style.display = 'block';
+            return false;
+        }
+
+        postalInput.classList.remove('is-invalid');
+        postalError.style.display = 'none';
+        return true;
     }
-    
-    postalInput.classList.remove('is-invalid');
-    postalError.style.display = 'none';
-    return true; 
-}
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -11,7 +11,7 @@ $pageTitle = 'Dashboard';
 $pdo       = getDB();
 $userId    = getCurrentUserId();
 
-// Profile info
+// profile info
 $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id = ? LIMIT 1");
 $stmt->execute([$userId]);
 $user = $stmt->fetch();
@@ -21,7 +21,7 @@ if (!$user) {
     exit;
 }
 
-// My Listings
+// my listings
 $myListings = $pdo->prepare("
     SELECT l.listing_id, l.title, l.price, l.status, l.views, l.created_at,
            c.name AS category_name,
@@ -35,7 +35,7 @@ $myListings = $pdo->prepare("
 $myListings->execute([$userId]);
 $myListings = $myListings->fetchAll();
 
-// My Purchases
+// my purchases
 $myOrders = $pdo->prepare("
     SELECT o.order_id, o.total_amount, o.status, o.created_at,
            COUNT(oi.order_item_id) AS item_count
@@ -48,7 +48,7 @@ $myOrders = $pdo->prepare("
 $myOrders->execute([$userId]);
 $myOrders = $myOrders->fetchAll();
 
-// My Sales
+// my sales
 $mySales = $pdo->prepare("
     SELECT oi.order_item_id, oi.price_paid, oi.quantity, oi.order_id,
            l.listing_id, l.title,
@@ -84,7 +84,7 @@ $orderStatusLabels = [
 
 <div class="container py-4">
 
-    <!-- Profile card -->
+    <!-- profile card -->
     <div class="dashboard-profile-card card border-0 mb-4 p-4">
         <div class="d-flex align-items-center gap-4 flex-wrap">
             <?php if ($user['avatar_path']): ?>
@@ -117,7 +117,7 @@ $orderStatusLabels = [
         </div>
     </div>
 
-    <!-- Tabs -->
+    <!-- tabs -->
     <ul class="nav nav-tabs dashboard-tabs mb-4" id="dashTabs" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="listingsTab" data-bs-toggle="tab" data-bs-target="#listingsPane"
@@ -144,7 +144,7 @@ $orderStatusLabels = [
 
     <div class="tab-content" id="dashTabContent">
 
-        <!-- ===== MY LISTINGS ===== -->
+        <!-- my listings tab -->
         <div class="tab-pane fade show active" id="listingsPane" role="tabpanel" aria-labelledby="listingsTab">
             <?php if (empty($myListings)): ?>
                 <div class="text-center py-5 text-muted">
@@ -186,7 +186,7 @@ $orderStatusLabels = [
                                     </td>
                                     <td class="fw-semibold">S$<?= number_format((float)$item['price'], 2) ?></td>
                                     <td>
-                                        <!-- Inline status toggle -->
+                                        <!-- inline status toggle -->
                                         <select class="form-select form-select-sm status-toggle"
                                             data-listing-id="<?= (int)$item['listing_id'] ?>"
                                             data-csrf="<?= clean($_SESSION['csrf_token']) ?>"
@@ -224,7 +224,7 @@ $orderStatusLabels = [
             <?php endif; ?>
         </div>
 
-        <!-- ===== MY PURCHASES ===== -->
+        <!-- my purchases tab -->
         <div class="tab-pane fade" id="purchasesPane" role="tabpanel" aria-labelledby="purchasesTab">
             <?php if (empty($myOrders)): ?>
                 <div class="text-center py-5 text-muted">
@@ -270,7 +270,7 @@ $orderStatusLabels = [
             <?php endif; ?>
         </div>
 
-        <!-- ===== MY SALES ===== -->
+        <!-- my sales tab -->
         <div class="tab-pane fade" id="salesPane" role="tabpanel" aria-labelledby="salesTab">
             <?php if (empty($mySales)): ?>
                 <div class="text-center py-5 text-muted">
@@ -323,7 +323,7 @@ $orderStatusLabels = [
     </div><!-- /tab-content -->
 </div>
 
-<!-- Delete confirmation modal -->
+<!-- delete confirmation modal -->
 <div class="modal fade" id="deleteListingModal" tabindex="-1"
     aria-labelledby="deleteListingModalLabel" aria-hidden="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">

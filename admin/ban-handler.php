@@ -1,5 +1,5 @@
 <?php
-// POST handler — ban or unban a user
+// POST handler - ban or unban a user
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -24,7 +24,7 @@ if (!$targetId || !$action) {
     exit;
 }
 
-// can't ban yourself
+// cant ban yourself
 if ($targetId === getCurrentUserId()) {
     setFlash('You cannot ban your own account.', 'danger');
     header('Location: /admin/users.php');

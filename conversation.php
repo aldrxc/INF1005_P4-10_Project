@@ -35,7 +35,7 @@ if (!$listing) {
     exit;
 }
 
-// grab the other user
+// grab other user
 $stmt = $pdo->prepare("SELECT user_id, display_name, username FROM users WHERE user_id = ? LIMIT 1");
 $stmt->execute([$withId]);
 $other = $stmt->fetch();
@@ -75,7 +75,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="card mb-3 p-3 d-flex flex-row align-items-center gap-3">
         <?php if ($listing['thumb']): ?>
             <img src="/<?= clean($listing['thumb']) ?>" alt="" width="52" height="52"
-                 class="rounded" style="object-fit:cover; flex-shrink:0">
+                class="rounded" style="object-fit:cover; flex-shrink:0">
         <?php endif; ?>
         <div class="flex-grow-1 overflow-hidden">
             <div class="text-muted small">Conversation about</div>
@@ -100,15 +100,15 @@ require_once __DIR__ . '/includes/header.php';
             <p class="text-muted text-center small my-auto">No messages yet. Say hello!</p>
         <?php endif; ?>
         <?php foreach ($messages as $msg): ?>
-        <?php $mine = (int)$msg['sender_id'] === $myId; ?>
-        <div class="d-flex flex-column <?= $mine ? 'align-items-end' : 'align-items-start' ?>">
-            <div class="chat-bubble <?= $mine ? 'mine' : 'theirs' ?>">
-                <?= clean($msg['body']) ?>
+            <?php $mine = (int)$msg['sender_id'] === $myId; ?>
+            <div class="d-flex flex-column <?= $mine ? 'align-items-end' : 'align-items-start' ?>">
+                <div class="chat-bubble <?= $mine ? 'mine' : 'theirs' ?>">
+                    <?= clean($msg['body']) ?>
+                </div>
+                <div class="message-time <?= $mine ? 'text-end' : '' ?>">
+                    <?= clean(date('d M, H:i', strtotime($msg['sent_at']))) ?>
+                </div>
             </div>
-            <div class="message-time <?= $mine ? 'text-end' : '' ?>">
-                <?= clean(date('d M, H:i', strtotime($msg['sent_at']))) ?>
-            </div>
-        </div>
         <?php endforeach; ?>
     </div>
 
@@ -119,9 +119,9 @@ require_once __DIR__ . '/includes/header.php';
         <input type="hidden" name="receiver_id" value="<?= (int)$withId ?>">
         <div class="input-group">
             <textarea class="form-control" name="body" id="msgBody"
-                      rows="2" maxlength="1000"
-                      placeholder="Write a message…"
-                      aria-label="Message body" required></textarea>
+                rows="2" maxlength="1000"
+                placeholder="Write a message…"
+                aria-label="Message body" required></textarea>
             <button type="submit" class="btn btn-accent">
                 <i class="bi bi-send" aria-hidden="true"></i>
             </button>
@@ -133,52 +133,55 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-// scroll chat to bottom on load
-const chatWindow = document.getElementById('chatWindow');
-function scrollBottom() { chatWindow.scrollTop = chatWindow.scrollHeight; }
-scrollBottom();
+    // scroll chat to bottom on load
+    const chatWindow = document.getElementById('chatWindow');
 
-// char counter
-const body = document.getElementById('msgBody');
-const counter = document.getElementById('charCount');
-body.addEventListener('input', () => counter.textContent = body.value.length);
-
-// submit on Ctrl+Enter / Cmd+Enter
-body.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        document.getElementById('msgForm').submit();
+    function scrollBottom() {
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     }
-});
+    scrollBottom();
 
-// poll for new messages every 5 seconds
-let lastAt = <?= json_encode($lastSentAt) ?>;
-const myId = <?= $myId ?>;
+    // char counter
+    const body = document.getElementById('msgBody');
+    const counter = document.getElementById('charCount');
+    body.addEventListener('input', () => counter.textContent = body.value.length);
 
-async function pollMessages() {
-    try {
-        const url = `/api/messages.php?listing_id=<?= (int)$listingId ?>&with=<?= (int)$withId ?>&after=` + encodeURIComponent(lastAt);
-        const res  = await fetch(url);
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) return;
+    // submit on ctrl+enter / cmd+enter
+    body.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            document.getElementById('msgForm').submit();
+        }
+    });
 
-        data.forEach(msg => {
-            const wrap = document.createElement('div');
-            wrap.className = 'd-flex flex-column ' + (msg.is_mine ? 'align-items-end' : 'align-items-start');
-            const bubble = document.createElement('div');
-            bubble.className = 'chat-bubble ' + (msg.is_mine ? 'mine' : 'theirs');
-            bubble.textContent = msg.body;
-            const time = document.createElement('div');
-            time.className = 'message-time' + (msg.is_mine ? ' text-end' : '');
-            time.textContent = msg.sent_at;
-            wrap.appendChild(bubble);
-            wrap.appendChild(time);
-            chatWindow.appendChild(wrap);
-            lastAt = msg.sent_at;
-        });
-        scrollBottom();
-    } catch (_) {}
-}
-setInterval(pollMessages, 15000);
+    // poll for new messages every 5 seconds
+    let lastAt = <?= json_encode($lastSentAt) ?>;
+    const myId = <?= $myId ?>;
+
+    async function pollMessages() {
+        try {
+            const url = `/api/messages.php?listing_id=<?= (int)$listingId ?>&with=<?= (int)$withId ?>&after=` + encodeURIComponent(lastAt);
+            const res = await fetch(url);
+            const data = await res.json();
+            if (!Array.isArray(data) || data.length === 0) return;
+
+            data.forEach(msg => {
+                const wrap = document.createElement('div');
+                wrap.className = 'd-flex flex-column ' + (msg.is_mine ? 'align-items-end' : 'align-items-start');
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble ' + (msg.is_mine ? 'mine' : 'theirs');
+                bubble.textContent = msg.body;
+                const time = document.createElement('div');
+                time.className = 'message-time' + (msg.is_mine ? ' text-end' : '');
+                time.textContent = msg.sent_at;
+                wrap.appendChild(bubble);
+                wrap.appendChild(time);
+                chatWindow.appendChild(wrap);
+                lastAt = msg.sent_at;
+            });
+            scrollBottom();
+        } catch (_) {}
+    }
+    setInterval(pollMessages, 15000);
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

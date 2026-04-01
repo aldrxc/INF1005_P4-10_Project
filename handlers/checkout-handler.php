@@ -7,7 +7,7 @@ require_once __DIR__ . '/../includes/sanitize.php';
 startSession();
 requireLogin();
 
-// Only allow POST requests
+// only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /checkout.php');
     exit();
@@ -64,7 +64,7 @@ if (empty($shippingUnit)) {
     $errors['shipping_unit'] = "Unit number is required.";
 }
 
-// Strict Singapore Postal Code Check (6 digits)
+// strict singapore postal code check (6 digits)
 if (empty($shippingPostal)) {
     $errors['shipping_postal'] = "Postal code is required.";
 } elseif (!preg_match('/^[0-9]{6}$/', $shippingPostal)) {
@@ -79,18 +79,18 @@ if (!$paymentMethod) {
     $errors['payment_method'] = "Please select a payment method.";
 }
 
-// If there are errors, send them back to the checkout page
+// if there are errors, send them back to checkout page
 if (count($errors) > 0) {
     $_SESSION['checkout_errors'] = $errors;
     header('Location: /checkout.php');
     exit();
 }
 
-// Combine the split fields into one string for the database
+// combine split fields into one string for database
 $shippingAddress = "Blk " . $shippingBlock . " " . $shippingStreet . ", " . $shippingUnit;
 
 try {
-    
+
     $pdo->beginTransaction();
 
 
@@ -129,14 +129,14 @@ try {
         $shippingCountry,
         $paymentMethod,
     ]);
-    
-    // Get the ID of the order we just created
+
+    // get id of order just created
     $orderId = $pdo->lastInsertId();
 
-    // 6. Create the Order Items & Update Listing Status 
+    // create order items & update listing status 
     $insertItemSql = "INSERT INTO order_items (order_id, listing_id, seller_id, quantity, price_paid) VALUES (?, ?, ?, ?, ?)";
     $itemStmt = $pdo->prepare($insertItemSql);
-    
+
     $updateListingSql = "UPDATE listings SET status = 'sold' WHERE listing_id = ?";
     $updateListingStmt = $pdo->prepare($updateListingSql);
 
@@ -146,10 +146,10 @@ try {
             $item['listing_id'],
             $item['seller_id'],
             $item['quantity'],
-            $item['price'] 
+            $item['price']
         ]);
-        
-        // Mark the item as sold
+
+        // mark item as sold
         $updateListingStmt->execute([$item['listing_id']]);
     }
 
@@ -164,14 +164,13 @@ try {
 
     unset($_SESSION['checkout_old']);
 
-    // 8. Redirect to the confirmation page
+    // redirect to confirmation page
     header('Location: /order-confirmation.php?id=' . $orderId);
     exit();
-
 } catch (Exception $e) {
-    // Undo all database changes if an error occurs
+    // undo all database changes if an error occurs
     $pdo->rollBack();
-    
+
     $_SESSION['checkout_errors']['general'] = "Checkout failed: " . $e->getMessage();
     header('Location: /checkout.php');
     exit();

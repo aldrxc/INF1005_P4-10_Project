@@ -1,5 +1,5 @@
 <?php
-// JSON polling endpoint — returns new messages after a given timestamp
+// json polling endpoint - returns new messages after a given timestamp
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/sanitize.php';
@@ -18,7 +18,7 @@ $listingId = sanitizeInt($_GET['listing_id'] ?? '');
 $withId    = sanitizeInt($_GET['with'] ?? '');
 $after     = trim($_GET['after'] ?? '1970-01-01 00:00:00');
 
-// basic sanity check on the timestamp format
+// basic sanity check on timestamp format
 if (!preg_match('/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}/', $after)) {
     $after = '1970-01-01 00:00:00';
 }

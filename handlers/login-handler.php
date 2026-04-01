@@ -1,5 +1,5 @@
 <?php
-// POST handler — user login
+// POST handler - user login
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -18,7 +18,7 @@ $identifier = trim($_POST['identifier'] ?? '');
 $password   = $_POST['password']        ?? '';
 $redirect   = $_POST['redirect']        ?? '';
 
-// Basic presence check
+// basic presence check
 if ($identifier === '' || $password === '') {
     $_SESSION['login_error'] = 'Please enter your email/username and password.';
     $_SESSION['login_old']   = $identifier;
@@ -26,7 +26,7 @@ if ($identifier === '' || $password === '') {
     exit;
 }
 
-// Find user by email OR username
+// find user by email or username
 $pdo  = getDB();
 $stmt = $pdo->prepare("
     SELECT user_id, username, display_name, password_hash, is_active, role
@@ -37,7 +37,7 @@ $stmt = $pdo->prepare("
 $stmt->execute([$identifier, $identifier]);
 $user = $stmt->fetch();
 
-// Verify credentials — use generic error to avoid user enumeration
+// verify credentials - use generic error to avoid user enumeration
 if (!$user || !password_verify($password, $user['password_hash'])) {
     $_SESSION['login_error'] = 'Invalid username/email or password.';
     $_SESSION['login_old']   = $identifier;
@@ -59,7 +59,7 @@ $_SESSION['role']         = $user['role'];
 
 setFlash('Welcome back, ' . htmlspecialchars($user['display_name'], ENT_QUOTES, 'UTF-8') . '!', 'success');
 
-// Redirect to intended page or dashboard (validate redirect is internal)
+// redirect to intended page or dashboard (validate redirect is internal)
 if ($redirect && strpos($redirect, '/') === 0 && strpos($redirect, '//') !== 0) {
     header('Location: ' . $redirect);
 } else {

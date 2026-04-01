@@ -33,7 +33,7 @@ if (!$listing || (int)$listing['seller_id'] !== getCurrentUserId()) {
     exit;
 }
 
-// Delete (CASCADE will remove images + ticket_details + cart_items)
+// delete (cascade will remove images + ticket_details + cart_items)
 $pdo->prepare("DELETE FROM listings WHERE listing_id = ?")->execute([$listingId]);
 
 setFlash('Your listing has been deleted.', 'success');

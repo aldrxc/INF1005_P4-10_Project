@@ -8,7 +8,7 @@ $pageTitle = 'About Us';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- Page Header -->
+<!-- page header -->
 <section class="page-header py-5" aria-labelledby="aboutHeading">
     <div class="container text-center">
         <h1 id="aboutHeading" class="display-5 fw-bold text-white">About MerchVault</h1>
@@ -16,7 +16,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Our Story -->
+<!-- our story -->
 <section class="container py-5 fade-in-section" aria-labelledby="storyHeading">
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -40,7 +40,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Team Section -->
+<!-- team section -->
 <section class="py-5 team-section fade-in-section" aria-labelledby="teamHeading">
     <div class="container">
         <h2 id="teamHeading" class="section-heading text-center mb-5">Meet the Team</h2>
@@ -99,7 +99,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- Features Highlight -->
+<!-- features highlight -->
 <section class="container py-5 fade-in-section" aria-labelledby="featuresHeading">
     <h2 id="featuresHeading" class="section-heading text-center mb-5">What We Offer</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -127,7 +127,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<!-- FAQ -->
+<!-- faq section -->
 <section class="container py-5 pb-5 fade-in-section" aria-labelledby="faqHeading">
     <div class="row justify-content-center">
         <div class="col-lg-8">

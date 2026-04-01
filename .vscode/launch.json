@@ -3,9 +3,9 @@
     "configurations": [
         {
             // -------------------------------------------------------
-            // Option A — Launch site in browser (recommended daily use)
-            // Starts PHP dev server then opens http://localhost:8000
-            // Requires: built-in JS debugger (no extension needed)
+            // option a - launch site in browser (recommended daily use)
+            // starts PHP dev server then opens http://localhost:8000
+            // requires: built-in JS debugger (no extension needed)
             // -------------------------------------------------------
             "name": "MerchVault — Open in Browser",
             "type": "msedge",
@@ -19,7 +19,7 @@
         },
         {
             // -------------------------------------------------------
-            // Option B — Same but using Chrome instead of Edge
+            // option b - same but using chrome instead of edge
             // -------------------------------------------------------
             "name": "MerchVault — Open in Chrome",
             "type": "chrome",
@@ -33,11 +33,11 @@
         },
         {
             // -------------------------------------------------------
-            // Option C — PHP + Xdebug (for step-debugging PHP)
-            // Requires: "PHP Debug" extension by Xdebug
-            //   Install: ext install xdebug.php-debug
-            // Also requires Xdebug installed in PHP:
-            //   Add to php.ini: zend_extension=xdebug
+            // option c - PHP + Xdebug (for step-debugging PHP)
+            // requires: "PHP Debug" extension by Xdebug
+            //   install: ext install xdebug.php-debug
+            // also requires Xdebug installed in PHP:
+            //   add to php.ini: zend_extension=xdebug
             //                   xdebug.mode=debug
             //                   xdebug.start_with_request=yes
             //                   xdebug.client_port=9003
@@ -59,7 +59,7 @@
     "compounds": [
         {
             // -------------------------------------------------------
-            // Compound — Start server + open browser simultaneously
+            // compound - start server + open browser simultaneously
             // -------------------------------------------------------
             "name": "MerchVault — Full Dev (Server + Browser)",
             "configurations": ["MerchVault — Open in Browser"],

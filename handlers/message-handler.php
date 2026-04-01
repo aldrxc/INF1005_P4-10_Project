@@ -1,5 +1,5 @@
 <?php
-// POST handler — send a message
+// POST handler - send a message
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -41,7 +41,7 @@ if ($receiverId === $senderId) {
 
 $pdo = getDB();
 
-// make sure the listing exists
+// make sure listing exists
 $stmt = $pdo->prepare("SELECT listing_id FROM listings WHERE listing_id = ? LIMIT 1");
 $stmt->execute([$listingId]);
 if (!$stmt->fetch()) {
@@ -50,7 +50,7 @@ if (!$stmt->fetch()) {
     exit;
 }
 
-// make sure the receiver exists
+// make sure receiver exists
 $stmt = $pdo->prepare("SELECT user_id FROM users WHERE user_id = ? LIMIT 1");
 $stmt->execute([$receiverId]);
 if (!$stmt->fetch()) {

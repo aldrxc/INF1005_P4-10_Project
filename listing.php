@@ -41,7 +41,7 @@ if (!$listing) {
 
 $isOwner = isLoggedIn() && (int)$listing['seller_id'] === getCurrentUserId();
 
-// Increment view counter
+// increment view counter
 if (!$isOwner) {
     $pdo->prepare("UPDATE listings SET views = views + 1 WHERE listing_id = ?")->execute([$listingId]);
 }
@@ -55,7 +55,7 @@ $imgStmt = $pdo->prepare("
 $imgStmt->execute([$listingId]);
 $images = $imgStmt->fetchAll();
 
-// Ticket details (if applicable)
+// ticket details (if applicable)
 $ticketDetails = null;
 if ($listing['category_slug'] === 'event-tickets') {
     $tStmt = $pdo->prepare("SELECT * FROM ticket_details WHERE listing_id = ? LIMIT 1");
@@ -109,7 +109,7 @@ $condLabels = [
 
 <div class="container py-4">
 
-    <!-- Breadcrumb -->
+    <!-- breadcrumb navigation -->
     <nav aria-label="Breadcrumb" class="mb-3">
         <ol class="breadcrumb breadcrumb-dark small">
             <li class="breadcrumb-item"><a href="/index.php">Home</a></li>
@@ -135,7 +135,7 @@ $condLabels = [
                         id="galleryMainImg">
                 </div>
 
-                <!-- Thumbnails -->
+                <!-- thumbnails -->
                 <?php if (count($images) > 1): ?>
                     <div class="gallery-thumbs d-flex gap-2 flex-wrap" role="list" aria-label="Additional images">
                         <?php foreach ($images as $i => $img): ?>
@@ -192,7 +192,7 @@ $condLabels = [
                     <?php endif; ?>
                 </div>
 
-                <!-- Ticket details block -->
+                <!-- ticket details block -->
                 <?php if ($ticketDetails): ?>
                     <div class="ticket-details-card card mb-3 p-3">
                         <h2 class="h6 fw-bold mb-2">
@@ -224,7 +224,7 @@ $condLabels = [
                             <dt class="col-5 text-muted">Type</dt>
                             <dd class="col-7 text-white"><?= $ticketDetails['is_e_ticket'] ? 'E-Ticket' : 'Physical Ticket' ?></dd>
                         </dl>
-                        <!-- Countdown -->
+                        <!-- ticket event countdown -->
                         <div id="ticketCountdown" class="mt-2 text-muted small"></div>
                     </div>
                 <?php endif; ?>
@@ -278,7 +278,7 @@ $condLabels = [
 
                     <?php if (!$isOwner && isLoggedIn()): ?>
                         <a href="/conversation.php?listing_id=<?= (int)$listingId ?>&with=<?= (int)$listing['seller_id'] ?>"
-                           class="btn btn-outline-secondary">
+                            class="btn btn-outline-secondary">
                             <i class="bi bi-chat-dots me-1" aria-hidden="true"></i>Message Seller
                         </a>
                     <?php endif; ?>
@@ -289,7 +289,7 @@ $condLabels = [
                     </button>
                 </div>
 
-                <!-- Seller card -->
+                <!-- seller card -->
                 <div class="seller-card card p-3">
                     <h2 class="h6 fw-bold mb-2">
                         <i class="bi bi-person-circle me-2 text-accent" aria-hidden="true"></i>Seller
@@ -330,7 +330,7 @@ $condLabels = [
         </div><!-- /col -->
     </div><!-- /row -->
 
-    <!-- Related listings -->
+    <!-- related listings -->
     <?php if (!empty($related)): ?>
         <section class="mt-5" aria-labelledby="relatedHeading">
             <h2 id="relatedHeading" class="section-heading mb-4">More in <?= clean($listing['category_name']) ?></h2>

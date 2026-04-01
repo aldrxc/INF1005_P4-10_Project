@@ -1,5 +1,5 @@
 <?php
-// POST handler — add / update / remove cart items (also handles AJAX)
+// POST handler - add/update/remove cart items (also handles AJAX)
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -8,9 +8,10 @@ require_once __DIR__ . '/../includes/sanitize.php';
 startSession();
 
 $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-          strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
-function jsonResponse(array $data, int $code = 200): void {
+function jsonResponse(array $data, int $code = 200): void
+{
     http_response_code($code);
     header('Content-Type: application/json');
     echo json_encode($data);

@@ -1,5 +1,5 @@
 <?php
-// one-time migration — run once then delete or leave (it's idempotent)
+// one-time migration - run once then delete or leave (idempotent)
 require_once __DIR__ . '/config/db.php';
 $pdo = getDB();
 

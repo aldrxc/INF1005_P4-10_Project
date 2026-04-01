@@ -42,12 +42,12 @@ require_once __DIR__ . '/includes/header.php';
                 <?= getCsrfField() ?>
                 <input type="hidden" name="action" value="create">
 
-                <!-- ===== BASIC INFO ===== -->
+                <!-- basic info -->
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-3 text-hotpink">Basic Information</h2>
 
-                        <!-- Title -->
+                        <!-- title -->
                         <div class="mb-3">
                             <label for="title" class="form-label">Listing Title <span class="text-accent" aria-hidden="true">*</span></label>
                             <input type="text" class="form-control <?= isset($errors['title']) ? 'is-invalid' : '' ?>"
@@ -57,7 +57,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php if (isset($errors['title'])): ?><div class="invalid-feedback"><?= clean($errors['title']) ?></div><?php endif; ?>
                         </div>
 
-                        <!-- Category -->
+                        <!-- category -->
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Category <span class="text-accent" aria-hidden="true">*</span></label>
                             <select class="form-select <?= isset($errors['category_id']) ? 'is-invalid' : '' ?>"
@@ -75,7 +75,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php if (isset($errors['category_id'])): ?><div class="invalid-feedback"><?= clean($errors['category_id']) ?></div><?php endif; ?>
                         </div>
 
-                        <!-- Genre & Artist (side by side) -->
+                        <!-- genre & artist (side by side) -->
                         <div class="row g-3 mb-3">
                             <div class="col-sm-6">
                                 <label for="genre_id" class="form-label">Genre</label>
@@ -98,7 +98,7 @@ require_once __DIR__ . '/includes/header.php';
                             </div>
                         </div>
 
-                        <!-- Price -->
+                        <!-- price -->
                         <div class="mb-3">
                             <label for="price" class="form-label">Price (S$) <span class="text-accent" aria-hidden="true">*</span></label>
                             <div class="input-group">
@@ -111,7 +111,7 @@ require_once __DIR__ . '/includes/header.php';
                             </div>
                         </div>
 
-                        <!-- Description -->
+                        <!-- description -->
                         <div class="mb-0">
                             <label for="description" class="form-label">Description <span class="text-accent" aria-hidden="true">*</span></label>
                             <textarea class="form-control <?= isset($errors['description']) ? 'is-invalid' : '' ?>"
@@ -127,13 +127,13 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- ===== MERCH FIELDS (hidden when ticket selected) ===== -->
+                <!-- merch fields (hidden when ticket selected) -->
                 <div class="card form-section-card mb-4" id="merchFields">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-3 text-hotpink">Merch Details</h2>
 
                         <div class="row g-3">
-                            <!-- Condition -->
+                            <!-- condition -->
                             <div class="col-sm-6">
                                 <label for="condition_type" class="form-label">Condition</label>
                                 <select class="form-select" id="condition_type" name="condition_type" aria-label="Item condition">
@@ -146,7 +146,7 @@ require_once __DIR__ . '/includes/header.php';
                                 </select>
                             </div>
 
-                            <!-- Size (only for apparel — shown/hidden by JS) -->
+                            <!-- size (only for apparel - shown/hidden by JS) -->
                             <div class="col-sm-6" id="sizeField" style="display:none">
                                 <label for="size" class="form-label">Size</label>
                                 <select class="form-select" id="size" name="size" aria-label="Clothing size">
@@ -160,7 +160,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- ===== TICKET FIELDS (hidden unless Event Tickets selected) ===== -->
+                <!-- ticket fields (hidden unless event tickets selected) -->
                 <div class="card form-section-card mb-4" id="ticketFields" style="display:none">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-3 text-hotpink">
@@ -235,7 +235,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <!-- ===== IMAGE UPLOAD ===== -->
+                <!-- image upload -->
                 <div class="card form-section-card mb-4">
                     <div class="card-body p-4">
                         <h2 class="h5 fw-semibold mb-1 text-hotpink">Photos</h2>
@@ -245,7 +245,7 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="alert alert-danger py-2 small"><?= clean($errors['images']) ?></div>
                         <?php endif; ?>
 
-                        <!-- Drop zone -->
+                        <!-- drop zone -->
                         <div id="dropZone" class="drop-zone" tabindex="0" role="region"
                             aria-label="Drop images here or click to select files">
                             <i class="bi bi-cloud-arrow-up drop-zone-icon" aria-hidden="true"></i>
@@ -260,15 +260,15 @@ require_once __DIR__ . '/includes/header.php';
                                 aria-label="Upload listing images">
                         </div>
 
-                        <!-- Preview grid -->
+                        <!-- preview grid -->
                         <div id="imagePreviewGrid" class="image-preview-grid mt-3 d-none">
-                            <!-- Thumbnails rendered by JS -->
+                            <!-- thumbnails rendered by JS -->
                         </div>
                         <p class="text-muted small mt-1 mb-0" id="imageCountHint" aria-live="polite"></p>
                     </div>
                 </div>
 
-                <!-- Submit -->
+                <!-- submit -->
                 <div class="d-flex gap-3 justify-content-end">
                     <a href="/browse.php" class="btn btn-outline-secondary">Cancel</a>
                     <button type="submit" class="btn btn-accent px-4 fw-semibold">

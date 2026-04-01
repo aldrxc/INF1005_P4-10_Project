@@ -1,5 +1,5 @@
 <?php
-// promote or demote a user's role — admins only, can't change your own role
+// promote or demote a user's role - admins only, cant change your own role
 
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
@@ -33,7 +33,7 @@ if (!in_array($action, ['promote', 'demote'], true)) {
 
 $pdo = getDB();
 
-// make sure the target user exists
+// make sure target user exists
 $stmt = $pdo->prepare("SELECT display_name FROM users WHERE user_id = ? LIMIT 1");
 $stmt->execute([$targetId]);
 $target = $stmt->fetch();

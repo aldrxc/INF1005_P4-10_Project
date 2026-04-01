@@ -1,5 +1,5 @@
 <?php
-// POST handler — admin delete any listing (no ownership check)
+// POST handler - admin delete any listing (no ownership check)
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -31,7 +31,7 @@ if (!$stmt->fetch()) {
     exit;
 }
 
-// CASCADE handles images, ticket_details, cart_items, messages
+// cascade handles images, ticket_details, cart_items, messages
 $pdo->prepare("DELETE FROM listings WHERE listing_id = ?")->execute([$listingId]);
 
 setFlash('Listing #' . $listingId . ' deleted.', 'success');

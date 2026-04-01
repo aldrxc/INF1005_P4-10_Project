@@ -2,7 +2,7 @@
 $(function () {
 
     // -----------------------------------------------
-    // persist active tab in URL hash (survives refresh)
+    // persist active tab in url hash (survives refresh)
     // -----------------------------------------------
     var hashTabMap = {
         '#listings': 'listingsTab',
