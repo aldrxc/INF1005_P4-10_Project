@@ -56,32 +56,32 @@ require_once __DIR__ . '/../includes/header.php';
             </thead>
             <tbody>
                 <?php foreach ($listings as $l): ?>
-                <tr>
-                    <td class="text-muted"><?= (int)$l['listing_id'] ?></td>
-                    <td>
-                        <a href="/listing.php?id=<?= (int)$l['listing_id'] ?>" class="text-reset text-decoration-none">
-                            <?= clean(mb_strimwidth($l['title'], 0, 50, '…')) ?>
-                        </a>
-                    </td>
-                    <td class="text-muted small">@<?= clean($l['seller_username']) ?></td>
-                    <td>S$<?= number_format((float)$l['price'], 2) ?></td>
-                    <td>
-                        <span class="badge bg-<?= $l['status'] === 'available' ? 'success' : ($l['status'] === 'reserved' ? 'warning' : 'danger') ?>">
-                            <?= ucfirst($l['status']) ?>
-                        </span>
-                    </td>
-                    <td class="text-muted small"><?= clean(date('d M Y', strtotime($l['created_at']))) ?></td>
-                    <td>
-                        <form method="POST" action="/admin/delete-listing-handler.php" class="d-inline">
-                            <?= getCsrfField() ?>
-                            <input type="hidden" name="listing_id" value="<?= (int)$l['listing_id'] ?>">
-                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                    onclick="return confirm('Delete listing #<?= (int)$l['listing_id'] ?>? This cannot be undone.')">
-                                <i class="bi bi-trash me-1" aria-hidden="true"></i>Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="text-muted"><?= (int)$l['listing_id'] ?></td>
+                        <td>
+                            <a href="/listing.php?id=<?= (int)$l['listing_id'] ?>" class="text-reset text-decoration-none">
+                                <?= clean(mb_strimwidth($l['title'], 0, 50, '…')) ?>
+                            </a>
+                        </td>
+                        <td class="text-muted small">@<?= clean($l['seller_username']) ?></td>
+                        <td>S$<?= number_format((float)$l['price'], 2) ?></td>
+                        <td>
+                            <span class="badge bg-<?= $l['status'] === 'available' ? 'success' : ($l['status'] === 'reserved' ? 'warning' : 'danger') ?>">
+                                <?= ucfirst($l['status']) ?>
+                            </span>
+                        </td>
+                        <td class="text-muted small"><?= clean(date('d M Y', strtotime($l['created_at']))) ?></td>
+                        <td>
+                            <form method="POST" action="/admin/delete-listing-handler.php" class="d-inline">
+                                <?= getCsrfField() ?>
+                                <input type="hidden" name="listing_id" value="<?= (int)$l['listing_id'] ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger btn-confirm"
+                                    data-confirm="Delete listing #<?= (int)$l['listing_id'] ?>? This cannot be undone.">
+                                    <i class="bi bi-trash me-1" aria-hidden="true"></i>Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -109,5 +109,15 @@ require_once __DIR__ . '/../includes/header.php';
         </nav>
     <?php endif; ?>
 </div>
+
+<script>
+    $(function() {
+        $('.btn-confirm').on('click', function(e) {
+            if (!confirm($(this).data('confirm'))) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

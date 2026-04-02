@@ -55,68 +55,68 @@ require_once __DIR__ . '/../includes/header.php';
             </thead>
             <tbody>
                 <?php foreach ($users as $u): ?>
-                <tr>
-                    <td class="text-muted"><?= (int)$u['user_id'] ?></td>
-                    <td><?= clean($u['display_name']) ?></td>
-                    <td class="text-muted">@<?= clean($u['username']) ?></td>
-                    <td class="text-muted small"><?= clean(date('d M Y', strtotime($u['joined_at']))) ?></td>
-                    <td>
-                        <?php if ($u['is_active']): ?>
-                            <span class="badge bg-success">Active</span>
-                        <?php else: ?>
-                            <span class="badge bg-danger">Banned</span>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if ($u['role'] === 'admin'): ?>
-                            <span class="badge bg-accent">Admin</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">User</span>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if ((int)$u['user_id'] === $myId): ?>
-                            <span class="text-muted small">You</span>
-                        <?php else: ?>
-                            <div class="d-flex gap-1 flex-wrap">
-                                <form method="POST" action="/admin/ban-handler.php" class="d-inline">
-                                    <?= getCsrfField() ?>
-                                    <input type="hidden" name="user_id" value="<?= (int)$u['user_id'] ?>">
-                                    <?php if ($u['is_active']): ?>
-                                        <input type="hidden" name="action" value="ban">
-                                        <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Ban <?= clean($u['username']) ?>?')">
-                                            <i class="bi bi-slash-circle me-1" aria-hidden="true"></i>Ban
-                                        </button>
-                                    <?php else: ?>
-                                        <input type="hidden" name="action" value="unban">
-                                        <button type="submit" class="btn btn-sm btn-outline-success">
-                                            <i class="bi bi-check-circle me-1" aria-hidden="true"></i>Unban
-                                        </button>
-                                    <?php endif; ?>
-                                </form>
+                    <tr>
+                        <td class="text-muted"><?= (int)$u['user_id'] ?></td>
+                        <td><?= clean($u['display_name']) ?></td>
+                        <td class="text-muted">@<?= clean($u['username']) ?></td>
+                        <td class="text-muted small"><?= clean(date('d M Y', strtotime($u['joined_at']))) ?></td>
+                        <td>
+                            <?php if ($u['is_active']): ?>
+                                <span class="badge bg-success">Active</span>
+                            <?php else: ?>
+                                <span class="badge bg-danger">Banned</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($u['role'] === 'admin'): ?>
+                                <span class="badge bg-accent">Admin</span>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">User</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ((int)$u['user_id'] === $myId): ?>
+                                <span class="text-muted small">You</span>
+                            <?php else: ?>
+                                <div class="d-flex gap-1 flex-wrap">
+                                    <form method="POST" action="/admin/ban-handler.php" class="d-inline">
+                                        <?= getCsrfField() ?>
+                                        <input type="hidden" name="user_id" value="<?= (int)$u['user_id'] ?>">
+                                        <?php if ($u['is_active']): ?>
+                                            <input type="hidden" name="action" value="ban">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger btn-confirm"
+                                                data-confirm="Ban <?= clean($u['username']) ?>?">
+                                                <i class="bi bi-slash-circle me-1" aria-hidden="true"></i>Ban
+                                            </button>
+                                        <?php else: ?>
+                                            <input type="hidden" name="action" value="unban">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-check-circle me-1" aria-hidden="true"></i>Unban
+                                            </button>
+                                        <?php endif; ?>
+                                    </form>
 
-                                <form method="POST" action="/admin/role-handler.php" class="d-inline">
-                                    <?= getCsrfField() ?>
-                                    <input type="hidden" name="user_id" value="<?= (int)$u['user_id'] ?>">
-                                    <?php if ($u['role'] === 'admin'): ?>
-                                        <input type="hidden" name="action" value="demote">
-                                        <button type="submit" class="btn btn-sm btn-outline-warning"
-                                                onclick="return confirm('Remove admin from <?= clean($u['username']) ?>?')">
-                                            <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i>Demote
-                                        </button>
-                                    <?php else: ?>
-                                        <input type="hidden" name="action" value="promote">
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary"
-                                                onclick="return confirm('Make <?= clean($u['username']) ?> an admin?')">
-                                            <i class="bi bi-arrow-up-circle me-1" aria-hidden="true"></i>Promote
-                                        </button>
-                                    <?php endif; ?>
-                                </form>
-                            </div>
-                        <?php endif; ?>
-                    </td>
-                </tr>
+                                    <form method="POST" action="/admin/role-handler.php" class="d-inline">
+                                        <?= getCsrfField() ?>
+                                        <input type="hidden" name="user_id" value="<?= (int)$u['user_id'] ?>">
+                                        <?php if ($u['role'] === 'admin'): ?>
+                                            <input type="hidden" name="action" value="demote">
+                                            <button type="submit" class="btn btn-sm btn-outline-warning btn-confirm"
+                                                data-confirm="Remove admin from <?= clean($u['username']) ?>?">
+                                                <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i>Demote
+                                            </button>
+                                        <?php else: ?>
+                                            <input type="hidden" name="action" value="promote">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary btn-confirm"
+                                                data-confirm="Make <?= clean($u['username']) ?> an admin?">
+                                                <i class="bi bi-arrow-up-circle me-1" aria-hidden="true"></i>Promote
+                                            </button>
+                                        <?php endif; ?>
+                                    </form>
+                                </div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -148,5 +148,15 @@ require_once __DIR__ . '/../includes/header.php';
         </nav>
     <?php endif; ?>
 </div>
+
+<script>
+    $(function() {
+        $('.btn-confirm').on('click', function(e) {
+            if (!confirm($(this).data('confirm'))) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
