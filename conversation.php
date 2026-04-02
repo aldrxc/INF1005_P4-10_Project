@@ -133,55 +133,74 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-    // scroll chat to bottom on load
-    const chatWindow = document.getElementById('chatWindow');
+    $(function() {
+        // scroll chat to bottom on load
+        var $chatWindow = $('#chatWindow');
 
-    function scrollBottom() {
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-    scrollBottom();
-
-    // char counter
-    const body = document.getElementById('msgBody');
-    const counter = document.getElementById('charCount');
-    body.addEventListener('input', () => counter.textContent = body.value.length);
-
-    // submit on ctrl+enter / cmd+enter
-    body.addEventListener('keydown', e => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            document.getElementById('msgForm').submit();
+        function scrollBottom() {
+            $chatWindow.scrollTop($chatWindow[0].scrollHeight);
         }
+        scrollBottom();
+
+        // char counter
+        var $body = $('#msgBody');
+        var $counter = $('#charCount');
+        $body.on('input', function() {
+            $counter.text($(this).val().length);
+        });
+
+        // submit on ctrl+enter / cmd+enter
+        $body.on('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                $('#msgForm').trigger('submit');
+            }
+        });
+
+        // poll for new messages every 5 seconds
+        var lastAt = <?= json_encode($lastSentAt) ?>;
+
+        async function pollMessages() {
+            try {
+                const url = `/api/messages.php?listing_id=<?= (int)$listingId ?>&with=<?= (int)$withId ?>&after=` + encodeURIComponent(lastAt);
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (!Array.isArray(data) || data.length === 0) return;
+
+                // remove "No messages yet" text if it exists
+                $chatWindow.find('p.text-muted').remove();
+
+                $.each(data, function(index, msg) {
+                    var alignment = msg.is_mine ? 'align-items-end' : 'align-items-start';
+                    var bubbleClass = msg.is_mine ? 'mine' : 'theirs';
+                    var timeClass = msg.is_mine ? 'text-end' : '';
+
+                    // build new message elements cleanly with jquery
+                    var $wrap = $('<div>', {
+                        class: 'd-flex flex-column ' + alignment
+                    });
+                    var $bubble = $('<div>', {
+                        class: 'chat-bubble ' + bubbleClass,
+                        text: msg.body
+                    });
+                    var $time = $('<div>', {
+                        class: 'message-time ' + timeClass,
+                        text: msg.sent_at
+                    });
+
+                    $wrap.append($bubble, $time);
+                    $chatWindow.append($wrap);
+
+                    lastAt = msg.sent_at;
+                });
+                scrollBottom();
+            } catch (_) {
+                /* silent fail */
+            }
+        }
+
+        setInterval(pollMessages, 5000);
     });
-
-    // poll for new messages every 5 seconds
-    let lastAt = <?= json_encode($lastSentAt) ?>;
-    const myId = <?= $myId ?>;
-
-    async function pollMessages() {
-        try {
-            const url = `/api/messages.php?listing_id=<?= (int)$listingId ?>&with=<?= (int)$withId ?>&after=` + encodeURIComponent(lastAt);
-            const res = await fetch(url);
-            const data = await res.json();
-            if (!Array.isArray(data) || data.length === 0) return;
-
-            data.forEach(msg => {
-                const wrap = document.createElement('div');
-                wrap.className = 'd-flex flex-column ' + (msg.is_mine ? 'align-items-end' : 'align-items-start');
-                const bubble = document.createElement('div');
-                bubble.className = 'chat-bubble ' + (msg.is_mine ? 'mine' : 'theirs');
-                bubble.textContent = msg.body;
-                const time = document.createElement('div');
-                time.className = 'message-time' + (msg.is_mine ? ' text-end' : '');
-                time.textContent = msg.sent_at;
-                wrap.appendChild(bubble);
-                wrap.appendChild(time);
-                chatWindow.appendChild(wrap);
-                lastAt = msg.sent_at;
-            });
-            scrollBottom();
-        } catch (_) {}
-    }
-    setInterval(pollMessages, 15000);
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -73,7 +73,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="alert alert-danger" role="alert"><?= clean($errors['general']) ?></div>
                     <?php endif; ?>
 
-                    <form method="POST" action="/handlers/checkout-handler.php" id="checkoutForm" onsubmit="return validateCheckout()">
+                    <form method="POST" action="/handlers/checkout-handler.php" id="checkoutForm">
                         <?= getCsrfField() ?>
 
                         <div class="mb-3">
@@ -199,24 +199,25 @@ require_once __DIR__ . '/includes/header.php';
 </div>
 
 <script>
-    function validateCheckout() {
-        var postalInput = document.getElementById('shipping_postal');
-        var postalError = document.getElementById('postalError');
-        var postalValue = postalInput.value.trim();
+    $(function() {
+        $('#checkoutForm').on('submit', function(e) {
+            var $postalInput = $('#shipping_postal');
+            var $postalError = $('#postalError');
+            var postalValue = $.trim($postalInput.val());
 
-        // check for exactly 6 digits (singapore postal code format)
-        var sgPostalRegex = /^[0-9]{6}$/;
+            // check for exactly 6 digits (singapore format)
+            var sgPostalRegex = /^[0-9]{6}$/;
 
-        if (!postalValue.match(sgPostalRegex)) {
-            postalInput.classList.add('is-invalid');
-            postalError.style.display = 'block';
-            return false;
-        }
-
-        postalInput.classList.remove('is-invalid');
-        postalError.style.display = 'none';
-        return true;
-    }
+            if (!postalValue.match(sgPostalRegex)) {
+                $postalInput.addClass('is-invalid');
+                $postalError.show();
+                e.preventDefault(); // stops form from submitting
+            } else {
+                $postalInput.removeClass('is-invalid');
+                $postalError.hide();
+            }
+        });
+    });
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
