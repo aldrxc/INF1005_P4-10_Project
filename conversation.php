@@ -199,7 +199,7 @@ require_once __DIR__ . '/includes/header.php';
             }
         }
 
-        setInterval(pollMessages, 5000);
+        setInterval(pollMessages, 15000);
     });
 </script>
 
