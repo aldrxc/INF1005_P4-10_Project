@@ -66,8 +66,17 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
+<!-- JS jquery 4.0.0 minified build bundle  -->
+<script src="https://code.jquery.com/jquery-4.0.0.min.js"
+    integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
+    crossorigin="anonymous"></script>
+
 <!-- global JS -->
 <script src="/assets/js/main.js"></script>
+
+<!-- printing custom internal scripts AFTER jquery cdn and main.js have been loaded -->
+<?= $extraScripts ?? '' ?>
+
 </body>
 
 </html>

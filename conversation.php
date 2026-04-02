@@ -132,6 +132,7 @@ require_once __DIR__ . '/includes/header.php';
     </form>
 </div>
 
+<?php ob_start(); ?>
 <script>
     $(function() {
         // scroll chat to bottom on load
@@ -202,5 +203,6 @@ require_once __DIR__ . '/includes/header.php';
         setInterval(pollMessages, 15000);
     });
 </script>
+<?php $extraScripts = ob_get_clean(); ?>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

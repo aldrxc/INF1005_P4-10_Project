@@ -198,6 +198,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </div>
 
+<?php ob_start(); ?>
 <script>
     $(function() {
         $('#checkoutForm').on('submit', function(e) {
@@ -219,5 +220,6 @@ require_once __DIR__ . '/includes/header.php';
         });
     });
 </script>
+<?php $extraScripts = ob_get_clean(); ?>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

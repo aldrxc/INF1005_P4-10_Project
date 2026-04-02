@@ -50,12 +50,6 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="/assets/css/style.css">
-
-    <!-- JS jquery 4.0.0 minified build bundle  -->
-    <script src="https://code.jquery.com/jquery-4.0.0.min.js"
-        integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
-        crossorigin="anonymous"></script>
-
 </head>
 
 <body>
